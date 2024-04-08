@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:shape="rectangle">
+    <solid android:color="@color/YP_black" />
+    <corners android:radius="16dp" /> <!-- радиус здесь 20dp, вы можете изменить его по вашему усмотрению -->
+</shape>
+
