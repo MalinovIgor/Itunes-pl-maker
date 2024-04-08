@@ -1,4 +1,4 @@
-package ru.startandroid.develop.pl_maker
+package ru.startandroid.develop.sprint8v3
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
