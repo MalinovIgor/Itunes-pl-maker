@@ -37,7 +37,7 @@
                 android:paddingStart="@dimen/end_text_pad"
                 android:paddingTop="10dp"
                 android:paddingBottom="@dimen/end_text_pad"
-                android:text="@string/back"
+                android:text="@string/settings"
                 android:textColor="@color/YP_black"
                 android:textSize="@dimen/standard_primary_text" />
 

@@ -3,10 +3,9 @@
     <string name="PLmaker" translatable="false">Playlist Maker</string>
     <string name="search" translatable="true">Поиск</string>
     <string name="share">Поделиться приложением</string>
-    <string name="support">Поддержка</string>
+    <string name="support">Написать в поддержку</string>
     <string name="agreement">Пользовательское соглашение</string>
     <string name="dark_theme">Темная тема</string>
-    <string name="back">Назад</string>
     <string name="media_gallery">Медиатека</string>
     <string name="settings">Настройки</string>
 
