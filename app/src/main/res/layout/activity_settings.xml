@@ -39,6 +39,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="@dimen/end_text_pad"
                 android:text="@string/settings"
+                android:textFontWeight="500"
                 android:textColor="@color/settings_text_changeable"
                 android:textSize="@dimen/standard_primary_text" />
 

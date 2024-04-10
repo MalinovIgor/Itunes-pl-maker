@@ -14,6 +14,7 @@
         android:layout_marginStart="@dimen/standard"
         android:layout_marginTop="14dp"
         android:text="@string/PLmaker"
+        android:textFontWeight="500"
         android:textColor="@color/white"
         android:textSize="@dimen/standard_primary_text" />
 
@@ -49,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/search"
+                android:textFontWeight="500"
                 android:textColor="@color/main_text_black"
                 android:textSize="@dimen/standard_primary_text" />
         </LinearLayout>
@@ -77,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/media_gallery"
+                android:textFontWeight="500"
                 android:textColor="@color/main_text_black"
                 android:textSize="@dimen/standard_primary_text" />
         </LinearLayout>
@@ -103,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings"
+                android:textFontWeight="500"
                 android:textColor="@color/main_text_black"
                 android:textSize="@dimen/standard_primary_text" />
         </LinearLayout>
