@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         val buttonClickListener: View.OnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
                 val displayIntent = Intent(this@MainActivity, SearchActivity::class.java)
+                displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                 startActivity(displayIntent)
             }
         }
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         mediatekaButton.setOnClickListener {
             val displayIntent = Intent(this@MainActivity, MediatekaActivity::class.java)
+            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(displayIntent)
         }
 
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         settingsButton.setOnClickListener {
             val displayIntent = Intent(this@MainActivity, SettingsActivity::class.java)
+            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(displayIntent)
         }
 
