@@ -5,6 +5,6 @@
     <color name="lightAccents">#3F8AE0</color>
     <color name="main_text_black">#1A1B22</color>
     <color name="settings_text_changeable">#FFFFFFFF</color>
-    <color name="background">#FF000000</color>
+    <color name="background">#1A1B22</color>
     <color name="YP_light_grey">#AEAFB4</color>
 </resources>
