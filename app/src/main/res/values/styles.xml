@@ -46,4 +46,17 @@
 
     </style>
 
+    <style name="TextViewSettings">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/settings_text_changeable</item>
+        <item name="android:textSize">@dimen/standard_text</item>
+
+
+
+
+    </style>
+
 </resources>
