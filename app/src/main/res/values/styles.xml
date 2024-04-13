@@ -37,4 +37,13 @@
 
     </style>
 
+    <style name="ImageSettings">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+
+    </style>
+
 </resources>

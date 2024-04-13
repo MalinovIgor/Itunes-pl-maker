@@ -90,13 +90,9 @@
                 />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end"
-                android:layout_marginEnd="3dp"
-                android:src="@drawable/share" />
+                style="@style/ImageSettings"
+                android:src="@drawable/share"
+                android:layout_marginEnd="3dp"/>
 
         </RelativeLayout>
 
@@ -114,11 +110,7 @@
                 android:textSize="@dimen/standard_text" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end|center_vertical"
+                style="@style/ImageSettings"
                 android:layout_marginEnd="2.9dp"
                 android:src="@drawable/support"
 
@@ -143,11 +135,7 @@
                 />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end|center_vertical"
+                style="@style/ImageSettings"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/arrow_right" />
 
