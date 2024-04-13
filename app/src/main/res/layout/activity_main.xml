@@ -29,13 +29,8 @@
 
         <LinearLayout
             android:id="@+id/search_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/standard"
-            android:layout_weight="1"
             android:background="@drawable/rounded_button"
-            android:gravity="center"
-            android:padding="8dp"
+            style="@style/LinearLayoutAsButton"
             android:foreground="?attr/selectableItemBackground">
 
             <ImageView
@@ -58,13 +53,8 @@
 
         <LinearLayout
             android:id="@+id/mediateka"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/standard"
-            android:layout_weight="1"
+            style="@style/LinearLayoutAsButton"
             android:background="@drawable/rounded_button"
-            android:gravity="center"
-            android:padding="8dp"
             android:foreground="?attr/selectableItemBackground">
 
             <ImageView
@@ -86,12 +76,8 @@
 
         <LinearLayout
             android:id="@+id/settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/LinearLayoutAsButton"
             android:background="@drawable/rounded_button"
-            android:gravity="center"
-            android:padding="8dp"
             android:foreground="?attr/selectableItemBackground">
 
             <ImageView
