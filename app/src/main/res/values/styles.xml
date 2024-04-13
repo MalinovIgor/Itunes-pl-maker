@@ -26,5 +26,15 @@
         <item name="android:paddingEnd">5dp</item>
     </style>
 
+    <style name="RLSettings">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingVertical">@dimen/vertical_text_pad</item>
+        <item name="android:paddingStart">@dimen/standard</item>
+        <item name="android:paddingEnd">@dimen/end_text_pad</item>
+
+    </style>
 
 </resources>

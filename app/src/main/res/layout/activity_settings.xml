@@ -75,13 +75,8 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/vertical_text_pad"
-            android:paddingStart="@dimen/standard"
-            android:paddingEnd="@dimen/end_text_pad">
+            style="@style/RLSettings"
+>
 
             <TextView
                 android:layout_width="match_parent"
@@ -106,13 +101,8 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/vertical_text_pad"
-            android:paddingStart="@dimen/standard"
-            android:paddingEnd="@dimen/end_text_pad">
+            style="@style/RLSettings"
+>
 
             <TextView
                 android:layout_width="match_parent"
@@ -138,13 +128,8 @@
 
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/vertical_text_pad"
-            android:paddingStart="@dimen/standard"
-            android:paddingEnd="@dimen/end_text_pad">
+            style="@style/RLSettings"
+>
 
 
             <TextView
@@ -152,9 +137,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_gravity="center_vertical"
-                android:text="@string/agreement"
                 android:textColor="@color/settings_text_changeable"
-                android:textSize="@dimen/standard_text" />
+                android:textSize="@dimen/standard_text"
+                android:text="@string/agreement"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
