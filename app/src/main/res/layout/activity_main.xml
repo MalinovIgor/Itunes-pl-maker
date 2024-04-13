@@ -16,7 +16,8 @@
         android:text="@string/PLmaker"
         android:textFontWeight="500"
         android:textColor="@color/white"
-        android:textSize="@dimen/standard_primary_text" />
+        android:textSize="@dimen/standard_primary_text"
+        android:fontFamily="@font/ys_display_medium"/>
 
     <LinearLayout
         android:layout_width="match_parent"
