@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Sprint8v3</string>
+    <string name="app_name" translatable="false">Playlist maker</string>
+    <string name="PLmaker" translatable="false">Playlist maker</string>
+    <string name="search" translatable="true">Поиск</string>
+    <string name="share">Поделиться приложением</string>
+    <string name="support">Написать в поддержку</string>
+    <string name="agreement">Пользовательское соглашение</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="media_gallery">Медиатека</string>
+    <string name="settings">Настройки</string>
+
+
 </resources>

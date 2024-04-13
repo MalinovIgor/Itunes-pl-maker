@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:shape="rectangle">
+    <solid android:color="@color/settings_text_changeable" />
+    <corners android:radius="16dp" />
+</shape>
+
