@@ -40,6 +40,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(displayIntent)
         }
 
+    }
 
+    fun isMainScreen(): Boolean {
+        return this::class == MainActivity::class
+    }
+
+    override fun onBackPressed() {
+        if (isMainScreen()) {
+            moveTaskToBack(true)  // Перемещаем задание (текущую активность) в фоновый режим
+        } else {
+            super.onBackPressed()  // Вызываем обычное поведение кнопки "назад"
+        }
     }
 }
