@@ -65,6 +65,7 @@
                 />
 
             <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/nightThemeSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
@@ -73,6 +74,7 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/share"
             style="@style/RLSettings"
 >
 
@@ -90,7 +92,7 @@
 
         <RelativeLayout
             style="@style/RLSettings"
->
+            android:id="@+id/sendToSupport">
 
             <TextView
                 style="@style/TextViewSettings"
@@ -108,7 +110,7 @@
 
         <RelativeLayout
             style="@style/RLSettings"
->
+            android:id="@+id/agreementView">
 
 
             <TextView

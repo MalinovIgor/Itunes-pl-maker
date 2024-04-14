@@ -8,6 +8,10 @@
     <string name="dark_theme">Темная тема</string>
     <string name="media_gallery">Медиатека</string>
     <string name="settings">Настройки</string>
-
+    <string name="agreementLink">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="mailSubject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="mailText">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="shareAndroidDevLink">https://practicum.yandex.ru/android-developer/</string>
+    <string name="myEmail">aectanio@yandex.ru</string>
 
 </resources>
