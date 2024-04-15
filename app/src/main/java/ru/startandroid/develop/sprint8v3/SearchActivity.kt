@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +13,13 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        val backFromSearch = findViewById<ImageView>(R.id.back_from_search)
+        backFromSearch.setOnClickListener {
+            val displayIntent = Intent(this@SearchActivity, MainActivity::class.java)
+            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(displayIntent)
+        }
 
         val editTextToBeCleared = findViewById<EditText>(R.id.edit_text)
         val clearEditText = findViewById<ImageView>(R.id.clear_text)
