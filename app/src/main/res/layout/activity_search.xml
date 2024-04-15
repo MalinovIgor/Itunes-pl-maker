@@ -49,6 +49,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
         <EditText
+            android:id="@+id/edit_text"
             android:drawableStart="@drawable/search_small"
             android:drawablePadding="10dp"
             android:padding="8.5dp"
@@ -60,6 +61,7 @@
             android:layout_marginHorizontal="16dp"
             android:textColorHint="@color/search_hint_changeable"
             android:maxLines="1"
+            android:textColor="@color/black"
             android:background="@drawable/rounded_corners"
             >
 
