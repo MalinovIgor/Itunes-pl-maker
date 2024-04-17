@@ -10,6 +10,11 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class SearchActivity : AppCompatActivity() {
+    private lateinit var editText : EditText
+
+    companion object {
+         lateinit var dataFromTextEdit : String     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -21,11 +26,11 @@ class SearchActivity : AppCompatActivity() {
             startActivity(displayIntent)
         }
 
-        val editTextToBeCleared = findViewById<EditText>(R.id.edit_text)
+        editText = findViewById<EditText>(R.id.edit_text)
         val clearEditText = findViewById<ImageView>(R.id.clear_text)
 
         clearEditText.setOnClickListener {
-            editTextToBeCleared.setText("")
+            editText.setText("")
         }
 
         clearEditText.visibility = View.INVISIBLE
@@ -38,15 +43,24 @@ class SearchActivity : AppCompatActivity() {
                     clearEditText.visibility = View.INVISIBLE
                 } else {
                     clearEditText.visibility = View.VISIBLE
+
+                    dataFromTextEdit = s.toString()
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {}
         }
+        editText.addTextChangedListener(textWatcher)
+    }
 
-        editTextToBeCleared.addTextChangedListener(textWatcher)
+    override fun onSaveInstanceState(savedInstanceState : Bundle){
+            super.onSaveInstanceState(savedInstanceState)
+            savedInstanceState.putString("dataFromTextEdit", dataFromTextEdit)
+        }
 
-
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        dataFromTextEdit = savedInstanceState.getString("dataFromTextEdit") ?: ""
+        editText.setText(dataFromTextEdit)
+    }
 
     }
-}
