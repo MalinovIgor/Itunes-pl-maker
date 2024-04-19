@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class SearchActivity : AppCompatActivity() {
-    private lateinit var editText : EditText
+    private lateinit var editText: EditText
 
-    companion object {
-         lateinit var dataFromTextEdit : String     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +20,7 @@ class SearchActivity : AppCompatActivity() {
 
         val backFromSearch = findViewById<ImageView>(R.id.back_from_search)
         backFromSearch.setOnClickListener {
-            val displayIntent = Intent(this@SearchActivity, MainActivity::class.java)
-            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(displayIntent)
+            finish()
         }
 
         editText = findViewById<EditText>(R.id.edit_text)
@@ -31,9 +28,9 @@ class SearchActivity : AppCompatActivity() {
 
         clearEditText.setOnClickListener {
             editText.setText("")
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(editText.windowToken, 0)
         }
-
-        clearEditText.visibility = View.INVISIBLE
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -47,20 +44,26 @@ class SearchActivity : AppCompatActivity() {
                     dataFromTextEdit = s.toString()
                 }
             }
+
             override fun afterTextChanged(s: Editable?) {}
         }
         editText.addTextChangedListener(textWatcher)
     }
 
-    override fun onSaveInstanceState(savedInstanceState : Bundle){
-            super.onSaveInstanceState(savedInstanceState)
-            savedInstanceState.putString("dataFromTextEdit", dataFromTextEdit)
-        }
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        savedInstanceState.putString(dataFromTextEditKey, dataFromTextEdit)
+    }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        dataFromTextEdit = savedInstanceState.getString("dataFromTextEdit") ?: ""
+        dataFromTextEdit = savedInstanceState.getString(dataFromTextEditKey) ?: ""
         editText.setText(dataFromTextEdit)
     }
 
+
+    companion object {
+        lateinit var dataFromTextEdit: String
+        private const val dataFromTextEditKey = "dataFromTextEdit"
     }
+}

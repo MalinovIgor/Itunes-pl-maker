@@ -1,6 +1,7 @@
 package ru.startandroid.develop.sprint8v3
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 
 class SettingsActivity : AppCompatActivity() {
+    private lateinit var switchTheme: SwitchCompat
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -30,19 +33,6 @@ class SettingsActivity : AppCompatActivity() {
             shareCourseLink()
         }
 
-        //    val nightSwitch = findViewById<SwitchCompat>(R.id.nightThemeSwitch)
-
-        //    val nightSwitch = findViewById<SwitchCompat>(R.id.nightThemeSwitch)    nightSwitch.setOnCheckedChangeListener{ buttonView, isChecked ->
-        //    val nightSwitch = findViewById<SwitchCompat>(R.id.nightThemeSwitch)        val displayIntent = Intent(this@SettingsActivity, MainActivity::class.java)
-        //        if (isChecked){
-        //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        //        }
-        //        else{
-        //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        //        }
-        //    startActivity(displayIntent)
-        //    finish()
-        //                 }
 
         val sendToSupport = findViewById<RelativeLayout>(R.id.sendToSupport)
         sendToSupport.setOnClickListener {
@@ -54,11 +44,22 @@ class SettingsActivity : AppCompatActivity() {
 
         val agreementView = findViewById<RelativeLayout>(R.id.agreementView)
         val agreementLink = getString(R.string.agreementLink)
-        agreementView.setOnClickListener{
+        agreementView.setOnClickListener {
             openAgreement(agreementLink)
         }
 
+        switchTheme = findViewById(R.id.nightThemeSwitch)
 
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        switchTheme.isChecked = currentNightMode == Configuration.UI_MODE_NIGHT_YES
+
+        switchTheme.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
     }
 
     private fun shareCourseLink() {
@@ -66,7 +67,7 @@ class SettingsActivity : AppCompatActivity() {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareAndroidDevLink)
-        startActivity(Intent.createChooser(shareIntent, "Поделиться приложением"))
+        startActivity(Intent.createChooser(shareIntent, "@strings/share"))
     }
 
 
@@ -80,8 +81,8 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(emailIntent)
     }
 
-    private fun openAgreement(link : String){
-        val agreementIntent = Intent (Intent.ACTION_VIEW)
+    private fun openAgreement(link: String) {
+        val agreementIntent = Intent(Intent.ACTION_VIEW)
         agreementIntent.data = Uri.parse(link)
 
         startActivity(agreementIntent)
