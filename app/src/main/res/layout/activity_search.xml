@@ -7,27 +7,25 @@
     tools:context=".SearchActivity">
 
     <LinearLayout
-        android:gravity="top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:gravity="top"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingVertical="4dp"
-            android:paddingStart="4dp"
-            >
+            android:paddingStart="4dp">
 
             <ImageView
                 android:id="@+id/back_from_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_horizontal|center_vertical"
-                android:src="@drawable/arrow_back"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:src="@drawable/arrow_back">
 
             </ImageView>
 
@@ -35,49 +33,50 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:fontFamily="@fonts/medium"
+                android:gravity="center|center_vertical"
                 android:text="@string/search"
                 android:textColor="@color/settings_text_changeable"
-                android:fontFamily="@fonts/medium"
                 android:textFontWeight="500"
-                android:textSize="22sp"
-                android:gravity="center|center_vertical">
+                android:textSize="22sp">
 
             </TextView>
 
         </LinearLayout>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/edit_text"
-            android:drawableStart="@drawable/search_small"
-            android:drawablePadding="12dp"
-            android:padding="8dp"
-            android:paddingStart="12dp"
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/search"
-            android:layout_marginVertical="8dp"
-            android:layout_marginHorizontal="16dp"
-            android:textColorHint="@color/search_hint_changeable"
-            android:maxLines="1"
-            android:textColor="@color/black"
-            android:background="@drawable/rounded_corners"
-            >
+            android:layout_height="wrap_content">
 
-        </EditText>
+            <EditText
+                android:id="@+id/edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp"
+                android:background="@drawable/rounded_corners"
+                android:drawableStart="@drawable/search_small"
+                android:drawablePadding="12dp"
+                android:hint="@string/search"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:paddingStart="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/search_hint_changeable">
 
-    <ImageView
-        android:id="@+id/clear_text"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:paddingEnd="24dp"
-        android:visibility="invisible"
-        android:src="@drawable/baseline_clear_24">
+            </EditText>
 
-    </ImageView>
-</FrameLayout>
+            <ImageView
+                android:id="@+id/clear_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:paddingEnd="24dp"
+                android:src="@drawable/baseline_clear_24"
+                android:visibility="invisible">
+
+            </ImageView>
+        </FrameLayout>
 
     </LinearLayout>
 

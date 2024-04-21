@@ -13,25 +13,25 @@
         android:layout_gravity="start"
         android:layout_marginStart="@dimen/standard"
         android:layout_marginTop="14dp"
+        android:fontFamily="@font/ys_display_medium"
         android:text="@string/PLmaker"
-        android:textFontWeight="500"
         android:textColor="@color/white"
-        android:textSize="@dimen/standard_primary_text"
-        android:fontFamily="@font/ys_display_medium"/>
+        android:textFontWeight="500"
+        android:textSize="@dimen/standard_primary_text" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="28dp"
-        android:orientation="vertical"
-        android:padding="@dimen/standard"
         android:layout_marginBottom="12dp"
-        >
+        android:orientation="vertical"
+        android:padding="@dimen/standard">
 
         <LinearLayout
             android:id="@+id/search_button"
-            android:background="@drawable/rounded_button"
             style="@style/LinearLayoutAsButton"
+
+            android:background="@drawable/rounded_button"
             android:foreground="?attr/selectableItemBackground">
 
             <ImageView
@@ -40,8 +40,7 @@
 
             <TextView
                 style="@style/TextViewMain"
-                android:text="@string/search"
-                 />
+                android:text="@string/search" />
         </LinearLayout>
 
 
@@ -57,8 +56,7 @@
 
             <TextView
                 style="@style/TextViewMain"
-                android:text="@string/media_gallery"
-                />
+                android:text="@string/media_gallery" />
         </LinearLayout>
 
         <LinearLayout
