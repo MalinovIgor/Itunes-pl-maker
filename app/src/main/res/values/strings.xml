@@ -13,5 +13,10 @@
     <string name="mailText">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="shareAndroidDevLink">https://practicum.yandex.ru/android-developer/</string>
     <string name="myEmail">aectanio@yandex.ru</string>
+    <string name="dataFromTextEdit">dataFromTextEdit</string>
+    <string name="mailto_prefix">mailto:</string>
+    <string name="share_intent_type">text/plain</string>
+    <string name="data_from_text_edit">dataFromTextEdit</string>
+
 
 </resources>

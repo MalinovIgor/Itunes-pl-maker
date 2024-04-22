@@ -65,15 +65,16 @@ class SettingsActivity : AppCompatActivity() {
     private fun shareCourseLink() {
         val shareAndroidDevLink = getString(R.string.shareAndroidDevLink)
         val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/plain"
+        val shareType = getString(R.string.share_intent_type)
+        shareIntent.type = shareType
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareAndroidDevLink)
-        startActivity(Intent.createChooser(shareIntent, "@strings/share"))
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share)))
     }
-
 
     private fun sendEmail(mailReceiver: String, mailSubject: String, mailText: String) {
         val emailIntent = Intent(Intent.ACTION_SENDTO)
-        emailIntent.data = Uri.parse("mailto:")
+        val mailtoPrefix = getString(R.string.mailto_prefix)
+        emailIntent.data = Uri.parse(mailtoPrefix)
         emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(mailReceiver))
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, mailSubject)
         emailIntent.putExtra(Intent.EXTRA_TEXT, mailText)

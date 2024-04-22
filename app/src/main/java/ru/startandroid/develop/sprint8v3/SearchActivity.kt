@@ -65,5 +65,6 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         lateinit var dataFromTextEdit: String
         private const val dataFromTextEditKey = "dataFromTextEdit"
+
     }
 }

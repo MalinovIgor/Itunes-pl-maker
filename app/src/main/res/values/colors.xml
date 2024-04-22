@@ -9,5 +9,7 @@
     <color name="YP_light_grey">#AEAFB4</color>
     <color name="backgroundEditText">#E6E8EB</color>
     <color name="search_hint_changeable">#AEAFB4</color>
+    <color name="main_background">#FFFFFFFF</color>
+    <color name="main_background_anti">#FF000000</color>
 
 </resources>
