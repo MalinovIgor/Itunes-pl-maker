@@ -4,6 +4,9 @@
     <style name="LinearLayoutAsButton">
         <item name="android:gravity">center</item>
         <item name="android:layout_marginBottom">@dimen/standard</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+
     </style>
 
     <style name="ImageMain">

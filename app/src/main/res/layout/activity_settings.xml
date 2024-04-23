@@ -57,12 +57,11 @@
 
             <TextView
                 style="@style/TextViewSettings"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/vertical_text_pad"
                 android:paddingStart="@dimen/standard"
-                android:text="@string/dark_theme"
-                />
+                android:text="@string/dark_theme" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/nightThemeSwitch"
@@ -75,14 +74,14 @@
 
         <RelativeLayout
             android:id="@+id/share"
+            style="@style/RLSettings"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/RLSettings">
+            android:layout_height="wrap_content">
 
             <TextView
+                style="@style/TextViewSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextViewSettings"
                 android:text="@string/share" />
 
             <ImageView
@@ -94,14 +93,14 @@
 
         <RelativeLayout
             android:id="@+id/sendToSupport"
+            style="@style/RLSettings"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/RLSettings">
+            android:layout_height="wrap_content">
 
             <TextView
+                style="@style/TextViewSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextViewSettings"
                 android:text="@string/support" />
 
             <ImageView
@@ -116,15 +115,15 @@
 
         <RelativeLayout
             android:id="@+id/agreementView"
+            style="@style/RLSettings"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/RLSettings">
+            android:layout_height="wrap_content">
 
 
             <TextView
+                style="@style/TextViewSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextViewSettings"
                 android:text="@string/agreement" />
 
             <ImageView
