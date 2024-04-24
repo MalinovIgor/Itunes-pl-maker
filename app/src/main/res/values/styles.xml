@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LinearLayoutAsButton">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">@dimen/standard</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+
+    </style>
+
+    <style name="ImageMain">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="RLSettings">
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingVertical">@dimen/vertical_text_pad</item>
+        <item name="android:paddingStart">@dimen/standard</item>
+        <item name="android:paddingEnd">@dimen/end_text_pad</item>
+
+    </style>
+
+    <style name="ImageSettings">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+
+    </style>
+
+    <style name="TextViewSettings">
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/settings_text_changeable</item>
+        <item name="android:textSize">@dimen/standard_text</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
+    <style name="button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textColor">@color/main_text_black</item>
+        <item name="android:textSize">@dimen/standard_primary_text</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+
+        <item name="android:backgroundTint">@color/main_background</item>
+        <item name="android:clickable">false</item>
+        <item name="android:paddingStart">@dimen/small_one</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored</item>
+
+    </style>
+
+</resources>

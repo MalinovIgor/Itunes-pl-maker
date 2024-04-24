@@ -35,12 +35,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:fontFamily="@font/ys_display_medium"
                 android:paddingStart="@dimen/end_text_pad"
                 android:paddingTop="10dp"
                 android:paddingBottom="@dimen/end_text_pad"
                 android:text="@string/settings"
-                android:textFontWeight="500"
                 android:textColor="@color/settings_text_changeable"
+                android:textFontWeight="500"
                 android:textSize="@dimen/standard_primary_text" />
 
 
@@ -55,18 +56,15 @@
 
 
             <TextView
+                style="@style/TextViewSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:paddingVertical="@dimen/vertical_text_pad"
-                android:text="@string/dark_theme"
                 android:paddingStart="@dimen/standard"
-                android:textColor="@color/settings_text_changeable"
-                android:textSize="@dimen/standard_text"
-
-                />
+                android:text="@string/dark_theme" />
 
             <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/nightThemeSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
@@ -75,60 +73,38 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/vertical_text_pad"
-            android:paddingStart="@dimen/standard"
-            android:paddingEnd="@dimen/end_text_pad">
+            android:id="@+id/share"
+            style="@style/RLSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
+                style="@style/TextViewSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_gravity="center_vertical"
-                android:text="@string/share"
-                android:textColor="@color/settings_text_changeable"
-                android:textSize="@dimen/standard_text"
-
-                />
+                android:text="@string/share" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end"
+                style="@style/ImageSettings"
                 android:layout_marginEnd="3dp"
                 android:src="@drawable/share" />
 
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/sendToSupport"
+            style="@style/RLSettings"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/vertical_text_pad"
-            android:paddingStart="@dimen/standard"
-            android:paddingEnd="@dimen/end_text_pad">
+            android:layout_height="wrap_content">
 
             <TextView
+                style="@style/TextViewSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_gravity="center_vertical"
-                android:text="@string/support"
-                android:textColor="@color/settings_text_changeable"
-                android:textSize="@dimen/standard_text" />
+                android:text="@string/support" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end|center_vertical"
+                style="@style/ImageSettings"
                 android:layout_marginEnd="2.9dp"
                 android:src="@drawable/support"
 
@@ -138,30 +114,20 @@
 
 
         <RelativeLayout
+            android:id="@+id/agreementView"
+            style="@style/RLSettings"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/vertical_text_pad"
-            android:paddingStart="@dimen/standard"
-            android:paddingEnd="@dimen/end_text_pad">
+            android:layout_height="wrap_content">
 
 
             <TextView
+                style="@style/TextViewSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_gravity="center_vertical"
-                android:text="@string/agreement"
-                android:textColor="@color/settings_text_changeable"
-                android:textSize="@dimen/standard_text" />
+                android:text="@string/agreement" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="end|center_vertical"
+                style="@style/ImageSettings"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/arrow_right" />
 
