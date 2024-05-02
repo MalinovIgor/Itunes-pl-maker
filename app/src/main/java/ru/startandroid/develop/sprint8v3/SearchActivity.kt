@@ -9,6 +9,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var editText: EditText
@@ -48,6 +50,17 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         }
         editText.addTextChangedListener(textWatcher)
+
+
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val trackDataSource = TrackDataSource()
+        val trackList = trackDataSource.getTrackList()
+        val trackAdapter = TrackAdapter(trackList)
+        recyclerView.adapter = trackAdapter
+
+
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
@@ -60,6 +73,7 @@ class SearchActivity : AppCompatActivity() {
         dataFromTextEdit = savedInstanceState.getString(dataFromTextEditKey) ?: ""
         editText.setText(dataFromTextEdit)
     }
+
 
 
     companion object {
