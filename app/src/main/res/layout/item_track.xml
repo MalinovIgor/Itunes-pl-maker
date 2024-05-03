@@ -8,8 +8,9 @@
     <!-- Картинка 1 -->
     <ImageView
         android:id="@+id/artworkImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"/>
 
     <!-- Вертикальный LinearLayout -->
     <LinearLayout
@@ -24,26 +25,29 @@
             android:id="@+id/trackNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/settings_text_changeable"/>
+            android:textColor="@color/settings_text_changeable" />
 
-        <!-- Второй TextView -->
-        <TextView
-            android:id="@+id/artistNameTextView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/settings_text_changeable"/>
+            android:layout_height="wrap_content">
+            <!-- Второй TextView -->
+            <TextView
+                android:id="@+id/artistNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/settings_text_changeable" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/dot" />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/dot" />
 
-        <TextView
-            android:id="@+id/trackTimeTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/settings_text_changeable"/>
-
+            <TextView
+                android:id="@+id/trackTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/settings_text_changeable" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Картинка 2 -->

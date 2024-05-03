@@ -44,7 +44,7 @@ class TrackAdapter(private val trackList: List<Track>) : RecyclerView.Adapter<Tr
             trackTimeTextView.text = model.trackTime
             Glide.with(itemView.context)
                 .load(model.artworkUrl100)
-              //  .apply(RequestOptions().placeholder(R.drawable.placeholder_image))
+                .apply(RequestOptions().placeholder(R.drawable.placeholder_image))
                 .into(artworkImageView)
         }
     }
