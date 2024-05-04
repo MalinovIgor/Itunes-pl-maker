@@ -2,15 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:padding="16dp">
 
     <!-- Картинка 1 -->
-    <ImageView
-        android:id="@+id/artworkImageView"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center_vertical"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp">
+
+        <ImageView
+            android:id="@+id/artworkImageView"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical" />
+
+    </androidx.cardview.widget.CardView>
+
 
     <!-- Вертикальный LinearLayout -->
     <LinearLayout
@@ -18,35 +27,51 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <!-- Первый TextView -->
         <TextView
             android:id="@+id/trackNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/settings_text_changeable" />
+            style="@style/TextViewSettings"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
 
         <LinearLayout
+            android:layout_marginTop="1dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <!-- Второй TextView -->
             <TextView
                 android:id="@+id/artistNameTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/settings_text_changeable" />
+                android:textColor="@color/settings_text_changeable"
+                android:textSize="11sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                />
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/dot" />
+                android:layout_width="13dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/dot"
+                android:layout_margin="5dp"
+                />
 
             <TextView
                 android:id="@+id/trackTimeTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="25dp"
+                android:layout_gravity="start"
                 android:layout_height="wrap_content"
-                android:textColor="@color/settings_text_changeable" />
+                android:textColor="@color/settings_text_changeable"
+                android:textSize="11sp"
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -55,6 +80,10 @@
         android:id="@+id/image2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/arrow_right" />
+        android:src="@drawable/arrow_right"
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="5dp"
+        />
 
 </LinearLayout>

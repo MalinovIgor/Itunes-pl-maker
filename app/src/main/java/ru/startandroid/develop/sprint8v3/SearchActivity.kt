@@ -30,6 +30,7 @@ class SearchActivity : AppCompatActivity() {
 
         clearEditText.setOnClickListener {
             editText.setText("")
+            dataFromTextEdit = ""
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(editText.windowToken, 0)
         }
@@ -65,7 +66,9 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        savedInstanceState.putString(dataFromTextEditKey, dataFromTextEdit)
+        if (dataFromTextEdit.isNotEmpty()) {
+            savedInstanceState.putString(dataFromTextEditKey, dataFromTextEdit)
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -73,8 +76,6 @@ class SearchActivity : AppCompatActivity() {
         dataFromTextEdit = savedInstanceState.getString(dataFromTextEditKey) ?: ""
         editText.setText(dataFromTextEdit)
     }
-
-
 
     companion object {
         lateinit var dataFromTextEdit: String

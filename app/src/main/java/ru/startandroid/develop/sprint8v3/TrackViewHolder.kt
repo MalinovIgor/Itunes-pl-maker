@@ -19,15 +19,4 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         trackTimeTextView = itemView.findViewById(R.id.trackTimeTextView)
         artworkImageView = itemView.findViewById(R.id.artworkImageView)
     }
-
-
-    fun bind(model: Track) {
-        trackNameTextView.text = model.trackName
-        artistNameTextView.text = model.artistName
-        trackTimeTextView.text = model.trackTime
-        Glide.with(itemView.context)
-            .load(model.artworkUrl100)
-            //.apply(RequestOptions().placeholder(R.drawable.placeholder_image))
-            .into(artworkImageView)
-    }
 }

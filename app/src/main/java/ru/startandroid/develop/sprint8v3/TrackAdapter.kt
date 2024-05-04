@@ -24,7 +24,6 @@ class TrackAdapter(private val trackList: List<Track>) : RecyclerView.Adapter<Tr
         return trackList.size
     }
 
-    // Вложенный класс TrackViewHolder
     inner class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val trackNameTextView: TextView
         private val artistNameTextView: TextView
