@@ -19,7 +19,11 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-
+        if (savedInstanceState != null) {
+            dataFromTextEdit = savedInstanceState.getString(dataFromTextEditKey) ?: ""
+        } else {
+            dataFromTextEdit = ""
+        }
         val backFromSearch = findViewById<ImageView>(R.id.back_from_search)
         backFromSearch.setOnClickListener {
             finish()
@@ -66,15 +70,17 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        if (dataFromTextEdit.isNotEmpty()) {
+
             savedInstanceState.putString(dataFromTextEditKey, dataFromTextEdit)
-        }
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        dataFromTextEdit = savedInstanceState.getString(dataFromTextEditKey) ?: ""
-        editText.setText(dataFromTextEdit)
+        if (::editText.isInitialized) {
+            dataFromTextEdit = savedInstanceState.getString(dataFromTextEditKey) ?: ""
+            editText.setText(dataFromTextEdit)
+        }
     }
 
     companion object {
