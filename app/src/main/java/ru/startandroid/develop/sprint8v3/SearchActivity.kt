@@ -57,7 +57,6 @@ class SearchActivity : AppCompatActivity() {
         editText.addTextChangedListener(textWatcher)
 
 
-
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val trackDataSource = TrackDataSource()
@@ -71,7 +70,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
 
-            savedInstanceState.putString(dataFromTextEditKey, dataFromTextEdit)
+        savedInstanceState.putString(dataFromTextEditKey, dataFromTextEdit)
 
     }
 

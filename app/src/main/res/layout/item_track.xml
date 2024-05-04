@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:paddingVertical="8dp"
     android:paddingStart="13dp">
@@ -10,9 +10,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="45dp"
         android:layout_height="45dp"
-        app:cardCornerRadius="10dp"
         android:paddingVertical="8dp"
-        >
+        app:cardCornerRadius="10dp">
 
         <ImageView
             android:id="@+id/artworkImageView"
@@ -26,52 +25,49 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:orientation="vertical"
-        android:layout_weight="10"
         android:layout_gravity="center_vertical"
-        >
+        android:layout_marginStart="16dp"
+        android:layout_weight="10"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/trackNameTextView"
-            android:layout_width="match_parent"
-            android:textFontWeight="400"
-            android:layout_height="0dp"
             style="@style/TextViewSettings"
-            android:maxWidth="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:ellipsize="end"
+            android:maxWidth="200dp"
             android:singleLine="true"
-            />
+            android:textFontWeight="400" />
 
         <LinearLayout
-            android:layout_marginTop="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:orientation="horizontal">
+
             <TextView
-                style="@style/textSearched"
                 android:id="@+id/artistNameTextView"
+                style="@style/textSearched"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="200dp"
                 android:ellipsize="end"
-                android:singleLine="true"
-                />
+                android:maxWidth="200dp"
+                android:singleLine="true" />
 
             <ImageView
                 android:layout_width="13dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/dot"
                 android:layout_margin="5dp"
-                />
+                android:src="@drawable/dot" />
 
             <TextView
-                style="@style/textSearched"
                 android:id="@+id/trackTimeTextView"
+                style="@style/textSearched"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
 
                 />
         </LinearLayout>
@@ -82,9 +78,9 @@
         android:layout_width="8dp"
         android:layout_height="14dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="8dp"
         android:layout_marginVertical="5dp"
-        android:src="@drawable/arrow_right"
-        />
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="19dp"
+        android:src="@drawable/arrow_right" />
 
 </LinearLayout>
