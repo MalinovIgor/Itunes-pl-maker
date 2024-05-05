@@ -9,5 +9,6 @@
     <color name="YP_light_grey">#AEAFB4</color>
     <color name="backgroundEditText">#FFFFFFFF</color>
     <color name="search_hint_changeable">#1A1B22</color>
+    <color name="arrow_right_search">#FFFFFFFF</color>
 
 </resources>
