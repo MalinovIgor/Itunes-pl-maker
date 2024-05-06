@@ -20,7 +20,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-            dataFromTextEdit = savedInstanceState?.getString(dataFromTextEditKey) ?: ""
+        dataFromTextEdit = savedInstanceState?.getString(dataFromTextEditKey) ?: ""
 
         val backFromSearch = findViewById<ImageView>(R.id.back_from_search)
         backFromSearch.setOnClickListener {
@@ -49,11 +49,9 @@ class SearchActivity : AppCompatActivity() {
                     dataFromTextEdit = s.toString()
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {}
         }
         editText.addTextChangedListener(textWatcher)
-
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -61,15 +59,11 @@ class SearchActivity : AppCompatActivity() {
         val trackList = trackDataSource.getTrackList()
         val trackAdapter = TrackAdapter(trackList)
         recyclerView.adapter = trackAdapter
-
-
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-
         savedInstanceState.putString(dataFromTextEditKey, dataFromTextEdit)
-
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
