@@ -19,11 +19,9 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        if (savedInstanceState != null) {
-            dataFromTextEdit = savedInstanceState.getString(dataFromTextEditKey) ?: ""
-        } else {
-            dataFromTextEdit = ""
-        }
+
+            dataFromTextEdit = savedInstanceState?.getString(dataFromTextEditKey) ?: ""
+
         val backFromSearch = findViewById<ImageView>(R.id.back_from_search)
         backFromSearch.setOnClickListener {
             finish()
