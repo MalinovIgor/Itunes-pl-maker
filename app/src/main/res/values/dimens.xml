@@ -4,6 +4,7 @@
 
     <dimen name="standard_text">16sp</dimen>
     <dimen name="standard_primary_text">22sp</dimen>
+    <dimen name="small_text_for_search">11sp</dimen>
     <dimen name="small_one">8dp</dimen>
     <dimen name="standard">16dp</dimen>
     <dimen name="vertical_text_pad">21dp</dimen>
