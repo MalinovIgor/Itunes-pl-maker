@@ -11,10 +11,18 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var editText: EditText
+    private val itunesBaseURL = "https://itunes.apple.com"
 
+    private val retrofit2 =
+        Retrofit.Builder().baseUrl(itunesBaseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    private val itunesService = retrofit2.create(ItunesAPI::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +57,7 @@ class SearchActivity : AppCompatActivity() {
                     dataFromTextEdit = s.toString()
                 }
             }
+
             override fun afterTextChanged(s: Editable?) {}
         }
         editText.addTextChangedListener(textWatcher)
