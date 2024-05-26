@@ -106,7 +106,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun showErrorPlaceholder(text:Int, image:Int){
+    private fun showErrorPlaceholder(text: Int, image: Int) {
         tracks.clear()
         adapter.updateTracks(tracks)
         recyclerView.visibility = View.GONE
@@ -116,7 +116,7 @@ class SearchActivity : AppCompatActivity() {
         placeholderErrorImage.visibility = View.VISIBLE
     }
 
-    private fun showViewHolder(){
+    private fun showViewHolder() {
         buttonUpdate.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
         placeholderMessage.visibility = View.GONE
@@ -140,19 +140,24 @@ class SearchActivity : AppCompatActivity() {
                                 tracks.addAll(response.body()?.results!!)
                                 adapter.updateTracks(tracks)
                                 showViewHolder()
-                            }
-                            else  {
-                                showErrorPlaceholder(R.string.nothing_found, R.drawable.nothings_found)
+                            } else {
+                                showErrorPlaceholder(
+                                    R.string.nothing_found,
+                                    R.drawable.nothings_found
+                                )
                                 buttonUpdate.visibility = View.GONE
                                 tracks.clear()
                                 tracks.addAll(response.body()?.results!!)
                                 adapter.updateTracks(tracks)
                             }
-                            }
+                        }
 
 
                         else -> {
-                           showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
+                            showErrorPlaceholder(
+                                R.string.connection_trouble,
+                                R.drawable.connecton_trouble
+                            )
                             buttonUpdate.visibility = View.GONE
                         }
                     }
@@ -160,7 +165,7 @@ class SearchActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
 
-                    showErrorPlaceholder(R.string.connection_trouble,R.drawable.connecton_trouble)
+                    showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
                     buttonUpdate.visibility = View.VISIBLE
                     buttonUpdate.setOnClickListener { search() }
                 }
