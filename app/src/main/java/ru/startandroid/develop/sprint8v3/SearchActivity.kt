@@ -34,7 +34,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var adapter: TrackAdapter
     private lateinit var placeholderMessage: TextView
     private lateinit var placeholderErrorImage :ImageView
-    private lateinit var buttonUpdate :LinearLayout
+    private lateinit var buttonUpdate : LinearLayout
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +80,7 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         placeholderMessage = findViewById<TextView>(R.id.placeholderMessage)
+        buttonUpdate = findViewById(R.id.update)
 
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -171,8 +172,6 @@ class SearchActivity : AppCompatActivity() {
                             placeholderMessage.setText(R.string.connection_trouble)
                             placeholderErrorImage.setImageResource(R.drawable.connecton_trouble)
                             buttonUpdate.visibility = View.VISIBLE
-
-                            buttonUpdate.setOnClickListener { search() }
 
                         }
                     }
