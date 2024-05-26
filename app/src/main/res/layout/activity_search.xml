@@ -123,10 +123,10 @@
     </TextView>
     <LinearLayout
         style="@style/LinearLayoutAsButton"
+        android:layout_marginTop="24dp"
         android:id="@+id/update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/placeholderMessage"
         app:layout_constraintStart_toStartOf="@id/linearLayout"

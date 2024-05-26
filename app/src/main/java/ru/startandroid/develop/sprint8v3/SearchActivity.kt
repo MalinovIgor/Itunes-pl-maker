@@ -33,8 +33,9 @@ class SearchActivity : AppCompatActivity() {
     private val tracks = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
     private lateinit var placeholderMessage: TextView
-    private lateinit var placeholderErrorImage :ImageView
-    private lateinit var buttonUpdate : LinearLayout
+    private lateinit var placeholderErrorImage: ImageView
+    private lateinit var buttonUpdate: LinearLayout
+    private lateinit var recyclerView: RecyclerView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,21 +75,19 @@ class SearchActivity : AppCompatActivity() {
         }
         editText.addTextChangedListener(textWatcher)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         adapter = TrackAdapter()
         recyclerView.adapter = adapter
 
-        placeholderMessage = findViewById<TextView>(R.id.placeholderMessage)
+        placeholderMessage = findViewById(R.id.placeholderMessage)
         buttonUpdate = findViewById(R.id.update)
 
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                Toast.makeText(this, "searchstart!", Toast.LENGTH_SHORT).show()
                 search()
                 true
             } else {
-                Toast.makeText(this, "Action ID: $actionId", Toast.LENGTH_SHORT).show()
                 false
             }
         }
@@ -110,6 +109,7 @@ class SearchActivity : AppCompatActivity() {
     private fun showMessage(message: String, additionalMessage: String) {
         if (message.isNotEmpty()) {
             placeholderMessage.visibility = View.VISIBLE
+            buttonUpdate.visibility = View.VISIBLE
             tracks.clear()
             adapter.updateTracks(tracks)
             placeholderMessage.text = message
@@ -119,16 +119,31 @@ class SearchActivity : AppCompatActivity() {
         } else {
             placeholderMessage.visibility = View.GONE
             placeholderErrorImage.visibility = View.GONE
+            buttonUpdate = findViewById(R.id.update)
             buttonUpdate.visibility = View.GONE
         }
     }
 
-    private fun search() {
-        Toast.makeText(this, "Executing search", Toast.LENGTH_SHORT).show()
-        val query = editText.text.toString()
-        Toast.makeText(this, "Query: $query", Toast.LENGTH_SHORT).show()
-        placeholderErrorImage = findViewById<ImageView>(R.id.placeholderErrorImage)
+    private fun showErrorPlaceholder(text:Int, image:Int){
+        tracks.clear()
+        adapter.updateTracks(tracks)
+        recyclerView.visibility = View.GONE
+        placeholderMessage.setText(text)
+        placeholderMessage.visibility = View.VISIBLE
+        placeholderErrorImage.setImageResource(image)
+        placeholderErrorImage.visibility = View.VISIBLE
+    }
 
+    private fun showViewHolder(){
+        buttonUpdate.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
+        placeholderMessage.visibility = View.GONE
+        placeholderErrorImage.visibility = View.GONE
+    }
+
+    private fun search() {
+        val query = editText.text.toString()
+        placeholderErrorImage = findViewById(R.id.placeholderErrorImage)
 
         itunesService.search(query)
             .enqueue(object : Callback<ItunesResponse> {
@@ -136,57 +151,37 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<ItunesResponse>,
                     response: Response<ItunesResponse>
                 ) {
-                    Toast.makeText(
-                        this@SearchActivity,
-                        "Search response received",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     when (response.code()) {
                         200 -> {
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 tracks.clear()
                                 tracks.addAll(response.body()?.results!!)
                                 adapter.updateTracks(tracks)
-                                Toast.makeText(
-                                    this@SearchActivity,
-                                    "Tracks updated",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showViewHolder()
                             }
-                            if (tracks.isEmpty()) {
-                                showMessage(getString(R.string.nothing_found), "")
-                                placeholderErrorImage.visibility = View.VISIBLE
-                                placeholderMessage.setText(R.string.nothing_found)
-                                placeholderErrorImage.setImageResource(R.drawable.nothings_found)
-                            } else {
-                                showMessage("", "")
+                            else  {
+                                showErrorPlaceholder(R.string.nothing_found, R.drawable.nothings_found)
+                                buttonUpdate.visibility = View.GONE
+                                tracks.clear()
+                                tracks.addAll(response.body()?.results!!)
+                                adapter.updateTracks(tracks)
+                                Toast.makeText(this@SearchActivity,"to bechecked", Toast.LENGTH_SHORT).show()
                             }
-                        }
+                            }
+
 
                         else -> {
-                            showMessage(
-                                getString(R.string.connection_trouble),
-                                response.code().toString()
-                            )
-                            placeholderErrorImage.visibility = View.VISIBLE
-                            placeholderMessage.setText(R.string.connection_trouble)
-                            placeholderErrorImage.setImageResource(R.drawable.connecton_trouble)
-                            buttonUpdate.visibility = View.VISIBLE
-
+                           showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
+                            buttonUpdate.visibility = View.GONE
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
-                    Toast.makeText(
-                        this@SearchActivity,
-                        "Search failed: ${t.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    showMessage(getString(R.string.connection_trouble), t.message.toString())
-                    placeholderErrorImage.visibility = View.VISIBLE
-                    placeholderMessage.setText(R.string.connection_trouble)
-                    placeholderErrorImage.setImageResource(R.drawable.connecton_trouble)
+
+                    showErrorPlaceholder(R.string.connection_trouble,R.drawable.connecton_trouble)
+                    buttonUpdate.visibility = View.VISIBLE
+                    buttonUpdate.setOnClickListener { search() }
                 }
             })
     }
