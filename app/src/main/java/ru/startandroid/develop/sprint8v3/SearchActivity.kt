@@ -5,12 +5,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,6 +29,9 @@ class SearchActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     private val itunesService = retrofit2.create(ItunesAPI::class.java)
+    private val tracks = ArrayList<Track>()
+    private lateinit var adapter: TrackAdapter
+    private lateinit var placeholderMessage: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,21 +62,31 @@ class SearchActivity : AppCompatActivity() {
                     clearEditText.visibility = View.INVISIBLE
                 } else {
                     clearEditText.visibility = View.VISIBLE
-
                     dataFromTextEdit = s.toString()
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {}
         }
         editText.addTextChangedListener(textWatcher)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val trackDataSource = TrackDataSource()
-        val trackList = trackDataSource.getTrackList()
-        val trackAdapter = TrackAdapter(trackList)
-        recyclerView.adapter = trackAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        adapter = TrackAdapter()
+        recyclerView.adapter = adapter
+
+        placeholderMessage = findViewById<TextView>(R.id.placeholderMessage)
+
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                Toast.makeText(this, "searchstart!", Toast.LENGTH_SHORT).show()
+                search()
+                true
+            } else {
+                // Можно добавить отладочное сообщение, чтобы понять, какой actionId обрабатывается
+                Toast.makeText(this, "Action ID: $actionId", Toast.LENGTH_SHORT).show()
+                false
+            }
+        }
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
@@ -83,9 +102,58 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun showMessage(message: String, additionalMessage: String) {
+        if (message.isNotEmpty()) {
+            placeholderMessage.visibility = View.VISIBLE
+            tracks.clear()
+            adapter.updateTracks(tracks)
+            placeholderMessage.text = message
+            if (additionalMessage.isNotEmpty()) {
+                Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            placeholderMessage.visibility = View.GONE
+        }
+    }
+
+    private fun search() {
+        Toast.makeText(this, "Executing search", Toast.LENGTH_SHORT).show()
+        val query = editText.text.toString()
+        Toast.makeText(this, "Query: $query", Toast.LENGTH_SHORT).show()
+
+        itunesService.search(query)
+            .enqueue(object : Callback<ItunesResponse> {
+                override fun onResponse(call: Call<ItunesResponse>, response: Response<ItunesResponse>) {
+                    Toast.makeText(this@SearchActivity, "Search response received", Toast.LENGTH_SHORT).show()
+                    when (response.code()) {
+                        200 -> {
+                            if (response.body()?.results?.isNotEmpty() == true) {
+                                tracks.clear()
+                                tracks.addAll(response.body()?.results!!)
+                                adapter.updateTracks(tracks)
+                                Toast.makeText(this@SearchActivity, "Tracks updated", Toast.LENGTH_SHORT).show()
+                            }
+                            if (tracks.isEmpty()) {
+                                showMessage(getString(R.string.nothing_found), "")
+                            } else {
+                                showMessage("", "")
+                            }
+                        }
+                        else -> {
+                            showMessage(getString(R.string.connection_trouble), response.code().toString())
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
+                    Toast.makeText(this@SearchActivity, "Search failed: ${t.message}", Toast.LENGTH_SHORT).show()
+                    showMessage(getString(R.string.connection_trouble), t.message.toString())
+                }
+            })
+    }
+
     companion object {
         lateinit var dataFromTextEdit: String
         private const val dataFromTextEditKey = "dataFromTextEdit"
-
     }
 }

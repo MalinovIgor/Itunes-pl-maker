@@ -17,6 +17,11 @@
     <string name="mailto_prefix">mailto:</string>
     <string name="share_intent_type">text/plain</string>
     <string name="data_from_text_edit">dataFromTextEdit</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="connection_trouble">Проблемы со связью
+
+Загрузка не удалась. Проверьте подключение к интернету</string>
+
 
 
 </resources>
