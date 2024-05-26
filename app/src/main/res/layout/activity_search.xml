@@ -122,10 +122,10 @@
 
     </TextView>
     <LinearLayout
-        style="@style/LinearLayoutAsButton"
         android:layout_marginTop="24dp"
+        style="@style/LinearLayoutAsButton_Update"
         android:id="@+id/update"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/placeholderMessage"
@@ -135,11 +135,12 @@
 
 
         <Button
-            style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/update"
+            android:background="@android:color/transparent"
+            android:textAllCaps="false"
             />
     </LinearLayout>
 

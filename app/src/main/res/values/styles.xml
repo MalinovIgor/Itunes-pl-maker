@@ -61,17 +61,27 @@
     </style>
 
     <style name="button_update" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:textFontWeight">500</item>
         <item name="android:textColor">@color/album_placeholder_background</item>
         <item name="android:textSize">@dimen/small_text14</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:backgroundTint">@color/settings_text_changeable</item>
         <item name="android:paddingStart">@dimen/small_one</item>
+        <item name="android:background">@drawable/rounded_button_update</item>
         <item name="android:textAllCaps">false</item>
+
         <item name="android:textAppearance">
             @style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored
         </item>
+
+    </style>
+
+    <style name="LinearLayoutAsButton_Update">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">@dimen/standard</item>
+        <item name="android:background">@drawable/rounded_button_update</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
 
     </style>
 
