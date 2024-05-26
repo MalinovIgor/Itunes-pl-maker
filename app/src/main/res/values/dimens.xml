@@ -9,6 +9,7 @@
     <dimen name="standard">16dp</dimen>
     <dimen name="vertical_text_pad">21dp</dimen>
     <dimen name="end_text_pad">12dp</dimen>
+    <dimen name="error_message">19sp</dimen>
 
 
 </resources>

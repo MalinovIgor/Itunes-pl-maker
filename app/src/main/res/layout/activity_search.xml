@@ -47,7 +47,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/frame">
 
             <EditText
                 android:id="@+id/edit_text"
@@ -76,7 +77,7 @@
                 android:layout_gravity="end"
                 android:paddingEnd="24dp"
                 android:src="@drawable/baseline_clear_24"
-                android:visibility="invisible">
+                android:visibility="gone">
 
             </ImageView>
         </FrameLayout>
@@ -93,13 +94,55 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/placeholderMessage"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/placeholderErrorImage"
+        android:layout_marginTop="104dp"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout"
+        android:visibility="gone"
+        >
+
+    </ImageView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/placeholderMessage"
+        android:textSize="@dimen/error_message"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/placeholderErrorImage"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout"
+        android:visibility="gone"
+        android:textAlignment="center"
+        android:textColor="@color/settings_text_changeable"
+        >
+
+    </TextView>
+    <LinearLayout
+        style="@style/LinearLayoutAsButton"
+        android:id="@+id/update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/placeholderMessage"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout"
+        >
+
+
+        <Button
+            style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center_vertical"
+            android:text="@string/update"
+            />
+    </LinearLayout>
 
-        </TextView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

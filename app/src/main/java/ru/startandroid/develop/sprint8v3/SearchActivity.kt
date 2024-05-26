@@ -1,14 +1,15 @@
 package ru.startandroid.develop.sprint8v3
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,9 @@ class SearchActivity : AppCompatActivity() {
     private val tracks = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
     private lateinit var placeholderMessage: TextView
+    private lateinit var placeholderErrorImage :ImageView
+    private lateinit var buttonUpdate :LinearLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +69,7 @@ class SearchActivity : AppCompatActivity() {
                     dataFromTextEdit = s.toString()
                 }
             }
+
             override fun afterTextChanged(s: Editable?) {}
         }
         editText.addTextChangedListener(textWatcher)
@@ -82,7 +87,6 @@ class SearchActivity : AppCompatActivity() {
                 search()
                 true
             } else {
-                // Можно добавить отладочное сообщение, чтобы понять, какой actionId обрабатывается
                 Toast.makeText(this, "Action ID: $actionId", Toast.LENGTH_SHORT).show()
                 false
             }
@@ -113,6 +117,8 @@ class SearchActivity : AppCompatActivity() {
             }
         } else {
             placeholderMessage.visibility = View.GONE
+            placeholderErrorImage.visibility = View.GONE
+            buttonUpdate.visibility = View.GONE
         }
     }
 
@@ -120,34 +126,68 @@ class SearchActivity : AppCompatActivity() {
         Toast.makeText(this, "Executing search", Toast.LENGTH_SHORT).show()
         val query = editText.text.toString()
         Toast.makeText(this, "Query: $query", Toast.LENGTH_SHORT).show()
+        placeholderErrorImage = findViewById<ImageView>(R.id.placeholderErrorImage)
+
 
         itunesService.search(query)
             .enqueue(object : Callback<ItunesResponse> {
-                override fun onResponse(call: Call<ItunesResponse>, response: Response<ItunesResponse>) {
-                    Toast.makeText(this@SearchActivity, "Search response received", Toast.LENGTH_SHORT).show()
+                override fun onResponse(
+                    call: Call<ItunesResponse>,
+                    response: Response<ItunesResponse>
+                ) {
+                    Toast.makeText(
+                        this@SearchActivity,
+                        "Search response received",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     when (response.code()) {
                         200 -> {
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 tracks.clear()
                                 tracks.addAll(response.body()?.results!!)
                                 adapter.updateTracks(tracks)
-                                Toast.makeText(this@SearchActivity, "Tracks updated", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this@SearchActivity,
+                                    "Tracks updated",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             if (tracks.isEmpty()) {
                                 showMessage(getString(R.string.nothing_found), "")
+                                placeholderErrorImage.visibility = View.VISIBLE
+                                placeholderMessage.setText(R.string.nothing_found)
+                                placeholderErrorImage.setImageResource(R.drawable.nothings_found)
                             } else {
                                 showMessage("", "")
                             }
                         }
+
                         else -> {
-                            showMessage(getString(R.string.connection_trouble), response.code().toString())
+                            showMessage(
+                                getString(R.string.connection_trouble),
+                                response.code().toString()
+                            )
+                            placeholderErrorImage.visibility = View.VISIBLE
+                            placeholderMessage.setText(R.string.connection_trouble)
+                            placeholderErrorImage.setImageResource(R.drawable.connecton_trouble)
+                            buttonUpdate.visibility = View.VISIBLE
+
+                            buttonUpdate.setOnClickListener { search() }
+
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
-                    Toast.makeText(this@SearchActivity, "Search failed: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@SearchActivity,
+                        "Search failed: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     showMessage(getString(R.string.connection_trouble), t.message.toString())
+                    placeholderErrorImage.visibility = View.VISIBLE
+                    placeholderMessage.setText(R.string.connection_trouble)
+                    placeholderErrorImage.setImageResource(R.drawable.connecton_trouble)
                 }
             })
     }
