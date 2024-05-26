@@ -106,24 +106,6 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun showMessage(message: String, additionalMessage: String) {
-        if (message.isNotEmpty()) {
-            placeholderMessage.visibility = View.VISIBLE
-            buttonUpdate.visibility = View.VISIBLE
-            tracks.clear()
-            adapter.updateTracks(tracks)
-            placeholderMessage.text = message
-            if (additionalMessage.isNotEmpty()) {
-                Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            placeholderMessage.visibility = View.GONE
-            placeholderErrorImage.visibility = View.GONE
-            buttonUpdate = findViewById(R.id.update)
-            buttonUpdate.visibility = View.GONE
-        }
-    }
-
     private fun showErrorPlaceholder(text:Int, image:Int){
         tracks.clear()
         adapter.updateTracks(tracks)
