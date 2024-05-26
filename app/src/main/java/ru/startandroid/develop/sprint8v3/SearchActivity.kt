@@ -147,7 +147,6 @@ class SearchActivity : AppCompatActivity() {
                                 tracks.clear()
                                 tracks.addAll(response.body()?.results!!)
                                 adapter.updateTracks(tracks)
-                                Toast.makeText(this@SearchActivity,"to bechecked", Toast.LENGTH_SHORT).show()
                             }
                             }
 

@@ -131,6 +131,8 @@
         app:layout_constraintTop_toBottomOf="@id/placeholderMessage"
         app:layout_constraintStart_toStartOf="@id/linearLayout"
         app:layout_constraintEnd_toEndOf="@id/linearLayout"
+        android:clickable="true"
+        android:focusable="true"
         >
 
 
@@ -141,6 +143,8 @@
             android:text="@string/update"
             android:background="@android:color/transparent"
             android:textAllCaps="false"
+            android:clickable="false"
+            android:focusable="false"
             />
     </LinearLayout>
 
