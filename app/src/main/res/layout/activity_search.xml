@@ -46,9 +46,9 @@
         </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/frame"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/edit_text"
@@ -60,9 +60,11 @@
                 android:drawableStart="@drawable/search_small"
                 android:drawablePadding="12dp"
                 android:hint="@string/search"
+                android:imeOptions="actionDone"
                 android:maxLines="1"
                 android:padding="8dp"
                 android:paddingStart="12dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/search_hint_changeable">
 
@@ -75,7 +77,7 @@
                 android:layout_gravity="end"
                 android:paddingEnd="24dp"
                 android:src="@drawable/baseline_clear_24"
-                android:visibility="invisible">
+                android:visibility="gone">
 
             </ImageView>
         </FrameLayout>
@@ -83,13 +85,66 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:id="@+id/recyclerView"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="0dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/placeholderErrorImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="104dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/placeholderMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textColor="@color/settings_text_changeable"
+        android:textSize="@dimen/error_message"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@id/placeholderErrorImage">
+
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/update"
+        style="@style/LinearLayoutAsButton_Update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@id/placeholderMessage">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="@string/update"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
