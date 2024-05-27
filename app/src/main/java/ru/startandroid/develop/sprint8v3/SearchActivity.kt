@@ -49,7 +49,7 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
-        editText = findViewById<EditText>(R.id.edit_text)
+        editText = findViewById(R.id.edit_text)
         val clearEditText = findViewById<ImageView>(R.id.clear_text)
 
         clearEditText.setOnClickListener {
@@ -57,6 +57,8 @@ class SearchActivity : AppCompatActivity() {
             dataFromTextEdit = ""
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(editText.windowToken, 0)
+            tracks.clear()
+            adapter.updateTracks(tracks)
         }
 
         val textWatcher = object : TextWatcher {
