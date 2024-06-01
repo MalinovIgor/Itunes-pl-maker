@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 
-
+const val EXAMPLE_PREFERENCES = "user_preferences"
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

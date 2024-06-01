@@ -27,12 +27,10 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(displayIntent)
         }
 
-
         val shareButton = findViewById<RelativeLayout>(R.id.share)
         shareButton.setOnClickListener {
             shareCourseLink()
         }
-
 
         val sendToSupport = findViewById<RelativeLayout>(R.id.sendToSupport)
         sendToSupport.setOnClickListener {
@@ -50,15 +48,13 @@ class SettingsActivity : AppCompatActivity() {
 
         switchTheme = findViewById(R.id.nightThemeSwitch)
 
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        switchTheme.isChecked = currentNightMode == Configuration.UI_MODE_NIGHT_YES
+        val sharedPreferences = getSharedPreferences("user_preferences", MODE_PRIVATE)
 
-        switchTheme.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+        val isDarkTheme = sharedPreferences.getBoolean("dark_theme", false)
+        switchTheme.isChecked = isDarkTheme
+
+        switchTheme.setOnCheckedChangeListener { _, checked ->
+            (applicationContext as App).switchTheme(checked)
         }
     }
 
