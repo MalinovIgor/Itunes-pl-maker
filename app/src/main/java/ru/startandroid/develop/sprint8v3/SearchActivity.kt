@@ -21,7 +21,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
     private lateinit var editText: EditText
     private val itunesBaseURL = "https://itunes.apple.com"
 
@@ -79,8 +79,10 @@ class SearchActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter = TrackAdapter()
+        adapter = TrackAdapter(this)
         recyclerView.adapter = adapter
+
+
 
         placeholderMessage = findViewById(R.id.placeholderMessage)
         buttonUpdate = findViewById(R.id.update)
@@ -177,5 +179,9 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         lateinit var dataFromTextEdit: String
         private const val dataFromTextEditKey = "dataFromTextEdit"
+    }
+
+    override fun onClick(track: Track) {
+        Toast.makeText(this, track.trackName, Toast.LENGTH_SHORT).show()
     }
 }
