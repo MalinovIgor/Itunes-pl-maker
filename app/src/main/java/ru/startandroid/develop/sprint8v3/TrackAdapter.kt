@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 class TrackAdapter(val listener:Listener, private val tracks: ArrayList<Track> = ArrayList()) :
     RecyclerView.Adapter<TrackViewHolder>() {
 
-    private val onItemClickListener: AdapterView.OnItemClickListener? = null
-
     interface Listener {
         fun onClick(track: Track)
     }

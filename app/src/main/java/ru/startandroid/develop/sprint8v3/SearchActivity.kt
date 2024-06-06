@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3
 
+import SearchHistory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -16,7 +16,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,8 +23,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
-
-class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
+class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private lateinit var editText: EditText
     private val itunesBaseURL = "https://itunes.apple.com"
     private val retrofit2 =
@@ -42,20 +40,31 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var cleanHistory: LinearLayout
     private lateinit var recentlyLookFor: TextView
+    private lateinit var searchHistory: SearchHistory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
-        val searchHistory = SearchHistory(sharedPrefs)
+        searchHistory = SearchHistory(sharedPrefs)
+        searchHistory.addObserver(this)  // Добавляем наблюдателя
+
+        adapter = TrackAdapter(this)
+        historyAdapter = TrackAdapter(this, searchHistory.loadHistoryTracks())
 
         cleanHistory = findViewById(R.id.clean_history)
         recentlyLookFor = findViewById(R.id.recently_look_for)
 
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = historyAdapter
+
+        placeholderMessage = findViewById(R.id.placeholderMessage)
+        buttonUpdate = findViewById(R.id.update)
+
         cleanHistory.setOnClickListener {
             searchHistory.clearHistory()
-            updateHistoryAdapter(searchHistory)
             hideSearchHistoryItems()
         }
 
@@ -69,23 +78,17 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
         editText = findViewById(R.id.edit_text)
         val clearEditText = findViewById<ImageView>(R.id.clear_text)
 
-        clearEditText.setOnClickListener {
-            editText.setText("")
-            dataFromTextEdit = ""
-            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(editText.windowToken, 0)
-            tracks.clear()
-            adapter.updateTracks(tracks)
-            showSearchHistoryItems()
-            showHistory()
-        }
-
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrEmpty()) {
                     clearEditText.visibility = View.INVISIBLE
+                    historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
+
+                    recyclerView.adapter = historyAdapter
+                    showSearchHistoryItems()
+
                 } else {
                     clearEditText.visibility = View.VISIBLE
                     dataFromTextEdit = s.toString()
@@ -96,24 +99,19 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
         }
         editText.addTextChangedListener(textWatcher)
 
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter = TrackAdapter(this)
-        historyAdapter = TrackAdapter(this, searchHistory.loadHistoryTracks())
-        recyclerView.adapter = historyAdapter
+        clearEditText.setOnClickListener {
+            editText.setText("")
+            dataFromTextEdit = ""
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(editText.windowToken, 0)
+            hideErrorPlaceholder()
 
-        placeholderMessage = findViewById(R.id.placeholderMessage)
-        buttonUpdate = findViewById(R.id.update)
+            tracks.clear()
 
-//        editText.setOnFocusChangeListener { _, hasFocus ->
- //           if (hasFocus) {
-  //              recyclerView.adapter = adapter
-  //              tracks.clear()
-   //             adapter.updateTracks(tracks)
-   //         } else {
-   //             showHistory()
-  //          }
-  //      }
+            recyclerView.adapter = historyAdapter
+            showSearchHistoryItems()
+            showHistory()
+        }
 
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -129,7 +127,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
             }
         }
 
-        // Логи для проверки инициализации
         Log.d("SearchActivity", "Initialization completed")
     }
 
@@ -156,7 +153,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
     private fun showSearchHistoryItems() {
         cleanHistory.visibility = View.VISIBLE
         recentlyLookFor.visibility = View.VISIBLE
-    //    historyAdapter.updateTracks(tracks)
         recyclerView.adapter = historyAdapter
     }
 
@@ -168,6 +164,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
         placeholderMessage.visibility = View.VISIBLE
         placeholderErrorImage.setImageResource(image)
         placeholderErrorImage.visibility = View.VISIBLE
+    }
+
+    private fun hideErrorPlaceholder() {
+        placeholderMessage.visibility = View.GONE
+        placeholderErrorImage.visibility = View.GONE
     }
 
     private fun showViewHolder() {
@@ -224,13 +225,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
     }
 
     private fun showHistory() {
-        val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
-        val searchHistory = SearchHistory(sharedPrefs)
-        historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
-        recyclerView.adapter = historyAdapter
-    }
-
-    private fun updateHistoryAdapter(searchHistory: SearchHistory) {
         historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
     }
 
@@ -241,9 +235,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
 
     override fun onClick(track: Track) {
         Toast.makeText(this, track.trackName, Toast.LENGTH_SHORT).show()
-        val searchHistory = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
-        val searchHistoryObject = SearchHistory(searchHistory)
-        searchHistoryObject.addToHistory(track)
-        updateHistoryAdapter(searchHistoryObject)
+        searchHistory.addToHistory(track)
+    }
+
+    override fun update() {
+            showHistory()
     }
 }

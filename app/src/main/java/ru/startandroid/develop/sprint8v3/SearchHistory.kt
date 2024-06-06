@@ -1,14 +1,10 @@
-package ru.startandroid.develop.sprint8v3
-
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import ru.startandroid.develop.sprint8v3.Observable
+import ru.startandroid.develop.sprint8v3.Track
 
-const val sharedPrefsHistory = "sharedPrefsHistory"
-const val EDIT_TEXT_KEY = "key_for_edit_text"
-
-class SearchHistory(private val sharedPreferences: SharedPreferences) {
+class SearchHistory(private val sharedPreferences: SharedPreferences) : Observable() {
 
     private val gson = Gson()
     private val trackListType = object : TypeToken<ArrayList<Track>>() {}.type
@@ -37,10 +33,13 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
 
         val updatedTrackHistoryJson = gson.toJson(trackHistory)
         sharedPreferences.edit().putString("trackHistory", updatedTrackHistoryJson).apply()
+
+        notifyObservers()
     }
 
     fun clearHistory() {
         sharedPreferences.edit().putString("trackHistory", null).apply()
+        notifyObservers()
     }
 
     fun loadHistoryTracks(): ArrayList<Track> {
