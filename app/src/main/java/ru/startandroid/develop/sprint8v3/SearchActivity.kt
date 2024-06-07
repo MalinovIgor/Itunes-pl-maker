@@ -23,6 +23,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
+
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private lateinit var editText: EditText
     private val itunesBaseURL = "https://itunes.apple.com"
@@ -48,7 +49,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
         val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(sharedPrefs)
-        searchHistory.addObserver(this)  // Добавляем наблюдателя
+        searchHistory.addObserver(this)
 
         adapter = TrackAdapter(this)
         historyAdapter = TrackAdapter(this, searchHistory.loadHistoryTracks())
@@ -62,6 +63,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
         placeholderMessage = findViewById(R.id.placeholderMessage)
         buttonUpdate = findViewById(R.id.update)
+        hideSearchHistoryItems()
 
         cleanHistory.setOnClickListener {
             searchHistory.clearHistory()
@@ -74,6 +76,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         backFromSearch.setOnClickListener {
             finish()
         }
+
+        update()
 
         editText = findViewById(R.id.edit_text)
         val clearEditText = findViewById<ImageView>(R.id.clear_text)
@@ -109,7 +113,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             tracks.clear()
 
             recyclerView.adapter = historyAdapter
-            showSearchHistoryItems()
+            if (searchHistory.loadHistoryTracks().isEmpty()) {
+                hideSearchHistoryItems()
+            } else {
+                showSearchHistoryItems()
+            }
             showHistory()
         }
 
@@ -206,6 +214,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                                 adapter.updateTracks(tracks)
                             }
                         }
+
                         else -> {
                             showErrorPlaceholder(
                                 R.string.connection_trouble,
@@ -225,7 +234,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     private fun showHistory() {
+        cleanHistory.visibility = View.VISIBLE
+        recentlyLookFor.visibility = View.VISIBLE
+        recyclerView.adapter = historyAdapter
         historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
+
     }
 
     companion object {
@@ -236,9 +249,16 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     override fun onClick(track: Track) {
         Toast.makeText(this, track.trackName, Toast.LENGTH_SHORT).show()
         searchHistory.addToHistory(track)
+        hideSearchHistoryItems()
+        recyclerView.adapter = adapter
     }
 
     override fun update() {
+        if (searchHistory.isHistoryEmpty()) {
+            hideSearchHistoryItems()
+
+        } else {
             showHistory()
+        }
     }
 }

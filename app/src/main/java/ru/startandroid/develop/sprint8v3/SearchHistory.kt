@@ -50,4 +50,8 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) : Observab
         }
         return historyTracks
     }
+
+    fun isHistoryEmpty(): Boolean {
+        return this.loadHistoryTracks().isEmpty()
+    }
 }
