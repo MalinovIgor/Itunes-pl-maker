@@ -188,7 +188,7 @@
             android:focusable="false"
             android:text="@string/clear_history"
             android:fontFamily="@font/ys_display_medium"
-            android:textSize="14sp"
+            android:textSize="@dimen/small_text14"
             android:textAllCaps="false" />
     </LinearLayout>
 

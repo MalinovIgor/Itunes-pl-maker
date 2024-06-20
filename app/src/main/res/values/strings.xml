@@ -21,6 +21,8 @@
     <string name="update">Обновить</string>
     <string name="connection_trouble">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="clear_history">Очистить историю</string>
+    <string name="artworkimageviewbig">artworkImageViewBig</string>
+    <string name="arrow_back">arrow_back</string>
 
 
 </resources>

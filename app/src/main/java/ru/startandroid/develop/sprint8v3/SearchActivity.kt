@@ -1,6 +1,7 @@
 package ru.startandroid.develop.sprint8v3
 
 import SearchHistory
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -251,6 +252,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         searchHistory.addToHistory(track)
         hideSearchHistoryItems()
         recyclerView.adapter = adapter
+
+        val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
+        //    trackIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+
+        intent.putExtra("selectedTrack", track)
+        startActivity(intent)
+        Log.d("Click", track.collectionName)
     }
 
     override fun update() {
