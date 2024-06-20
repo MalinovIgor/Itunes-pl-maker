@@ -55,13 +55,5 @@ class PlayerActivity : AppCompatActivity() {
         trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(selectedTrack.trackTime)
 
 
-        // Установка других данных трека в UI элементы
-//        val titleTextView = findViewById<TextView>(R.id.titleTextView)
-//        val artistTextView = findViewById<TextView>(R.id.artistTextView)
-//        val durationTextView = findViewById<TextView>(R.id.durationTextView)
-
-//        titleTextView.text = selectedTrack.title
-//        artistTextView.text = selectedTrack.artist
-//        durationTextView.text = selectedTrack.duration.toString()
     }
 }

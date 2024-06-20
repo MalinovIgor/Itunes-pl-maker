@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (isMainScreen()) {
-            moveTaskToBack(true)
+            moveTaskToBack(true)  // Перемещаем задание (текущую активность) в фоновый режим
         } else {
-            super.onBackPressed()
+            super.onBackPressed()  // Вызываем обычное поведение кнопки "назад"
         }
     }
 }

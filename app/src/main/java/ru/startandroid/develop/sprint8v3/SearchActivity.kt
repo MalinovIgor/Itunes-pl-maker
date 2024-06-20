@@ -110,7 +110,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(editText.windowToken, 0)
             hideErrorPlaceholder()
-
+            buttonUpdate.visibility = View.GONE
             tracks.clear()
 
             recyclerView.adapter = historyAdapter
@@ -221,6 +221,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                                 R.string.connection_trouble,
                                 R.drawable.connecton_trouble
                             )
+
+                            Toast.makeText(this@SearchActivity, response.code(), Toast.LENGTH_LONG).show()
                             buttonUpdate.visibility = View.GONE
                         }
                     }
@@ -254,7 +256,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         recyclerView.adapter = adapter
 
         val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
-        //    trackIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+        //   trackIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
 
         intent.putExtra("selectedTrack", track)
         startActivity(intent)
