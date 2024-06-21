@@ -134,8 +134,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                 false
             }
         }
-
-        Log.d("SearchActivity", "Initialization completed")
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
@@ -255,7 +253,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
         intent.putExtra("selectedTrack", track)
         startActivity(intent)
-        Log.d("Click", track.collectionName.toString())
     }
 
     override fun update() {
