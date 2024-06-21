@@ -23,6 +23,11 @@
     <string name="clear_history">Очистить историю</string>
     <string name="artworkimageviewbig">artworkImageViewBig</string>
     <string name="arrow_back">arrow_back</string>
+    <string name="country">Страна</string>
+    <string name="primaryGenreName">Жанр</string>
+    <string name="releaseDate">Год</string>
+    <string name="collectionName">Альбом</string>
+    <string name="trackTime">Длительность</string>
 
 
 </resources>
