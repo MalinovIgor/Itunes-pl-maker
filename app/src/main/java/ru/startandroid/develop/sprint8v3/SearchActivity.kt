@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -221,8 +220,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                                 R.string.connection_trouble,
                                 R.drawable.connecton_trouble
                             )
-
-                            Toast.makeText(this@SearchActivity, response.code(), Toast.LENGTH_LONG).show()
                             buttonUpdate.visibility = View.GONE
                         }
                     }
@@ -250,13 +247,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     override fun onClick(track: Track) {
-        Toast.makeText(this, track.trackName, Toast.LENGTH_SHORT).show()
         searchHistory.addToHistory(track)
         hideSearchHistoryItems()
         recyclerView.adapter = adapter
 
         val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
-        //   trackIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
 
         intent.putExtra("selectedTrack", track)
         startActivity(intent)
