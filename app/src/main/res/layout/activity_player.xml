@@ -218,7 +218,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/textViewForPlayesLeft"
-        android:text="@string/genre"
+        android:text="@string/primaryGenreName"
         app:layout_constraintBottom_toTopOf="@id/countryTextView"
         app:layout_constraintEnd_toStartOf="@id/genreTextView"
         app:layout_constraintHorizontal_bias="0"
@@ -243,7 +243,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/textViewForPlayesLeft"
-        android:text="@string/Country"
+        android:text="@string/country"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/leftBorder">

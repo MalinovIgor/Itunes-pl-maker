@@ -26,6 +26,13 @@ class PlayerActivity : AppCompatActivity() {
 
         val selectedTrack = intent.getSerializableExtra("selectedTrack") as Track
 
+        val backFromPlayer = findViewById<ImageView>(R.id.back_arrow)
+
+        backFromPlayer.setOnClickListener{
+            finish()
+        }
+
+
         Log.d("Click", selectedTrack.toString())
 
         val imageView = findViewById<ImageView>(R.id.artworkImageViewBig)
