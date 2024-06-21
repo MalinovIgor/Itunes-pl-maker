@@ -11,6 +11,7 @@
     <color name="search_hint_changeable">#1A1B22</color>
     <color name="arrow_right_search">#FFFFFFFF</color>
     <color name="album_placeholder_background">#1A1B22</color>
+    <color name="player_straight">#FFFFFF</color>
 
 
 </resources>

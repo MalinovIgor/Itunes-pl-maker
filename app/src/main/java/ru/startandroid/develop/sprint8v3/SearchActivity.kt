@@ -260,7 +260,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
         intent.putExtra("selectedTrack", track)
         startActivity(intent)
-        Log.d("Click", track.collectionName)
+        Log.d("Click", track.collectionName.toString())
     }
 
     override fun update() {
@@ -270,5 +270,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         } else {
             showHistory()
         }
+    }
+
+    override fun onResume() {
+        showHistory()
+        super.onResume()
     }
 }

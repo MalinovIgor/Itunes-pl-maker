@@ -13,6 +13,7 @@
     <color name="search_hint_changeable">#AEAFB4</color>
     <color name="main_background">#FFFFFFFF</color>
     <color name="main_background_anti">#FF000000</color>
+    <color name="player_straight">#1A1B22</color>
 
 
 </resources>

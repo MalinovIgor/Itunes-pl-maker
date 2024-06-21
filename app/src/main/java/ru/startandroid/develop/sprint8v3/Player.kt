@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.TimeZone
 import kotlin.math.log
 
 class PlayerActivity : AppCompatActivity() {
@@ -24,7 +25,6 @@ class PlayerActivity : AppCompatActivity() {
         val intent = intent
 
         val selectedTrack = intent.getSerializableExtra("selectedTrack") as Track
-    //    Toast.makeText(this,selectedTrack.trackName, Toast.LENGTH_SHORT).show()
 
         Log.d("Click", selectedTrack.toString())
 
@@ -48,11 +48,29 @@ class PlayerActivity : AppCompatActivity() {
 
         trackNameTextView.text = selectedTrack.trackName
         artistNameTextView.text = selectedTrack.artistName
-        primaryGenreName.text = selectedTrack.primaryGenreName
-        country.text = selectedTrack.country
-        releaseDate.text = selectedTrack.releaseDate.toString()
+        primaryGenreName.text = selectedTrack.primaryGenreName ?: "отсутствует"
+        country.text = selectedTrack.country ?: "отсутствует"
+
+
+        val releaseDateString = selectedTrack.releaseDate ?: "отсутствует"
+        if (releaseDateString == "отсутствует") {
+            releaseDate.text = releaseDateString
+        } else {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+            dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+            try {
+                val date = dateFormat.parse(releaseDateString)
+                val yearFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+                releaseDate.text = yearFormat.format(date)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                releaseDate.text = "отсутствует"
+            }
+        }
+
         collectionName.text = selectedTrack.collectionName
-        trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(selectedTrack.trackTime)
+        trackTime.text =
+            SimpleDateFormat("mm:ss", Locale.getDefault()).format(selectedTrack.trackTime)
 
 
     }

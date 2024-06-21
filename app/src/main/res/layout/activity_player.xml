@@ -65,8 +65,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="12dp"
         android:fontFamily="@font/ys_display_medium"
-        android:textColor="@color/main_background_anti"
+        android:textColor="@color/player_straight"
         android:textSize="@dimen/standard_primary_text"
         app:layout_constraintBottom_toTopOf="@id/artistNameTextView"
         app:layout_constraintStart_toStartOf="@id/leftBorder">
@@ -79,8 +80,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="@font/ys_display_medium"
-        android:textColor="@color/main_background_anti"
+        android:textColor="@color/player_straight"
         android:textSize="@dimen/small_text14"
         app:layout_constraintBottom_toTopOf="@id/play"
         app:layout_constraintStart_toStartOf="@id/leftBorder">
@@ -97,6 +99,7 @@
         app:layout_constraintBottom_toTopOf="@id/timer"
         app:layout_constraintEnd_toStartOf="@id/play"
         app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/leftBorder"
         app:layout_constraintVertical_bias="0.5" />
 
@@ -129,6 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/small_one"
         android:text="0:05"
+        android:textColor="@color/player_straight"
         app:layout_constraintBottom_toTopOf="@+id/trackTime"
         app:layout_constraintEnd_toEndOf="@id/rightBorder"
         app:layout_constraintStart_toStartOf="@id/leftBorder">
@@ -139,9 +143,10 @@
         android:id="@+id/trackTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Длительность"
-        android:textSize="13sp"
         android:layout_marginVertical="@dimen/small_one"
+        android:text="Длительность"
+        android:textColor="@color/YP_light_grey"
+        android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@id/collectionName"
         app:layout_constraintEnd_toStartOf="@id/trackTimeTextView"
         app:layout_constraintHorizontal_bias="0"
@@ -153,8 +158,9 @@
         android:id="@+id/trackTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginVertical="@dimen/small_one"
+        android:orientation="horizontal"
+        android:textColor="@color/player_straight"
         app:layout_constraintBottom_toTopOf="@id/collectionNameTextView"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintHorizontal_bias="1"
@@ -166,12 +172,11 @@
         android:id="@+id/collectionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Альбом"
         android:layout_marginVertical="@dimen/small_one"
+        android:text="Альбом"
+        android:textColor="@color/YP_light_grey"
         android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@id/releaseDate"
-        app:layout_constraintEnd_toStartOf="@id/collectionNameTextView"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/leftBorder">
 
     </TextView>
@@ -180,12 +185,13 @@
         android:id="@+id/collectionNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
         android:layout_marginVertical="@dimen/small_one"
-        app:layout_constraintBottom_toTopOf="@id/releaseDateTextView"
+        android:textColor="@color/player_straight"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@id/releaseDate"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toEndOf="@id/collectionName">
+        app:layout_constraintStart_toStartOf="@id/releaseDate">
 
     </TextView>
 
@@ -193,14 +199,14 @@
         android:id="@+id/releaseDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Год"
-        android:textSize="13sp"
         android:layout_marginVertical="@dimen/small_one"
+        android:text="Год"
+        android:textColor="@color/YP_light_grey"
+        android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@id/genre"
         app:layout_constraintEnd_toStartOf="@id/releaseDateTextView"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@id/leftBorder"
-        >
+        app:layout_constraintStart_toStartOf="@id/leftBorder">
 
     </TextView>
 
@@ -208,10 +214,11 @@
         android:id="@+id/releaseDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/small_one"
+        android:textColor="@color/player_straight"
         app:layout_constraintBottom_toTopOf="@id/genre"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintHorizontal_bias="1"
-        android:layout_marginVertical="@dimen/small_one"
         app:layout_constraintStart_toStartOf="@id/releaseDate">
 
     </TextView>
@@ -220,10 +227,11 @@
         android:id="@+id/genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/small_one"
         android:fontFamily="@font/ys_display_regular"
         android:text="Жанр"
+        android:textColor="@color/YP_light_grey"
         android:textSize="13sp"
-        android:layout_marginVertical="@dimen/small_one"
         app:layout_constraintBottom_toTopOf="@id/countryTextView"
         app:layout_constraintEnd_toStartOf="@id/genreTextView"
         app:layout_constraintHorizontal_bias="0"
@@ -237,6 +245,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/small_one"
         android:fontFamily="@font/ys_display_regular"
+        android:textColor="@color/player_straight"
         android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@id/countryTextView"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
@@ -252,9 +261,9 @@
         android:layout_marginVertical="@dimen/small_one"
         android:fontFamily="@font/ys_display_regular"
         android:text="Страна"
+        android:textColor="@color/YP_light_grey"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/countryTextView"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/leftBorder">
 
@@ -266,11 +275,11 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/small_one"
         android:fontFamily="@font/ys_display_regular"
+        android:textColor="@color/player_straight"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/rightBorder"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toEndOf="@id/country">
+        app:layout_constraintHorizontal_bias="1">
 
     </TextView>
 
