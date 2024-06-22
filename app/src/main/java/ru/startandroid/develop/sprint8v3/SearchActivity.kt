@@ -91,9 +91,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                 if (s.isNullOrEmpty()) {
                     clearEditText.visibility = View.INVISIBLE
                     historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
-
-                    recyclerView.adapter = historyAdapter
-                    showSearchHistoryItems()
+                    hideErrorPlaceholder()
+                    update()
 
                 } else {
                     clearEditText.visibility = View.VISIBLE
@@ -116,12 +115,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
             recyclerView.adapter = historyAdapter
             update()
-//            if (searchHistory.loadHistoryTracks().isEmpty()) {
-//                hideSearchHistoryItems()
-//            } else {
-//                showSearchHistoryItems()
-//            }
-//            showHistory()
         }
 
         editText.setOnEditorActionListener { _, actionId, _ ->
@@ -241,15 +234,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
     }
 
-    companion object {
-        lateinit var dataFromTextEdit: String
-        private const val dataFromTextEditKey = "dataFromTextEdit"
-    }
 
     override fun onClick(track: Track) {
         searchHistory.addToHistory(track)
-        hideSearchHistoryItems()
-        recyclerView.adapter = adapter
 
         val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
 
@@ -258,21 +245,25 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     override fun update() {
-        if (searchHistory.isHistoryEmpty()) {
-            hideSearchHistoryItems()
-            if(editText.text.isNotEmpty()){
-                Log.d("update", recyclerView.adapter.toString())
-                recyclerView.adapter = adapter
-                showViewHolder()
-            }
-
+        if (dataFromTextEdit.isNotEmpty()) {
+            recyclerView.adapter = adapter
+            showViewHolder()
         } else {
-            showHistory()
+            if (searchHistory.isHistoryEmpty()) {
+                hideSearchHistoryItems()
+            } else {
+                showHistory()
+            }
         }
     }
 
     override fun onResume() {
-update()
+        update()
         super.onResume()
+    }
+
+    companion object {
+        lateinit var dataFromTextEdit: String
+        private const val dataFromTextEditKey = "dataFromTextEdit"
     }
 }
