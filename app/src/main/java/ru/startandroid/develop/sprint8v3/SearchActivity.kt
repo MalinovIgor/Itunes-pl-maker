@@ -89,14 +89,17 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrEmpty()) {
-                    clearEditText.visibility = View.INVISIBLE
-                    historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
                     hideErrorPlaceholder()
+                    dataFromTextEdit = ""
+                    buttonUpdate.visibility = View.GONE
+                    clearEditText.visibility = View.INVISIBLE
+                    recyclerView.adapter = historyAdapter
                     update()
-
                 } else {
                     clearEditText.visibility = View.VISIBLE
                     dataFromTextEdit = s.toString()
+                        recyclerView.adapter = historyAdapter
+                        showViewHolder()
                 }
             }
 
@@ -111,8 +114,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             imm.hideSoftInputFromWindow(editText.windowToken, 0)
             hideErrorPlaceholder()
             buttonUpdate.visibility = View.GONE
-            tracks.clear()
-
             recyclerView.adapter = historyAdapter
             update()
         }
