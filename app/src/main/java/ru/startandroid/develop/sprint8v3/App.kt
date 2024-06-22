@@ -3,11 +3,14 @@ package ru.startandroid.develop.sprint8v3
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 
+const val darkTheme = "dark_theme"
+const val userPreferences = "user_preferences"
+
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        val sharedPrefs = getSharedPreferences("user_preferences", MODE_PRIVATE)
-        val isDarkTheme = sharedPrefs.getBoolean("dark_theme", false)
+        val sharedPrefs = getSharedPreferences(userPreferences, MODE_PRIVATE)
+        val isDarkTheme = sharedPrefs.getBoolean(darkTheme, false)
 
         if (isDarkTheme) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -17,9 +20,9 @@ class App : Application() {
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
-        val sharedPrefs = getSharedPreferences("user_preferences", MODE_PRIVATE)
+        val sharedPrefs = getSharedPreferences(userPreferences, MODE_PRIVATE)
         val editor = sharedPrefs.edit()
-        editor.putBoolean("dark_theme", darkThemeEnabled)
+        editor.putBoolean(darkTheme, darkThemeEnabled)
         editor.apply()
 
         AppCompatDelegate.setDefaultNightMode(

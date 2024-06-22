@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 
-
+const val replacementForBigImg = "512x512bb.jpg"
+const val delimiterForBigImg = "/"
 data class Track (
     val trackName: String,
     val artistName: String,
@@ -16,6 +17,6 @@ data class Track (
     val primaryGenreName : String?,
     val country : String?
 ) : Serializable {
-    fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
+    fun getCoverArtwork() = artworkUrl100.replaceAfterLast(delimiterForBigImg, replacementForBigImg)
 
 }

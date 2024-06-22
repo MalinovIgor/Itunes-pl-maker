@@ -11,7 +11,8 @@ import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-
+const val selectedTrack = "selectedTrack"
+const val noData = "отсутствует"
 class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,16 +20,13 @@ class PlayerActivity : AppCompatActivity() {
 
         val intent = intent
 
-        val selectedTrack = intent.getSerializableExtra("selectedTrack") as Track
+        val selectedTrack = intent.getSerializableExtra(selectedTrack) as Track
 
         val backFromPlayer = findViewById<ImageView>(R.id.back_arrow)
 
         backFromPlayer.setOnClickListener{
             finish()
         }
-
-
-        Log.d("Click", selectedTrack.toString())
 
         val imageView = findViewById<ImageView>(R.id.artworkImageViewBig)
 
@@ -50,12 +48,12 @@ class PlayerActivity : AppCompatActivity() {
 
         trackNameTextView.text = selectedTrack.trackName
         artistNameTextView.text = selectedTrack.artistName
-        primaryGenreName.text = selectedTrack.primaryGenreName ?: "отсутствует"
-        country.text = selectedTrack.country ?: "отсутствует"
+        primaryGenreName.text = selectedTrack.primaryGenreName ?: noData
+        country.text = selectedTrack.country ?: noData
 
 
-        val releaseDateString = selectedTrack.releaseDate ?: "отсутствует"
-        if (releaseDateString == "отсутствует") {
+        val releaseDateString = selectedTrack.releaseDate ?: noData
+        if (releaseDateString == noData) {
             releaseDate.text = releaseDateString
         } else {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
@@ -66,7 +64,7 @@ class PlayerActivity : AppCompatActivity() {
                 releaseDate.text = yearFormat.format(date)
             } catch (e: Exception) {
                 e.printStackTrace()
-                releaseDate.text = "отсутствует"
+                releaseDate.text = noData
             }
         }
 
