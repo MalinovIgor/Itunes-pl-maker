@@ -35,7 +35,7 @@ class PlayerActivity : AppCompatActivity() {
         Glide.with(this)
             .load(selectedTrack.getCoverArtwork())
             .fitCenter()
-            .transform(RoundedCorners(8))
+            .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.small_one)))
             .apply(RequestOptions().placeholder(R.drawable.placeholder_image))
             .into(imageView)
 
