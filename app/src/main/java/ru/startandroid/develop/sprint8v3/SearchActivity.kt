@@ -62,8 +62,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         recyclerView.adapter = historyAdapter
 
         placeholderMessage = findViewById(R.id.placeholderMessage)
+        placeholderErrorImage = findViewById(R.id.placeholderErrorImage)
         buttonUpdate = findViewById(R.id.update)
         hideSearchHistoryItems()
+
 
         cleanHistory.setOnClickListener {
             searchHistory.clearHistory()
@@ -113,12 +115,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             tracks.clear()
 
             recyclerView.adapter = historyAdapter
-            if (searchHistory.loadHistoryTracks().isEmpty()) {
-                hideSearchHistoryItems()
-            } else {
-                showSearchHistoryItems()
-            }
-            showHistory()
+            update()
+//            if (searchHistory.loadHistoryTracks().isEmpty()) {
+//                hideSearchHistoryItems()
+//            } else {
+//                showSearchHistoryItems()
+//            }
+//            showHistory()
         }
 
         editText.setOnEditorActionListener { _, actionId, _ ->
@@ -236,7 +239,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         recentlyLookFor.visibility = View.VISIBLE
         recyclerView.adapter = historyAdapter
         historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
-
     }
 
     companion object {
@@ -258,6 +260,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     override fun update() {
         if (searchHistory.isHistoryEmpty()) {
             hideSearchHistoryItems()
+            if(editText.text.isNotEmpty()){
+                Log.d("update", recyclerView.adapter.toString())
+                recyclerView.adapter = adapter
+                showViewHolder()
+            }
 
         } else {
             showHistory()
@@ -265,7 +272,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     override fun onResume() {
-        showHistory()
+update()
         super.onResume()
     }
 }
