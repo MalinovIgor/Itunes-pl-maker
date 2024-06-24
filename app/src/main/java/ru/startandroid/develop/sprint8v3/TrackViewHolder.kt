@@ -1,8 +1,10 @@
 package ru.startandroid.develop.sprint8v3
 
+import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -15,7 +17,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackTimeTextView: TextView = itemView.findViewById(R.id.trackTimeTextView)
     private val artworkImageView: ImageView = itemView.findViewById(R.id.artworkImageView)
 
-    fun bind(model: Track) {
+    fun bind(model: Track, listener: TrackAdapter.Listener) {
         trackNameTextView.text = model.trackName
         artistNameTextView.text = model.artistName
         trackTimeTextView.text =
@@ -25,5 +27,8 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .fitCenter()
             .apply(RequestOptions().placeholder(R.drawable.placeholder_image))
             .into(artworkImageView)
+        itemView.setOnClickListener {
+            listener.onClick(model)
+        }
     }
 }

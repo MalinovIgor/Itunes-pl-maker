@@ -20,7 +20,14 @@
     <string name="nothing_found">Ничего не нашлось</string>
     <string name="update">Обновить</string>
     <string name="connection_trouble">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
-
+    <string name="clear_history">Очистить историю</string>
+    <string name="artworkimageviewbig">artworkImageViewBig</string>
+    <string name="arrow_back">arrow_back</string>
+    <string name="country">Страна</string>
+    <string name="primaryGenreName">Жанр</string>
+    <string name="releaseDate">Год</string>
+    <string name="collectionName">Альбом</string>
+    <string name="trackTime">Длительность</string>
 
 
 </resources>

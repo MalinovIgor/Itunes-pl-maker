@@ -2,10 +2,15 @@ package ru.startandroid.develop.sprint8v3
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 
-class TrackAdapter(private val tracks: ArrayList<Track> = ArrayList()) :
+class TrackAdapter(val listener:Listener, private val tracks: ArrayList<Track> = ArrayList()) :
     RecyclerView.Adapter<TrackViewHolder>() {
+
+    interface Listener {
+        fun onClick(track: Track)
+    }
 
     fun updateTracks(newTracks: List<Track>) {
         tracks.clear()
@@ -20,8 +25,10 @@ class TrackAdapter(private val tracks: ArrayList<Track> = ArrayList()) :
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(tracks[position])
+        holder.bind(tracks[position], listener)
     }
 
     override fun getItemCount(): Int = tracks.size
-}
+
+    }
+

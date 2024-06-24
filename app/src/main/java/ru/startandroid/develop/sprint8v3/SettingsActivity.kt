@@ -1,15 +1,11 @@
 package ru.startandroid.develop.sprint8v3
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 
 class SettingsActivity : AppCompatActivity() {
@@ -27,12 +23,10 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(displayIntent)
         }
 
-
         val shareButton = findViewById<RelativeLayout>(R.id.share)
         shareButton.setOnClickListener {
             shareCourseLink()
         }
-
 
         val sendToSupport = findViewById<RelativeLayout>(R.id.sendToSupport)
         sendToSupport.setOnClickListener {
@@ -50,15 +44,13 @@ class SettingsActivity : AppCompatActivity() {
 
         switchTheme = findViewById(R.id.nightThemeSwitch)
 
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        switchTheme.isChecked = currentNightMode == Configuration.UI_MODE_NIGHT_YES
+        val sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
 
-        switchTheme.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+        val isDarkTheme = sharedPreferences.getBoolean(DARK_THEME, false)
+        switchTheme.isChecked = isDarkTheme
+
+        switchTheme.setOnCheckedChangeListener { _, checked ->
+            (applicationContext as App).switchTheme(checked)
         }
     }
 
@@ -78,7 +70,6 @@ class SettingsActivity : AppCompatActivity() {
         emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(mailReceiver))
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, mailSubject)
         emailIntent.putExtra(Intent.EXTRA_TEXT, mailText)
-
         startActivity(emailIntent)
     }
 

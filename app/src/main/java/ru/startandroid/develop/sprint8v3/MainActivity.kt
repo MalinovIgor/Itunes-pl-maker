@@ -1,11 +1,11 @@
 package ru.startandroid.develop.sprint8v3
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (isMainScreen()) {
-            moveTaskToBack(true)  // Перемещаем задание (текущую активность) в фоновый режим
+            moveTaskToBack(true)
         } else {
-            super.onBackPressed()  // Вызываем обычное поведение кнопки "назад"
+            super.onBackPressed()
         }
     }
 }

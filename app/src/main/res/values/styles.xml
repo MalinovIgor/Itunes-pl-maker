@@ -93,4 +93,24 @@
 
     </style>
 
+    <style name="textViewForPlayesLeft">
+
+        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:textSize">@dimen/small_text13</item>
+        <item name="android:textColor">@color/YP_light_grey</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+
+    </style>
+
+    <style name="textViewForPlayesRight">
+
+        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:textSize">@dimen/small_text13</item>
+        <item name="android:textColor">@color/player_straight</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+
+    </style>
+
 </resources>
