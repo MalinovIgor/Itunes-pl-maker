@@ -44,9 +44,9 @@ class SettingsActivity : AppCompatActivity() {
 
         switchTheme = findViewById(R.id.nightThemeSwitch)
 
-        val sharedPreferences = getSharedPreferences(userPreferences, MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
 
-        val isDarkTheme = sharedPreferences.getBoolean(darkTheme, false)
+        val isDarkTheme = sharedPreferences.getBoolean(DARK_THEME, false)
         switchTheme.isChecked = isDarkTheme
 
         switchTheme.setOnCheckedChangeListener { _, checked ->
@@ -70,7 +70,6 @@ class SettingsActivity : AppCompatActivity() {
         emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(mailReceiver))
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, mailSubject)
         emailIntent.putExtra(Intent.EXTRA_TEXT, mailText)
-
         startActivity(emailIntent)
     }
 

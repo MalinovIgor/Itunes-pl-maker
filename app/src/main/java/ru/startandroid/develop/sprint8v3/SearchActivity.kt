@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -47,7 +46,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private lateinit var clearEditText: ImageView
 
 
-    fun createOriginalLayout(){
+    fun setupViews(){
         val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(sharedPrefs)
         searchHistory.addObserver(this)
@@ -67,8 +66,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         clearEditText = findViewById<ImageView>(R.id.clear_text)
     }
 
-
-    fun setOnCLickListeners(){
+    fun setupOnCLickListeners(){
         cleanHistory.setOnClickListener {
             searchHistory.clearHistory()
             hideSearchHistoryItems()
@@ -108,9 +106,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        createOriginalLayout()
+        setupViews()
 
-        setOnCLickListeners()
+        setupOnCLickListeners()
 
         dataFromTextEdit = savedInstanceState?.getString(dataFromTextEditKey) ?: ""
 

@@ -28,7 +28,7 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
 
-        lookForViews()
+        setupViews()
 
         backFromPlayer.setOnClickListener{
             finish()
@@ -39,7 +39,7 @@ class PlayerActivity : AppCompatActivity() {
         loadTrackInfo(selectedTrack)
     }
 
-    private fun lookForViews() {
+    private fun setupViews() {
         backFromPlayer = findViewById(R.id.back_arrow)
         imageView = findViewById(R.id.artworkImageViewBig)
         trackNameTextView = findViewById(R.id.trackNameTextView)
