@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 
 const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
 
@@ -45,6 +49,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private lateinit var backFromSearch: ImageView
     private lateinit var clearEditText: ImageView
 
+    private lateinit var progressBar: ProgressBar
+    private val searchRunnable = Runnable { search()
+    update()}
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
 
     fun setupViews(){
         val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
@@ -60,10 +69,12 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         placeholderMessage = findViewById(R.id.placeholderMessage)
         placeholderErrorImage = findViewById(R.id.placeholderErrorImage)
         buttonUpdate = findViewById(R.id.update)
-        backFromSearch = findViewById<ImageView>(R.id.back_from_search)
+        backFromSearch = findViewById(R.id.back_from_search)
         hideSearchHistoryItems()
         editText = findViewById(R.id.edit_text)
-        clearEditText = findViewById<ImageView>(R.id.clear_text)
+        clearEditText = findViewById(R.id.clear_text)
+
+        progressBar = findViewById(R.id.progress_bar)
     }
 
     fun setupOnCLickListeners(){
@@ -89,7 +100,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                search()
+                search()       //
                 hideSearchHistoryItems()
                 recyclerView.adapter = adapter
                 tracks.clear()
@@ -130,6 +141,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                     dataFromTextEdit = s.toString()
                         recyclerView.adapter = historyAdapter
                         showViewHolder()
+                    searchDebounce()
                 }
             }
 
@@ -159,6 +171,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     private fun showErrorPlaceholder(text: Int, image: Int) {
+        progressBar.visibility = View.GONE
         tracks.clear()
         adapter.updateTracks(tracks)
         recyclerView.visibility = View.GONE
@@ -174,6 +187,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     private fun showViewHolder() {
+        progressBar.visibility = View.GONE
         buttonUpdate.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
         placeholderMessage.visibility = View.GONE
@@ -181,6 +195,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     private fun search() {
+        progressBar.visibility = View.VISIBLE
         val query = editText.text.toString()
         placeholderErrorImage = findViewById(R.id.placeholderErrorImage)
 
@@ -222,12 +237,13 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                 override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
                     showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
                     buttonUpdate.visibility = View.VISIBLE
-                    buttonUpdate.setOnClickListener { search() }
+                    buttonUpdate.setOnClickListener { searchDebounce() }
                 }
             })
     }
 
     private fun showHistory() {
+        progressBar.visibility = View.GONE
         cleanHistory.visibility = View.VISIBLE
         recentlyLookFor.visibility = View.VISIBLE
         recyclerView.adapter = historyAdapter
@@ -236,12 +252,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
 
     override fun onClick(track: Track) {
-        searchHistory.addToHistory(track)
+        if (clickDebounce()) {
+            searchHistory.addToHistory(track)
 
-        val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
+            val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
 
-        intent.putExtra(selectedTrack, track)
-        startActivity(intent)
+            intent.putExtra(selectedTrack, track)
+            startActivity(intent)
+        }
     }
 
     override fun update() {
@@ -262,8 +280,26 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         super.onResume()
     }
 
+    private fun searchDebounce() {
+        progressBar.visibility = View.VISIBLE
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
+
     companion object {
         lateinit var dataFromTextEdit: String
         private const val dataFromTextEditKey = "dataFromTextEdit"
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }

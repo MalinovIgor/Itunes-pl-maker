@@ -101,6 +101,17 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
     </TextView>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="44dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="center_horizontal"
+        android:indeterminateTint="@color/progress_bar"
+        android:visibility="gone"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
