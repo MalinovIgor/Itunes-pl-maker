@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,9 +11,29 @@ import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
+import android.os.Handler
+import android.os.Looper
+
 const val selectedTrack = "selectedTrack"
 const val noData = "отсутствует"
+
 class PlayerActivity : AppCompatActivity() {
+
+    companion object {
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
+        private const val TIMER_UPDATE_DELAY = 500L
+    }
+
+    private var playerState = STATE_DEFAULT
+    private var mediaPlayer = MediaPlayer()
+    private val handler = Handler(Looper.getMainLooper())
+    private val timerRunnable = timer()
+
+    private lateinit var playButton: ImageView
+    private lateinit var timer: TextView
 
     private lateinit var trackNameTextView: TextView
     private lateinit var artistNameTextView: TextView
@@ -30,10 +51,10 @@ class PlayerActivity : AppCompatActivity() {
 
         setupViews()
 
-        backFromPlayer.setOnClickListener{
+        backFromPlayer.setOnClickListener {
             finish()
         }
-
+        playButton.isEnabled = false
         val selectedTrack = intent.getSerializableExtra(selectedTrack) as Track
 
         loadTrackInfo(selectedTrack)
@@ -49,9 +70,12 @@ class PlayerActivity : AppCompatActivity() {
         releaseDate = findViewById(R.id.releaseDateTextView)
         collectionName = findViewById(R.id.collectionNameTextView)
         trackTime = findViewById(R.id.trackTimeTextView)
+        timer = findViewById(R.id.timer)
+        playButton = findViewById(R.id.play)
     }
 
     private fun loadTrackInfo(track: Track) {
+
         Glide.with(this)
             .load(track.getCoverArtwork())
             .fitCenter()
@@ -59,6 +83,7 @@ class PlayerActivity : AppCompatActivity() {
             .apply(RequestOptions().placeholder(R.drawable.placeholder_image))
             .into(imageView)
 
+        preparePlayer(track.previewUrl.toString())
         trackNameTextView.text = track.trackName
         artistNameTextView.text = track.artistName
         primaryGenreName.text = track.primaryGenreName ?: noData
@@ -82,5 +107,79 @@ class PlayerActivity : AppCompatActivity() {
 
         collectionName.text = track.collectionName
         trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTime)
+
+        playButton.setOnClickListener {
+            playbackControl()
+        }
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pausePlayer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+        handler.removeCallbacks(timerRunnable)
+    }
+
+    private fun playbackControl() {
+        when (playerState) {
+            STATE_PLAYING -> {
+                pausePlayer()
+            }
+
+            STATE_PREPARED, STATE_PAUSED -> {
+                startPlayer()
+            }
+        }
+    }
+
+    private fun preparePlayer(url: String) {
+        if (url==null){
+            return
+        }
+        else{
+        mediaPlayer.setDataSource(url)
+        mediaPlayer.prepareAsync()
+        mediaPlayer.setOnPreparedListener {
+            playButton.isEnabled = true
+            playerState = STATE_PREPARED
+        }
+        mediaPlayer.setOnCompletionListener {
+            playerState = STATE_PREPARED
+            playButton.setImageResource(R.drawable.play)
+            timer.text =
+                SimpleDateFormat("mm:ss", Locale.getDefault()).format(0)
+        }}
+    }
+
+    private fun startPlayer() {
+        mediaPlayer.start()
+        playButton.setImageResource(R.drawable.pause)
+        playerState = STATE_PLAYING
+        handler.post(timerRunnable)
+    }
+
+    private fun pausePlayer() {
+        mediaPlayer.pause()
+        playButton.setImageResource(R.drawable.play)
+        playerState = STATE_PAUSED
+        handler.removeCallbacks(timerRunnable)
+    }
+
+    private fun timer(): Runnable {
+        return Runnable {
+            if (playerState == STATE_PLAYING) {
+                timer.text =
+                    SimpleDateFormat(
+                        "mm:ss",
+                        Locale.getDefault()
+                    ).format(mediaPlayer.currentPosition)
+                handler.postDelayed(timerRunnable, TIMER_UPDATE_DELAY)
+            }
+        }
     }
 }

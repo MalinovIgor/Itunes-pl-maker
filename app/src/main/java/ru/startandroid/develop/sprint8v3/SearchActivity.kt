@@ -158,12 +158,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         historyAdapter.updateTracks(tracks)
     }
 
-    private fun showSearchHistoryItems() {
-        cleanHistory.visibility = View.VISIBLE
-        recentlyLookFor.visibility = View.VISIBLE
-        recyclerView.adapter = historyAdapter
-    }
-
     private fun showErrorPlaceholder(text: Int, image: Int) {
         tracks.clear()
         adapter.updateTracks(tracks)

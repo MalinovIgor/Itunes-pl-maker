@@ -140,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_one"
         android:layout_marginBottom="22dp"
-        android:text="0:05"
+        android:text="0:00"
         android:textColor="@color/player_straight"
         app:layout_constraintBottom_toTopOf="@+id/trackTime"
         app:layout_constraintEnd_toEndOf="@id/rightBorder"
