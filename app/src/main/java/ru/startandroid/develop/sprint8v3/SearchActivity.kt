@@ -23,7 +23,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 
 const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
 

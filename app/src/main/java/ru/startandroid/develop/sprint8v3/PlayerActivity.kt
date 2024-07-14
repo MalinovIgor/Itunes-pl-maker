@@ -45,6 +45,14 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var backFromPlayer: ImageView
     private lateinit var imageView: ImageView
 
+    private val yearDateFormat by lazy { SimpleDateFormat("yyyy", Locale.getDefault()) }
+    private val releaseDateFormat by lazy {
+        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+    }
+    private val timerDateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
@@ -75,7 +83,6 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun loadTrackInfo(track: Track) {
-
         Glide.with(this)
             .load(track.getCoverArtwork())
             .fitCenter()
@@ -93,12 +100,9 @@ class PlayerActivity : AppCompatActivity() {
         if (releaseDateString == noData) {
             releaseDate.text = releaseDateString
         } else {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
-            dateFormat.timeZone = TimeZone.getTimeZone("UTC")
             try {
-                val date = dateFormat.parse(releaseDateString)
-                val yearFormat = SimpleDateFormat("yyyy", Locale.getDefault())
-                releaseDate.text = yearFormat.format(date)
+                val date = releaseDateFormat.parse(releaseDateString)
+                releaseDate.text = yearDateFormat.format(date)
             } catch (e: Exception) {
                 e.printStackTrace()
                 releaseDate.text = noData
@@ -106,12 +110,11 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         collectionName.text = track.collectionName
-        trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTime)
+        trackTime.text = timerDateFormat.format(track.trackTime)
 
         playButton.setOnClickListener {
             playbackControl()
         }
-
     }
 
     override fun onPause() {
@@ -127,21 +130,15 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun playbackControl() {
         when (playerState) {
-            STATE_PLAYING -> {
-                pausePlayer()
-            }
-
-            STATE_PREPARED, STATE_PAUSED -> {
-                startPlayer()
-            }
+            STATE_PLAYING -> pausePlayer()
+            STATE_PREPARED, STATE_PAUSED -> startPlayer()
         }
     }
 
-    private fun preparePlayer(url: String) {
-        if (url==null){
+    private fun preparePlayer(url: String?) {
+        if (url == null) {
             return
         }
-        else{
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
@@ -151,9 +148,8 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer.setOnCompletionListener {
             playerState = STATE_PREPARED
             playButton.setImageResource(R.drawable.play)
-            timer.text =
-                SimpleDateFormat("mm:ss", Locale.getDefault()).format(0)
-        }}
+            timer.text = timerDateFormat.format(0)
+        }
     }
 
     private fun startPlayer() {
@@ -173,11 +169,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun timer(): Runnable {
         return Runnable {
             if (playerState == STATE_PLAYING) {
-                timer.text =
-                    SimpleDateFormat(
-                        "mm:ss",
-                        Locale.getDefault()
-                    ).format(mediaPlayer.currentPosition)
+                timer.text = timerDateFormat.format(mediaPlayer.currentPosition)
                 handler.postDelayed(timerRunnable, TIMER_UPDATE_DELAY)
             }
         }
