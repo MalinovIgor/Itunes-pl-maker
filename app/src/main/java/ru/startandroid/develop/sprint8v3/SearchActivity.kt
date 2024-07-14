@@ -51,7 +51,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     private lateinit var progressBar: ProgressBar
     private val searchRunnable = Runnable { search()
-    update()}
+        hideSearchHistoryItems()
+    update()
+    }
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
@@ -213,6 +215,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                                 adapter.updateTracks(tracks)
                                 showViewHolder()
                             } else {
+                                if(query.isNotEmpty()){
                                 showErrorPlaceholder(
                                     R.string.nothing_found,
                                     R.drawable.nothings_found
@@ -221,6 +224,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                                 tracks.clear()
                                 tracks.addAll(response.body()?.results!!)
                                 adapter.updateTracks(tracks)
+                            }
                             }
                         }
 
