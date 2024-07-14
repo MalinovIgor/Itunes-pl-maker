@@ -14,7 +14,6 @@ class TrackAdapter(val listener:Listener, private val tracks: ArrayList<Track> =
     }
 
     fun updateTracks(newTracks: List<Track>) {
-        Log.d("TrackAdapter", "Method updateTracks called")
         tracks.clear()
         tracks.addAll(newTracks)
         notifyDataSetChanged()
