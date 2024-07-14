@@ -298,6 +298,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         return current
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(searchRunnable)
+    }
 
     companion object {
         lateinit var dataFromTextEdit: String
