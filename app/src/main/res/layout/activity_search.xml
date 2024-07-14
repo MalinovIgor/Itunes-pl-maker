@@ -92,7 +92,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginBottom="12dp"
         android:fontFamily="@font/ys_display_medium"
-        android:text="История поиска"
+        android:text="@string/search_history"
         android:textAlignment="center"
         android:textFontWeight="500"
         android:textColor="@color/settings_text_changeable"
