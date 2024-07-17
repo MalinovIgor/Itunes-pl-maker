@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.AdapterView
