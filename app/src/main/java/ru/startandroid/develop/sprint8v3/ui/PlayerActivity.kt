@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3
+package ru.startandroid.develop.sprint8v3.ui
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -13,6 +13,8 @@ import java.util.Locale
 import java.util.TimeZone
 import android.os.Handler
 import android.os.Looper
+import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.domain.models.Track
 
 const val selectedTrack = "selectedTrack"
 const val noData = "отсутствует"

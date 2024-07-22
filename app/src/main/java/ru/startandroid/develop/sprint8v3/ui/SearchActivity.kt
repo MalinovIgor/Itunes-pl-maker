@@ -1,6 +1,5 @@
-package ru.startandroid.develop.sprint8v3
+package ru.startandroid.develop.sprint8v3.ui
 
-import SearchHistory
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -23,6 +22,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.os.Handler
 import android.os.Looper
+import ru.startandroid.develop.sprint8v3.data.network.ItunesAPI
+import ru.startandroid.develop.sprint8v3.data.dto.ItunesResponse
+import ru.startandroid.develop.sprint8v3.Observer
+import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.domain.models.Track
+import ru.startandroid.develop.sprint8v3.ui.tracks.TrackAdapter
 
 const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
 
@@ -48,15 +53,18 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private lateinit var backFromSearch: ImageView
     private lateinit var clearEditText: ImageView
 
+    private var currentCall: Call<ItunesResponse>? = null
+
     private lateinit var progressBar: ProgressBar
-    private val searchRunnable = Runnable { search()
+    private val searchRunnable = Runnable {
+        search()
         hideSearchHistoryItems()
-    update()
+        update()
     }
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
-    fun setupViews(){
+    fun setupViews() {
         val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(sharedPrefs)
         searchHistory.addObserver(this)
@@ -78,7 +86,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         progressBar = findViewById(R.id.progress_bar)
     }
 
-    fun setupOnCLickListeners(){
+    fun setupOnCLickListeners() {
         cleanHistory.setOnClickListener {
             searchHistory.clearHistory()
             hideSearchHistoryItems()
@@ -114,6 +122,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         }
 
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -140,8 +149,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                 } else {
                     clearEditText.visibility = View.VISIBLE
                     dataFromTextEdit = s.toString()
-                        recyclerView.adapter = historyAdapter
-                        showViewHolder()
+                    recyclerView.adapter = historyAdapter
+                    showViewHolder()
                     searchDebounce()
                 }
             }
@@ -214,16 +223,16 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                                 adapter.updateTracks(tracks)
                                 showViewHolder()
                             } else {
-                                if(query.isNotEmpty()){
-                                showErrorPlaceholder(
-                                    R.string.nothing_found,
-                                    R.drawable.nothings_found
-                                )
-                                buttonUpdate.visibility = View.GONE
-                                tracks.clear()
-                                tracks.addAll(response.body()?.results!!)
-                                adapter.updateTracks(tracks)
-                            }
+                                if (query.isNotEmpty()) {
+                                    showErrorPlaceholder(
+                                        R.string.nothing_found,
+                                        R.drawable.nothings_found
+                                    )
+                                    buttonUpdate.visibility = View.GONE
+                                    tracks.clear()
+                                    tracks.addAll(response.body()?.results!!)
+                                    adapter.updateTracks(tracks)
+                                }
                             }
                         }
 
@@ -268,6 +277,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     override fun update() {
         if (dataFromTextEdit.isNotEmpty()) {
             recyclerView.adapter = adapter
+            adapter.updateTracks(tracks)
             showViewHolder()
         } else {
             if (searchHistory.isHistoryEmpty()) {

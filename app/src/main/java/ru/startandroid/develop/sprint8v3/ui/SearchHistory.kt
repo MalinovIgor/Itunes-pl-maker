@@ -1,8 +1,10 @@
+package ru.startandroid.develop.sprint8v3.ui
+
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.startandroid.develop.sprint8v3.Observable
-import ru.startandroid.develop.sprint8v3.Track
+import ru.startandroid.develop.sprint8v3.domain.models.Track
 const val trackHistoryString = "trackHistory"
 class SearchHistory(private val sharedPreferences: SharedPreferences) : Observable() {
 
