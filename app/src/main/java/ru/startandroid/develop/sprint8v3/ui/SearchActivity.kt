@@ -22,10 +22,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.widget.Toast
 import ru.startandroid.develop.sprint8v3.data.network.ItunesAPI
 import ru.startandroid.develop.sprint8v3.data.dto.ItunesResponse
 import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.ui.tracks.TrackAdapter
 
@@ -40,7 +43,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     private val itunesService = retrofit2.create(ItunesAPI::class.java)
-    private val tracks = ArrayList<Track>()
+    private val tracks = ArrayList<TrackDto>()
     private lateinit var adapter: TrackAdapter
     private lateinit var placeholderMessage: TextView
     private lateinit var placeholderErrorImage: ImageView
@@ -125,8 +128,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-
+        try {
+            setContentView(R.layout.activity_search)
+            Toast.makeText(this, "SCV done", Toast.LENGTH_SHORT).show()
+            Log.e("SettedContentView", "mth inside")
+        } catch (e: Exception) {
+            Toast.makeText(this, "SCV not done", Toast.LENGTH_SHORT).show()
+            Log.e("SearchActivity", "Error setting content view", e)
+        }
         setupViews()
 
         setupOnCLickListeners()
@@ -263,7 +272,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
 
-    override fun onClick(track: Track) {
+    override fun onClick(track: TrackDto) {
         if (clickDebounce()) {
             searchHistory.addToHistory(track)
 

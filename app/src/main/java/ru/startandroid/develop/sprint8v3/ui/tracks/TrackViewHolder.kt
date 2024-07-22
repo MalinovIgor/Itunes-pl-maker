@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -17,7 +18,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackTimeTextView: TextView = itemView.findViewById(R.id.trackTimeTextView)
     private val artworkImageView: ImageView = itemView.findViewById(R.id.artworkImageView)
 
-    fun bind(model: Track, listener: TrackAdapter.Listener) {
+    fun bind(model: TrackDto, listener: TrackAdapter.Listener) {
         trackNameTextView.text = model.trackName
         artistNameTextView.text = model.artistName
         trackTimeTextView.text =

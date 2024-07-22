@@ -14,6 +14,7 @@ import java.util.TimeZone
 import android.os.Handler
 import android.os.Looper
 import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 
 const val selectedTrack = "selectedTrack"
@@ -65,7 +66,7 @@ class PlayerActivity : AppCompatActivity() {
             finish()
         }
         playButton.isEnabled = false
-        val selectedTrack = intent.getSerializableExtra(selectedTrack) as Track
+        val selectedTrack = intent.getSerializableExtra(selectedTrack) as TrackDto
 
         loadTrackInfo(selectedTrack)
     }
@@ -84,7 +85,7 @@ class PlayerActivity : AppCompatActivity() {
         playButton = findViewById(R.id.play)
     }
 
-    private fun loadTrackInfo(track: Track) {
+    private fun loadTrackInfo(track: TrackDto) {
         Glide.with(this)
             .load(track.getCoverArtwork())
             .fitCenter()
