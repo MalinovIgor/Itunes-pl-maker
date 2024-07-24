@@ -29,6 +29,8 @@ import ru.startandroid.develop.sprint8v3.data.dto.ItunesResponse
 import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
+import ru.startandroid.develop.sprint8v3.data.dto.TracksSearchRequest
+import ru.startandroid.develop.sprint8v3.data.network.RetrofitNetworkClient
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.ui.tracks.TrackAdapter
 
@@ -55,6 +57,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private lateinit var searchHistory: SearchHistory
     private lateinit var backFromSearch: ImageView
     private lateinit var clearEditText: ImageView
+
+    private val networkClient = RetrofitNetworkClient()
 
     private var currentCall: Call<ItunesResponse>? = null
 
@@ -216,51 +220,41 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private fun search() {
         progressBar.visibility = View.VISIBLE
         val query = editText.text.toString()
-        placeholderErrorImage = findViewById(R.id.placeholderErrorImage)
+        val searchRequest = TracksSearchRequest(query)
 
-        itunesService.search(query)
-            .enqueue(object : Callback<ItunesResponse> {
-                override fun onResponse(
-                    call: Call<ItunesResponse>,
-                    response: Response<ItunesResponse>
-                ) {
-                    when (response.code()) {
-                        200 -> {
-                            if (response.body()?.results?.isNotEmpty() == true) {
-                                tracks.clear()
-                                tracks.addAll(response.body()?.results!!)
-                                adapter.updateTracks(tracks)
-                                showViewHolder()
-                            } else {
-                                if (query.isNotEmpty()) {
-                                    showErrorPlaceholder(
-                                        R.string.nothing_found,
-                                        R.drawable.nothings_found
-                                    )
-                                    buttonUpdate.visibility = View.GONE
-                                    tracks.clear()
-                                    tracks.addAll(response.body()?.results!!)
-                                    adapter.updateTracks(tracks)
-                                }
-                            }
-                        }
-
-                        else -> {
-                            showErrorPlaceholder(
-                                R.string.connection_trouble,
-                                R.drawable.connecton_trouble
-                            )
-                            buttonUpdate.visibility = View.GONE
-                        }
-                    }
+        Thread {
+            try {
+                val response: ru.startandroid.develop.sprint8v3.data.dto.Response = networkClient.doRequest(searchRequest)
+                runOnUiThread {
+                    handleSearchResponse(response as ItunesResponse)
                 }
-
-                override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
+            } catch (e: Exception) {
+                runOnUiThread {
                     showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
                     buttonUpdate.visibility = View.VISIBLE
                     buttonUpdate.setOnClickListener { searchDebounce() }
                 }
-            })
+            }
+        }.start()
+    }
+
+    private fun handleSearchResponse(response: ItunesResponse) {
+        progressBar.visibility = View.GONE
+        when (response.resultCode) {
+            200 -> {
+                if (response.results.isNotEmpty()) {
+                    tracks.clear()
+                    tracks.addAll(response.results)
+                    adapter.updateTracks(tracks)
+                    showViewHolder()
+                } else {
+                    showErrorPlaceholder(R.string.nothing_found, R.drawable.nothings_found)
+                }
+            }
+            else -> {
+                showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
+            }
+        }
     }
 
     private fun showHistory() {
