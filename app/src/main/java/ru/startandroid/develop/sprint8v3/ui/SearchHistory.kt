@@ -4,17 +4,16 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.startandroid.develop.sprint8v3.Observable
-import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 const val trackHistoryString = "trackHistory"
 class SearchHistory(private val sharedPreferences: SharedPreferences) : Observable() {
 
     private val gson = Gson()
-    private val trackListType = object : TypeToken<ArrayList<TrackDto>>() {}.type
+    private val trackListType = object : TypeToken<ArrayList<Track>>() {}.type
 
-    fun addToHistory(track: TrackDto) {
+    fun addToHistory(track: Track) {
         val trackHistoryJson = sharedPreferences.getString(trackHistoryString, null)
-        val trackHistory = mutableListOf<TrackDto>()
+        val trackHistory = mutableListOf<Track>()
 
         if (trackHistoryJson != null) {
             trackHistory.addAll(gson.fromJson(trackHistoryJson, trackListType))
@@ -45,9 +44,9 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) : Observab
         notifyObservers()
     }
 
-    fun loadHistoryTracks(): ArrayList<TrackDto> {
+    fun loadHistoryTracks(): ArrayList<Track> {
         val trackHistoryJson = sharedPreferences.getString(trackHistoryString, null)
-        val historyTracks = ArrayList<TrackDto>()
+        val historyTracks = ArrayList<Track>()
         if (trackHistoryJson != null) {
             historyTracks.addAll(gson.fromJson(trackHistoryJson, trackListType))
         }

@@ -16,21 +16,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
+import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.data.network.ItunesAPI
 import ru.startandroid.develop.sprint8v3.data.dto.ItunesResponse
 import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
-import ru.startandroid.develop.sprint8v3.data.dto.TracksSearchRequest
 import ru.startandroid.develop.sprint8v3.data.network.RetrofitNetworkClient
+import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.ui.tracks.TrackAdapter
 
@@ -45,7 +43,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     private val itunesService = retrofit2.create(ItunesAPI::class.java)
-    private val tracks = ArrayList<TrackDto>()
+    private val tracks = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
     private lateinit var placeholderMessage: TextView
     private lateinit var placeholderErrorImage: ImageView
@@ -60,6 +58,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     private val networkClient = RetrofitNetworkClient()
 
+    private val tracksInteractor: TracksInteractor by lazy { Creator.provideTracksInteractor() }
+
     private var currentCall: Call<ItunesResponse>? = null
 
     private lateinit var progressBar: ProgressBar
@@ -72,25 +72,31 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val handler = Handler(Looper.getMainLooper())
 
     fun setupViews() {
+
         val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(sharedPrefs)
+
         searchHistory.addObserver(this)
-        adapter = TrackAdapter(this)
-        historyAdapter = TrackAdapter(this, searchHistory.loadHistoryTracks())
         cleanHistory = findViewById(R.id.clean_history)
         recentlyLookFor = findViewById(R.id.recently_look_for)
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = historyAdapter
         placeholderMessage = findViewById(R.id.placeholderMessage)
         placeholderErrorImage = findViewById(R.id.placeholderErrorImage)
         buttonUpdate = findViewById(R.id.update)
         backFromSearch = findViewById(R.id.back_from_search)
-        hideSearchHistoryItems()
         editText = findViewById(R.id.edit_text)
         clearEditText = findViewById(R.id.clear_text)
 
         progressBar = findViewById(R.id.progress_bar)
+
+        adapter = TrackAdapter(this)
+        historyAdapter = TrackAdapter(this, searchHistory.loadHistoryTracks())
+
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = historyAdapter
+
+        hideSearchHistoryItems()
+
     }
 
     fun setupOnCLickListeners() {
@@ -132,14 +138,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        try {
-            setContentView(R.layout.activity_search)
-            Toast.makeText(this, "SCV done", Toast.LENGTH_SHORT).show()
-            Log.e("SettedContentView", "mth inside")
-        } catch (e: Exception) {
-            Toast.makeText(this, "SCV not done", Toast.LENGTH_SHORT).show()
-            Log.e("SearchActivity", "Error setting content view", e)
-        }
+        setContentView(R.layout.activity_search)
+        Log.e("SearchActivity", "Created!")
         setupViews()
 
         setupOnCLickListeners()
@@ -220,40 +220,33 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private fun search() {
         progressBar.visibility = View.VISIBLE
         val query = editText.text.toString()
-        val searchRequest = TracksSearchRequest(query)
 
-        Thread {
-            try {
-                val response: ru.startandroid.develop.sprint8v3.data.dto.Response = networkClient.doRequest(searchRequest)
+        tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
+            override fun consume(foundTracks: List<Track>) {
                 runOnUiThread {
-                    handleSearchResponse(response as ItunesResponse)
+                    handleSearchResponse(foundTracks)
                 }
-            } catch (e: Exception) {
+            }
+
+            override fun onError(error: Throwable) {
                 runOnUiThread {
                     showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
                     buttonUpdate.visibility = View.VISIBLE
                     buttonUpdate.setOnClickListener { searchDebounce() }
                 }
             }
-        }.start()
+        })
     }
 
-    private fun handleSearchResponse(response: ItunesResponse) {
+    private fun handleSearchResponse(tracks: List<Track>) {
         progressBar.visibility = View.GONE
-        when (response.resultCode) {
-            200 -> {
-                if (response.results.isNotEmpty()) {
-                    tracks.clear()
-                    tracks.addAll(response.results)
-                    adapter.updateTracks(tracks)
-                    showViewHolder()
-                } else {
-                    showErrorPlaceholder(R.string.nothing_found, R.drawable.nothings_found)
-                }
-            }
-            else -> {
-                showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
-            }
+        if (tracks.isNotEmpty()) {
+            this.tracks.clear()
+            this.tracks.addAll(tracks)
+            adapter.updateTracks(this.tracks)
+            showViewHolder()
+        } else {
+            showErrorPlaceholder(R.string.nothing_found, R.drawable.nothings_found)
         }
     }
 
@@ -266,7 +259,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
 
-    override fun onClick(track: TrackDto) {
+    override fun onClick(track: Track) {
         if (clickDebounce()) {
             searchHistory.addToHistory(track)
 

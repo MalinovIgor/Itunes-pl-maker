@@ -18,7 +18,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackTimeTextView: TextView = itemView.findViewById(R.id.trackTimeTextView)
     private val artworkImageView: ImageView = itemView.findViewById(R.id.artworkImageView)
 
-    fun bind(model: TrackDto, listener: TrackAdapter.Listener) {
+    fun bind(model: Track, listener: TrackAdapter.Listener) {
         trackNameTextView.text = model.trackName
         artistNameTextView.text = model.artistName
         trackTimeTextView.text =

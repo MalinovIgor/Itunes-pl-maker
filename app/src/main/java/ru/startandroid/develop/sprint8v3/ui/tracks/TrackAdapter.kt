@@ -7,14 +7,14 @@ import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 
-class TrackAdapter(val listener: Listener, private val tracks: ArrayList<TrackDto> = ArrayList()) :
+class TrackAdapter(val listener: Listener, private val tracks: ArrayList<Track> = ArrayList()) :
     RecyclerView.Adapter<TrackViewHolder>() {
 
     interface Listener {
-        fun onClick(track: TrackDto)
+        fun onClick(track: Track)
     }
 
-    fun updateTracks(newTracks: List<TrackDto>) {
+    fun updateTracks(newTracks: List<Track>) {
         tracks.clear()
         tracks.addAll(newTracks)
         notifyDataSetChanged()
