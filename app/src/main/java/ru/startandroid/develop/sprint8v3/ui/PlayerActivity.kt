@@ -13,6 +13,7 @@ import java.util.Locale
 import java.util.TimeZone
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
@@ -22,13 +23,7 @@ const val noData = "отсутствует"
 
 class PlayerActivity : AppCompatActivity() {
 
-    companion object {
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
-        private const val TIMER_UPDATE_DELAY = 500L
-    }
+
 
     private var playerState = STATE_DEFAULT
     private var mediaPlayer = MediaPlayer()
@@ -59,6 +54,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
+        Log.e("PlayerActivity", selectedTrack.toString())
 
         setupViews()
 
@@ -66,7 +62,7 @@ class PlayerActivity : AppCompatActivity() {
             finish()
         }
         playButton.isEnabled = false
-        val selectedTrack = intent.getSerializableExtra(selectedTrack) as TrackDto
+        val selectedTrack = intent.getSerializableExtra(selectedTrack) as Track
 
         loadTrackInfo(selectedTrack)
     }
@@ -85,7 +81,7 @@ class PlayerActivity : AppCompatActivity() {
         playButton = findViewById(R.id.play)
     }
 
-    private fun loadTrackInfo(track: TrackDto) {
+    private fun loadTrackInfo(track: Track) {
         Glide.with(this)
             .load(track.getCoverArtwork())
             .fitCenter()
@@ -176,5 +172,14 @@ class PlayerActivity : AppCompatActivity() {
                 handler.postDelayed(timerRunnable, TIMER_UPDATE_DELAY)
             }
         }
+    }
+
+
+    companion object {
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
+        private const val TIMER_UPDATE_DELAY = 500L
     }
 }

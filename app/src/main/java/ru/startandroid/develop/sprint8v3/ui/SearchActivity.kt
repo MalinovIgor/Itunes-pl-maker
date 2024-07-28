@@ -264,9 +264,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             searchHistory.addToHistory(track)
 
             val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
-
             intent.putExtra(selectedTrack, track)
             startActivity(intent)
+
         }
     }
 
