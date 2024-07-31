@@ -15,34 +15,23 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
+import android.widget.Toast
 import ru.startandroid.develop.sprint8v3.Creator
-import ru.startandroid.develop.sprint8v3.data.network.ItunesAPI
-import ru.startandroid.develop.sprint8v3.data.dto.ItunesResponse
 import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
-import ru.startandroid.develop.sprint8v3.data.network.RetrofitNetworkClient
+import ru.startandroid.develop.sprint8v3.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.ui.tracks.TrackAdapter
 
 const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
-
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
-    private lateinit var editText: EditText
-    private val itunesBaseURL = "https://itunes.apple.com"
+    private val historyInteractor: HistoryInteractor by lazy { Creator.provideHistoryInteractor() }
 
-    private val retrofit2 =
-        Retrofit.Builder().baseUrl(itunesBaseURL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    private val itunesService = retrofit2.create(ItunesAPI::class.java)
+    private lateinit var editText: EditText
+
     private val tracks = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
     private lateinit var placeholderMessage: TextView
@@ -52,20 +41,17 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var cleanHistory: LinearLayout
     private lateinit var recentlyLookFor: TextView
-    private lateinit var searchHistory: SearchHistory
     private lateinit var backFromSearch: ImageView
     private lateinit var clearEditText: ImageView
 
-    private val networkClient = RetrofitNetworkClient()
 
     private val tracksInteractor: TracksInteractor by lazy { Creator.provideTracksInteractor() }
 
-    private var currentCall: Call<ItunesResponse>? = null
 
     private lateinit var progressBar: ProgressBar
     private val searchRunnable = Runnable {
         search()
-        hideSearchHistoryItems()
+            //   hideSearchHistoryItems()
         update()
     }
     private var isClickAllowed = true
@@ -74,9 +60,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     fun setupViews() {
 
         val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
-        searchHistory = SearchHistory(sharedPrefs)
 
-        searchHistory.addObserver(this)
         cleanHistory = findViewById(R.id.clean_history)
         recentlyLookFor = findViewById(R.id.recently_look_for)
         placeholderMessage = findViewById(R.id.placeholderMessage)
@@ -89,20 +73,22 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         progressBar = findViewById(R.id.progress_bar)
 
         adapter = TrackAdapter(this)
-        historyAdapter = TrackAdapter(this, searchHistory.loadHistoryTracks())
+        historyAdapter = TrackAdapter(this) //, historyInteractor.loadHistoryTracks())
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = historyAdapter
 
-        hideSearchHistoryItems()
-
+        val savedTracks = historyInteractor.loadHistoryTracks()
+        historyAdapter.updateTracks(savedTracks)
+        showHistory()
+        //hideSearchHistoryItems()
     }
 
     fun setupOnCLickListeners() {
         cleanHistory.setOnClickListener {
-            searchHistory.clearHistory()
-            hideSearchHistoryItems()
+            historyInteractor.clearHistory()
+            update()
         }
 
         backFromSearch.setOnClickListener {
@@ -122,13 +108,14 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                search()       //
+                search()
                 hideSearchHistoryItems()
                 recyclerView.adapter = adapter
                 tracks.clear()
                 adapter.updateTracks(tracks)
                 true
             } else {
+                Toast.makeText(this, "entered to else", Toast.LENGTH_SHORT).show()
                 showHistory()
                 false
             }
@@ -139,13 +126,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        Log.e("SearchActivity", "Created!")
         setupViews()
-
         setupOnCLickListeners()
-
         dataFromTextEdit = savedInstanceState?.getString(dataFromTextEditKey) ?: ""
-
+        showHistory()
         update()
 
         val textWatcher = object : TextWatcher {
@@ -251,22 +235,22 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     private fun showHistory() {
+        val updatedHistoryTracks = historyInteractor.loadHistoryTracks()
+
+        historyAdapter.updateTracks(updatedHistoryTracks)
         progressBar.visibility = View.GONE
         cleanHistory.visibility = View.VISIBLE
         recentlyLookFor.visibility = View.VISIBLE
         recyclerView.adapter = historyAdapter
-        historyAdapter.updateTracks(searchHistory.loadHistoryTracks())
+       historyAdapter.updateTracks(updatedHistoryTracks)
     }
-
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-            searchHistory.addToHistory(track)
-
+            Creator.addToHistory(track)
             val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
             intent.putExtra(selectedTrack, track)
             startActivity(intent)
-
         }
     }
 
@@ -276,7 +260,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             adapter.updateTracks(tracks)
             showViewHolder()
         } else {
-            if (searchHistory.isHistoryEmpty()) {
+            if (historyInteractor.isHistoryEmpty()) {
                 hideSearchHistoryItems()
             } else {
                 showHistory()

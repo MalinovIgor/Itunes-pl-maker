@@ -1,10 +1,10 @@
 package ru.startandroid.develop.sprint8v3.ui.tracks
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 
 class TrackAdapter(val listener: Listener, private val tracks: ArrayList<Track> = ArrayList()) :
@@ -15,8 +15,11 @@ class TrackAdapter(val listener: Listener, private val tracks: ArrayList<Track> 
     }
 
     fun updateTracks(newTracks: List<Track>) {
+        Log.d("TrackAdapter", "Before clearing: tracks size = ${tracks.size}")
         tracks.clear()
+        Log.d("TrackAdapter", "After clearing: tracks size = ${tracks.size}")
         tracks.addAll(newTracks)
+        Log.d("TrackAdapter", "After adding new tracks: tracks size = ${tracks.size}, newTracks size = ${newTracks.size}")
         notifyDataSetChanged()
     }
 

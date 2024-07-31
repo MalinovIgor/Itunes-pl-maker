@@ -2,13 +2,18 @@ package ru.startandroid.develop.sprint8v3
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
+import ru.startandroid.develop.sprint8v3.Creator.initApplication
 
 const val DARK_THEME = "dark_theme"
 const val USER_PREFERENCES = "user_preferences"
 
 class App : Application() {
+    init {   instance = this
+    }
     override fun onCreate() {
         super.onCreate()
+        Creator.initApplication(this)
         val sharedPrefs = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
         val isDarkTheme = sharedPrefs.getBoolean(DARK_THEME, false)
 
@@ -32,5 +37,10 @@ class App : Application() {
                 AppCompatDelegate.MODE_NIGHT_NO
             }
         )
+    }
+
+    companion object {
+        lateinit var instance: App
+            private set
     }
 }
