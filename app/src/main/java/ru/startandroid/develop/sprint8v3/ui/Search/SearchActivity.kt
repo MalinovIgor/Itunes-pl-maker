@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.ui
+package ru.startandroid.develop.sprint8v3.ui.Search
 
 import android.content.Intent
 import android.os.Bundle
@@ -24,6 +24,8 @@ import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.domain.models.Track
+import ru.startandroid.develop.sprint8v3.ui.player.PlayerActivity
+import ru.startandroid.develop.sprint8v3.ui.player.selectedTrack
 import ru.startandroid.develop.sprint8v3.ui.tracks.TrackAdapter
 
 const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
@@ -51,7 +53,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private lateinit var progressBar: ProgressBar
     private val searchRunnable = Runnable {
         search()
-            //   hideSearchHistoryItems()
+              hideSearchHistoryItems()
         update()
     }
     private var isClickAllowed = true
@@ -129,7 +131,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         setupViews()
         setupOnCLickListeners()
         dataFromTextEdit = savedInstanceState?.getString(dataFromTextEditKey) ?: ""
-        showHistory()
+        //showHistory()
         update()
 
         val textWatcher = object : TextWatcher {
@@ -247,7 +249,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-            Creator.addToHistory(track)
+           // Creator.addToHistory(track)
+            historyInteractor.addToHistory(track)
             val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
             intent.putExtra(selectedTrack, track)
             startActivity(intent)

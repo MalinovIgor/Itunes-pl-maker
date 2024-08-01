@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.ui
+package ru.startandroid.develop.sprint8v3.ui.Search
 
 import android.content.SharedPreferences
 import com.google.gson.Gson

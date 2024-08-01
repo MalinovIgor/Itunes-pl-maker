@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.SwitchCompat
-import ru.startandroid.develop.sprint8v3.App
-import ru.startandroid.develop.sprint8v3.DARK_THEME
+import ru.startandroid.develop.sprint8v3.ui.Settings.App
+import ru.startandroid.develop.sprint8v3.ui.Settings.DARK_THEME
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.USER_PREFERENCES
+import ru.startandroid.develop.sprint8v3.ui.Settings.USER_PREFERENCES
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var switchTheme: SwitchCompat

@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.ui
+package ru.startandroid.develop.sprint8v3.ui.player
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -15,7 +15,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 
 const val selectedTrack = "selectedTrack"

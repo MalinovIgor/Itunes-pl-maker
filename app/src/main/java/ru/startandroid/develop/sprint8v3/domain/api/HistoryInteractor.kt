@@ -8,5 +8,5 @@ interface HistoryInteractor {
     fun addToHistory(track: Track)
 
     fun isHistoryEmpty():Boolean
-    fun saveHistoryTracks(tracks: ArrayList<Track>)
+//    fun saveHistoryTracks(tracks: ArrayList<Track>)
 }

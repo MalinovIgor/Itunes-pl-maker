@@ -3,8 +3,8 @@ package ru.startandroid.develop.sprint8v3
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import ru.startandroid.develop.sprint8v3.data.SearchHistoryRepositoryImpl
-import ru.startandroid.develop.sprint8v3.data.TracksRepositoryImpl
+import ru.startandroid.develop.sprint8v3.data.repository.SearchHistoryRepositoryImpl
+import ru.startandroid.develop.sprint8v3.data.repository.TracksRepositoryImpl
 import ru.startandroid.develop.sprint8v3.data.network.RetrofitNetworkClient
 import ru.startandroid.develop.sprint8v3.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor

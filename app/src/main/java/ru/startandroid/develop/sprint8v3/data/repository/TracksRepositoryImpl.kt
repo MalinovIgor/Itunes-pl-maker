@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.data
+package ru.startandroid.develop.sprint8v3.data.repository
 
 import ru.startandroid.develop.sprint8v3.data.dto.ItunesResponse
 import ru.startandroid.develop.sprint8v3.data.dto.TracksSearchRequest

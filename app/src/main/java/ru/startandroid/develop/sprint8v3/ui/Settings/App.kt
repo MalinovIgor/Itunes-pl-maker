@@ -1,16 +1,15 @@
-package ru.startandroid.develop.sprint8v3
+package ru.startandroid.develop.sprint8v3.ui.Settings
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
-import ru.startandroid.develop.sprint8v3.Creator.initApplication
+import ru.startandroid.develop.sprint8v3.Creator
 
 const val DARK_THEME = "dark_theme"
 const val USER_PREFERENCES = "user_preferences"
 
 class App : Application() {
-    init {   instance = this
-    }
+//    init {   instance = this
+//    }
     override fun onCreate() {
         super.onCreate()
         Creator.initApplication(this)
@@ -39,8 +38,8 @@ class App : Application() {
         )
     }
 
-    companion object {
-        lateinit var instance: App
-            private set
-    }
+//    companion object {
+//        lateinit var instance: App
+//            private set
+//    }
 }

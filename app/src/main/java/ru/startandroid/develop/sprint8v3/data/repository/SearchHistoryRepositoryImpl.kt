@@ -1,10 +1,9 @@
-package ru.startandroid.develop.sprint8v3.data
+package ru.startandroid.develop.sprint8v3.data.repository
 
 import android.content.SharedPreferences
 import android.util.Log
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.domain.repository.SearchHistoryRepository
-import ru.startandroid.develop.sprint8v3.ui.trackHistoryString
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

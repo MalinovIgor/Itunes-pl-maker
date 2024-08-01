@@ -8,6 +8,7 @@
         import android.view.View
         import android.widget.LinearLayout
         import ru.startandroid.develop.sprint8v3.R
+        import ru.startandroid.develop.sprint8v3.ui.Search.SearchActivity
 
         class MainActivity : AppCompatActivity() {
             override fun onCreate(savedInstanceState: Bundle?) {

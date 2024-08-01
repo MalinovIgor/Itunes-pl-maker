@@ -1,11 +1,9 @@
 package ru.startandroid.develop.sprint8v3.domain.impl
 
 import android.util.Log
-import android.widget.Toast
 import ru.startandroid.develop.sprint8v3.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.domain.repository.SearchHistoryRepository
-import ru.startandroid.develop.sprint8v3.ui.SearchActivity
 
 class HistoryInteractorImpl(private val repository: SearchHistoryRepository) : HistoryInteractor {
     override fun addToHistory(track: Track) {
@@ -15,9 +13,9 @@ class HistoryInteractorImpl(private val repository: SearchHistoryRepository) : H
     override fun isHistoryEmpty(): Boolean =
         repository.isHistoryEmpty()
 
-    override fun saveHistoryTracks(tracks: ArrayList<Track>) {
-        repository.saveHistoryTracks(tracks)
-    }
+//    override fun saveHistoryTracks(tracks: ArrayList<Track>) {
+//        repository.saveHistoryTracks(tracks)
+//    }
 
     override fun clearHistory() {
         repository.clearHistory()
