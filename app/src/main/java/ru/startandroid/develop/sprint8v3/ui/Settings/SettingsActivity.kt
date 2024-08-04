@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.SwitchCompat
@@ -53,10 +54,12 @@ class SettingsActivity : AppCompatActivity() {
 
         val isDarkTheme = settingsInteractor.getThemePreference()
         switchTheme.isChecked = isDarkTheme
+        Log.d("Settings", "${switchTheme.isChecked}")
 
         switchTheme.setOnCheckedChangeListener { _, checked ->
             settingsInteractor.setThemePreference(checked)
             recreate()
+            Log.d("Settings", "${switchTheme.isChecked}")
         }
     }
 
@@ -86,4 +89,7 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(agreementIntent)
     }
 
+    override fun recreate() {
+        super.recreate()
+    }
 }
