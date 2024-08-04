@@ -13,33 +13,32 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         Creator.initApplication(this)
-        val sharedPrefs = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
-        val isDarkTheme = sharedPrefs.getBoolean(DARK_THEME, false)
 
-        if (isDarkTheme) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+    val settingsInteractor = Creator.provideSettingsInteractor()
+    val isDarkTheme = settingsInteractor.getThemePreference()
+    if (isDarkTheme) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    } else {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
-    fun switchTheme(darkThemeEnabled: Boolean) {
-        val sharedPrefs = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
-        val editor = sharedPrefs.edit()
-        editor.putBoolean(DARK_THEME, darkThemeEnabled)
-        editor.apply()
-
-        AppCompatDelegate.setDefaultNightMode(
-            if (darkThemeEnabled) {
-                AppCompatDelegate.MODE_NIGHT_YES
-            } else {
-                AppCompatDelegate.MODE_NIGHT_NO
-            }
-        )
-    }
+//    fun switchTheme(darkThemeEnabled: Boolean) {
+//        val sharedPrefs = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
+//        val editor = sharedPrefs.edit()
+//        editor.putBoolean(DARK_THEME, darkThemeEnabled)
+//        editor.apply()
+//
+//        AppCompatDelegate.setDefaultNightMode(
+//            if (darkThemeEnabled) {
+//                AppCompatDelegate.MODE_NIGHT_YES
+//            } else {
+//                AppCompatDelegate.MODE_NIGHT_NO
+//            }
+//        )
+//    }
 
 //    companion object {
 //        lateinit var instance: App
 //            private set
 //    }
-}
+}}

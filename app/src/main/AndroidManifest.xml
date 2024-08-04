@@ -17,7 +17,7 @@
             android:name=".ui.player.PlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.Settings.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.Search.SearchActivity"

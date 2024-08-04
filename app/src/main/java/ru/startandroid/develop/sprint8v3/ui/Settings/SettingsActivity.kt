@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.ui
+package ru.startandroid.develop.sprint8v3.ui.Settings
 
 import android.content.Intent
 import android.net.Uri
@@ -7,13 +7,14 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.SwitchCompat
-import ru.startandroid.develop.sprint8v3.ui.Settings.App
-import ru.startandroid.develop.sprint8v3.ui.Settings.DARK_THEME
+import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.ui.Settings.USER_PREFERENCES
+import ru.startandroid.develop.sprint8v3.domain.api.SettingsInteractor
+import ru.startandroid.develop.sprint8v3.ui.MainActivity
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var switchTheme: SwitchCompat
+    private val settingsInteractor: SettingsInteractor by lazy { Creator.provideSettingsInteractor() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,13 +49,14 @@ class SettingsActivity : AppCompatActivity() {
 
         switchTheme = findViewById(R.id.nightThemeSwitch)
 
-        val sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
+//        val sharedPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
 
-        val isDarkTheme = sharedPreferences.getBoolean(DARK_THEME, false)
+        val isDarkTheme = settingsInteractor.getThemePreference()
         switchTheme.isChecked = isDarkTheme
 
         switchTheme.setOnCheckedChangeListener { _, checked ->
-            (applicationContext as App).switchTheme(checked)
+            settingsInteractor.setThemePreference(checked)
+            recreate()
         }
     }
 

@@ -33,7 +33,6 @@ class SearchHistoryRepositoryImpl(private val sharedPreferences: SharedPreferenc
         if (trackHistoryJson != null) {
             historyTracks.addAll(gson.fromJson(trackHistoryJson, trackListType))
         }
-        Log.d("SearchHistoryRepositoryImpl", "Loaded history tracks: ${historyTracks.size} items")
         return historyTracks
     }
 

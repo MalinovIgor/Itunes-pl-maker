@@ -28,7 +28,6 @@ import ru.startandroid.develop.sprint8v3.ui.player.PlayerActivity
 import ru.startandroid.develop.sprint8v3.ui.player.selectedTrack
 import ru.startandroid.develop.sprint8v3.ui.tracks.TrackAdapter
 
-const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val historyInteractor: HistoryInteractor by lazy { Creator.provideHistoryInteractor() }
 
@@ -60,8 +59,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val handler = Handler(Looper.getMainLooper())
 
     fun setupViews() {
-
-        val sharedPrefs = getSharedPreferences(SEARCH_HISTORY_SHARED_PREFERENCES, MODE_PRIVATE)
 
         cleanHistory = findViewById(R.id.clean_history)
         recentlyLookFor = findViewById(R.id.recently_look_for)

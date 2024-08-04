@@ -2,26 +2,40 @@ package ru.startandroid.develop.sprint8v3
 
 import android.app.Application
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import ru.startandroid.develop.sprint8v3.data.repository.SearchHistoryRepositoryImpl
 import ru.startandroid.develop.sprint8v3.data.repository.TracksRepositoryImpl
 import ru.startandroid.develop.sprint8v3.data.network.RetrofitNetworkClient
+import ru.startandroid.develop.sprint8v3.data.repository.SettingsRepositoryImpl
 import ru.startandroid.develop.sprint8v3.domain.api.HistoryInteractor
+import ru.startandroid.develop.sprint8v3.domain.api.SettingsInteractor
 import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.domain.impl.HistoryInteractorImpl
+import ru.startandroid.develop.sprint8v3.domain.impl.SettingsInteractorImpl
 import ru.startandroid.develop.sprint8v3.domain.repository.TracksRepository
 import ru.startandroid.develop.sprint8v3.domain.impl.TracksInteractorImpl
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.domain.repository.SearchHistoryRepository
+import ru.startandroid.develop.sprint8v3.domain.repository.SettingsRepository
+import ru.startandroid.develop.sprint8v3.ui.Settings.USER_PREFERENCES
 
 object Creator {
     private lateinit var application: Application
     private lateinit var historyInteractor: HistoryInteractor
+    private lateinit var settingsRepository: SettingsRepository
+    private lateinit var settingsInteractor: SettingsInteractor
     private const val HISTORY_NAME = "history_name"
 
     fun initApplication(application: Application) {
         this.application = application
         historyInteractor = HistoryInteractorImpl(provideHistoryRepository())
+        settingsRepository = SettingsRepositoryImpl(application.getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE))
+        settingsInteractor = SettingsInteractorImpl(settingsRepository)
+    }
+
+    fun provideSettingsInteractor(): SettingsInteractor {
+        return settingsInteractor?: throw IllegalStateException("SettingsInteractor not initialized")
     }
 
     private fun provideSharedPreferences(key: String): SharedPreferences {
