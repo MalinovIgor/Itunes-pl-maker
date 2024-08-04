@@ -18,7 +18,13 @@ class SearchHistoryRepositoryImpl(private val sharedPreferences: SharedPreferenc
 
     override fun addToHistory(track: Track) {
         val history = loadHistoryTracks()
+
+        val existingTrackIndex = history.indexOf(track)
+        if (existingTrackIndex!= -1){
+            history.removeAt(existingTrackIndex)
+        }
         history.add(0, track)
+
 
         if (history.size > 10) {
             history.removeAt(history.size - 1)

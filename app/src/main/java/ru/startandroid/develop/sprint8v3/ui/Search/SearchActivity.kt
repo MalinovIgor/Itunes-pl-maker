@@ -113,7 +113,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                 adapter.updateTracks(tracks)
                 true
             } else {
-                Toast.makeText(this, "entered to else", Toast.LENGTH_SHORT).show()
                 showHistory()
                 false
             }
