@@ -1,7 +1,6 @@
 package ru.startandroid.develop.sprint8v3.data.repository
 
 import android.content.SharedPreferences
-import android.util.Log
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.domain.repository.SearchHistoryRepository
 import com.google.gson.Gson
@@ -47,6 +46,5 @@ class SearchHistoryRepositoryImpl(private val sharedPreferences: SharedPreferenc
 
     companion object {
         private const val SEARCH_HISTORY_KEY = "search_history"
-        private const val SEARCH_HISTORY_SHARED_PREFERENCES = "search_history"
     }
 }

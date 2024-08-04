@@ -1,7 +1,6 @@
 package ru.startandroid.develop.sprint8v3.domain.impl
 
 import ru.startandroid.develop.sprint8v3.domain.api.SettingsInteractor
-import ru.startandroid.develop.sprint8v3.domain.repository.SearchHistoryRepository
 import ru.startandroid.develop.sprint8v3.domain.repository.SettingsRepository
 
 class SettingsInteractorImpl (private val repository: SettingsRepository) : SettingsInteractor {

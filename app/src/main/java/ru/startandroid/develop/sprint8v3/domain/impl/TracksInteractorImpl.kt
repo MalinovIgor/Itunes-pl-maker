@@ -1,7 +1,6 @@
 package ru.startandroid.develop.sprint8v3.domain.impl
 
 import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor
-import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.domain.repository.TracksRepository
 import java.util.concurrent.Executors
 

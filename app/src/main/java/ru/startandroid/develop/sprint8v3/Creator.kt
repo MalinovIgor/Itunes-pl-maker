@@ -15,7 +15,6 @@ import ru.startandroid.develop.sprint8v3.domain.impl.HistoryInteractorImpl
 import ru.startandroid.develop.sprint8v3.domain.impl.SettingsInteractorImpl
 import ru.startandroid.develop.sprint8v3.domain.repository.TracksRepository
 import ru.startandroid.develop.sprint8v3.domain.impl.TracksInteractorImpl
-import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.domain.repository.SearchHistoryRepository
 import ru.startandroid.develop.sprint8v3.domain.repository.SettingsRepository
 import ru.startandroid.develop.sprint8v3.ui.Settings.USER_PREFERENCES
@@ -35,7 +34,7 @@ object Creator {
     }
 
     fun provideSettingsInteractor(): SettingsInteractor {
-        return settingsInteractor?: throw IllegalStateException("SettingsInteractor not initialized")
+        return settingsInteractor
     }
 
     private fun provideSharedPreferences(key: String): SharedPreferences {
@@ -58,7 +57,4 @@ object Creator {
         return TracksInteractorImpl(getTracksRepository())
     }
 
-    fun addToHistory(track: Track) {
-        provideHistoryInteractor().addToHistory(track)
-    }
 }

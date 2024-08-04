@@ -81,7 +81,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         val savedTracks = historyInteractor.loadHistoryTracks()
         historyAdapter.updateTracks(savedTracks)
         showHistory()
-        //hideSearchHistoryItems()
     }
 
     fun setupOnCLickListeners() {
@@ -128,7 +127,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         setupViews()
         setupOnCLickListeners()
         dataFromTextEdit = savedInstanceState?.getString(dataFromTextEditKey) ?: ""
-        //showHistory()
         update()
 
         val textWatcher = object : TextWatcher {
@@ -246,7 +244,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-           // Creator.addToHistory(track)
             historyInteractor.addToHistory(track)
             val intent = Intent(this@SearchActivity, PlayerActivity::class.java)
             intent.putExtra(selectedTrack, track)

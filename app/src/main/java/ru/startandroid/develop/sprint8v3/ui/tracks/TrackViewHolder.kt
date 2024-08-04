@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale

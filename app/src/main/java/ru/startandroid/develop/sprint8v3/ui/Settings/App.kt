@@ -8,8 +8,6 @@ const val DARK_THEME = "dark_theme"
 const val USER_PREFERENCES = "user_preferences"
 
 class App : Application() {
-//    init {   instance = this
-//    }
     override fun onCreate() {
         super.onCreate()
         Creator.initApplication(this)
@@ -22,23 +20,4 @@ class App : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
-//    fun switchTheme(darkThemeEnabled: Boolean) {
-//        val sharedPrefs = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE)
-//        val editor = sharedPrefs.edit()
-//        editor.putBoolean(DARK_THEME, darkThemeEnabled)
-//        editor.apply()
-//
-//        AppCompatDelegate.setDefaultNightMode(
-//            if (darkThemeEnabled) {
-//                AppCompatDelegate.MODE_NIGHT_YES
-//            } else {
-//                AppCompatDelegate.MODE_NIGHT_NO
-//            }
-//        )
-//    }
-
-//    companion object {
-//        lateinit var instance: App
-//            private set
-//    }
 }}
