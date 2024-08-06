@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.ui
+package ru.startandroid.develop.sprint8v3.ui.main
 
 
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.ui.MediatekaActivity
 import ru.startandroid.develop.sprint8v3.ui.Search.SearchActivity
 import ru.startandroid.develop.sprint8v3.ui.Settings.SettingsActivity
 

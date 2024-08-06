@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.ui.tracks
+package ru.startandroid.develop.sprint8v3.ui.Search
 
 import android.view.View
 import android.widget.ImageView
@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.domain.models.Track
+import ru.startandroid.develop.sprint8v3.ui.Search.TrackAdapter
 import java.text.SimpleDateFormat
 import java.util.Locale
 

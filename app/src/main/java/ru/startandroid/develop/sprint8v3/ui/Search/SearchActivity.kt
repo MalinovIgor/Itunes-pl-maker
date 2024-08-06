@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
 import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
@@ -26,7 +25,6 @@ import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.domain.models.Track
 import ru.startandroid.develop.sprint8v3.ui.player.PlayerActivity
 import ru.startandroid.develop.sprint8v3.ui.player.selectedTrack
-import ru.startandroid.develop.sprint8v3.ui.tracks.TrackAdapter
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val historyInteractor: HistoryInteractor by lazy { Creator.provideHistoryInteractor() }
@@ -72,7 +70,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         progressBar = findViewById(R.id.progress_bar)
 
         adapter = TrackAdapter(this)
-        historyAdapter = TrackAdapter(this) //, historyInteractor.loadHistoryTracks())
+        historyAdapter = TrackAdapter(this)
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -232,7 +230,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     private fun showHistory() {
         val updatedHistoryTracks = historyInteractor.loadHistoryTracks()
-
         historyAdapter.updateTracks(updatedHistoryTracks)
         progressBar.visibility = View.GONE
         cleanHistory.visibility = View.VISIBLE
@@ -287,6 +284,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(searchRunnable)
+    }
+
+
+    fun historyTracksToShow(){
+
     }
 
     companion object {

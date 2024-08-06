@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.ui.tracks
+package ru.startandroid.develop.sprint8v3.ui.Search
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,11 +15,8 @@ class TrackAdapter(val listener: Listener, private val tracks: ArrayList<Track> 
     }
 
     fun updateTracks(newTracks: List<Track>) {
-        Log.d("TrackAdapter", "Before clearing: tracks size = ${tracks.size}")
         tracks.clear()
-        Log.d("TrackAdapter", "After clearing: tracks size = ${tracks.size}")
         tracks.addAll(newTracks)
-        Log.d("TrackAdapter", "After adding new tracks: tracks size = ${tracks.size}, newTracks size = ${newTracks.size}")
         notifyDataSetChanged()
     }
 

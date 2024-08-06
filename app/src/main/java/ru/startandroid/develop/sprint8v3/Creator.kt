@@ -21,18 +21,18 @@ import ru.startandroid.develop.sprint8v3.ui.Settings.USER_PREFERENCES
 
 object Creator {
     private lateinit var application: Application
-    private lateinit var settingsRepository: SettingsRepository
-    private lateinit var settingsInteractor: SettingsInteractor
     private const val HISTORY_NAME = "history_name"
 
     fun initApplication(application: Application) {
         this.application = application
-        settingsRepository = SettingsRepositoryImpl(application.getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE))
-        settingsInteractor = SettingsInteractorImpl(settingsRepository)
+    }
+
+    fun provideSettingsRepository() : SettingsRepository {
+        return SettingsRepositoryImpl(application.getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE))
     }
 
     fun provideSettingsInteractor(): SettingsInteractor {
-        return settingsInteractor
+        return SettingsInteractorImpl(provideSettingsRepository())
     }
 
     private fun provideSharedPreferences(key: String): SharedPreferences {

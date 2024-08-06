@@ -10,7 +10,7 @@ import androidx.appcompat.widget.SwitchCompat
 import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.domain.api.SettingsInteractor
-import ru.startandroid.develop.sprint8v3.ui.MainActivity
+import ru.startandroid.develop.sprint8v3.ui.main.MainActivity
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var switchTheme: SwitchCompat
