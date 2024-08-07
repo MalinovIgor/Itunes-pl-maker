@@ -28,36 +28,28 @@ import ru.startandroid.develop.sprint8v3.ui.player.selectedTrack
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val historyInteractor: HistoryInteractor by lazy { Creator.provideHistoryInteractor() }
-
     private lateinit var editText: EditText
-
     private val tracks = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
     private lateinit var placeholderMessage: TextView
     private lateinit var placeholderErrorImage: ImageView
     private lateinit var buttonUpdate: LinearLayout
     private lateinit var recyclerView: RecyclerView
-    private lateinit var historyAdapter: TrackAdapter
     private lateinit var cleanHistory: LinearLayout
     private lateinit var recentlyLookFor: TextView
     private lateinit var backFromSearch: ImageView
     private lateinit var clearEditText: ImageView
-
-
     private val tracksInteractor: TracksInteractor by lazy { Creator.provideTracksInteractor() }
-
-
     private lateinit var progressBar: ProgressBar
     private val searchRunnable = Runnable {
         search()
-              hideSearchHistoryItems()
+        hideSearchHistoryItems()
         update()
     }
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
     fun setupViews() {
-
         cleanHistory = findViewById(R.id.clean_history)
         recentlyLookFor = findViewById(R.id.recently_look_for)
         placeholderMessage = findViewById(R.id.placeholderMessage)
@@ -66,18 +58,12 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         backFromSearch = findViewById(R.id.back_from_search)
         editText = findViewById(R.id.edit_text)
         clearEditText = findViewById(R.id.clear_text)
-
         progressBar = findViewById(R.id.progress_bar)
-
         adapter = TrackAdapter(this)
-        historyAdapter = TrackAdapter(this)
-
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = historyAdapter
-
-        val savedTracks = historyInteractor.loadHistoryTracks()
-        historyAdapter.updateTracks(savedTracks)
+        recyclerView.adapter = adapter
+        historyTracksToShow()
         showHistory()
     }
 
@@ -98,7 +84,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             imm.hideSoftInputFromWindow(editText.windowToken, 0)
             hideErrorPlaceholder()
             buttonUpdate.visibility = View.GONE
-            recyclerView.adapter = historyAdapter
+            historyTracksToShow()
             update()
         }
 
@@ -106,7 +92,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 search()
                 hideSearchHistoryItems()
-                recyclerView.adapter = adapter
+                searchTracksToShow(editText.text.toString())
+
                 tracks.clear()
                 adapter.updateTracks(tracks)
                 true
@@ -115,7 +102,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                 false
             }
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,12 +121,12 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                     dataFromTextEdit = ""
                     buttonUpdate.visibility = View.GONE
                     clearEditText.visibility = View.INVISIBLE
-                    recyclerView.adapter = historyAdapter
+                    historyTracksToShow()
                     update()
                 } else {
                     clearEditText.visibility = View.VISIBLE
                     dataFromTextEdit = s.toString()
-                    recyclerView.adapter = historyAdapter
+                    historyTracksToShow()
                     showViewHolder()
                     searchDebounce()
                 }
@@ -155,7 +141,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         super.onSaveInstanceState(savedInstanceState)
         savedInstanceState.putString(dataFromTextEditKey, dataFromTextEdit)
     }
-
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         if (::editText.isInitialized) {
@@ -163,12 +148,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             editText.setText(dataFromTextEdit)
         }
     }
-
     private fun hideSearchHistoryItems() {
         cleanHistory.visibility = View.GONE
         recentlyLookFor.visibility = View.GONE
         tracks.clear()
-        historyAdapter.updateTracks(tracks)
+        historyTracksToShow()
     }
 
     private fun showErrorPlaceholder(text: Int, image: Int) {
@@ -230,12 +214,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     private fun showHistory() {
         val updatedHistoryTracks = historyInteractor.loadHistoryTracks()
-        historyAdapter.updateTracks(updatedHistoryTracks)
         progressBar.visibility = View.GONE
         cleanHistory.visibility = View.VISIBLE
         recentlyLookFor.visibility = View.VISIBLE
-        recyclerView.adapter = historyAdapter
-       historyAdapter.updateTracks(updatedHistoryTracks)
+        historyTracksToShow()
+        adapter.updateTracks(updatedHistoryTracks)
     }
 
     override fun onClick(track: Track) {
@@ -287,8 +270,23 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
 
-    fun historyTracksToShow(){
+    fun historyTracksToShow() {
+        adapter.updateTracks(historyInteractor.loadHistoryTracks())
+    }
 
+    fun searchTracksToShow(expression: String) {
+        tracksInteractor.searchTracks(expression, object : TracksInteractor.TracksConsumer {
+            override fun consume(foundTracks: List<Track>) {
+                runOnUiThread {
+                    adapter.updateTracks(foundTracks)
+                }
+            }
+
+            override fun onError(error: Throwable) {
+                runOnUiThread {
+                }
+            }
+        })
     }
 
     companion object {
