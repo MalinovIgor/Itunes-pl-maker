@@ -7,19 +7,14 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.os.Handler
 import android.os.Looper
 import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.databinding.ActivitySearchBinding
 import ru.startandroid.develop.sprint8v3.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.domain.models.Track
@@ -28,19 +23,10 @@ import ru.startandroid.develop.sprint8v3.ui.player.selectedTrack
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val historyInteractor: HistoryInteractor by lazy { Creator.provideHistoryInteractor() }
-    private lateinit var editText: EditText
+    private lateinit var binding: ActivitySearchBinding
     private val tracks = ArrayList<Track>()
     private lateinit var adapter: TrackAdapter
-    private lateinit var placeholderMessage: TextView
-    private lateinit var placeholderErrorImage: ImageView
-    private lateinit var buttonUpdate: LinearLayout
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var cleanHistory: LinearLayout
-    private lateinit var recentlyLookFor: TextView
-    private lateinit var backFromSearch: ImageView
-    private lateinit var clearEditText: ImageView
     private val tracksInteractor: TracksInteractor by lazy { Creator.provideTracksInteractor() }
-    private lateinit var progressBar: ProgressBar
     private val searchRunnable = Runnable {
         search()
         hideSearchHistoryItems()
@@ -50,50 +36,39 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val handler = Handler(Looper.getMainLooper())
 
     fun setupViews() {
-        cleanHistory = findViewById(R.id.clean_history)
-        recentlyLookFor = findViewById(R.id.recently_look_for)
-        placeholderMessage = findViewById(R.id.placeholderMessage)
-        placeholderErrorImage = findViewById(R.id.placeholderErrorImage)
-        buttonUpdate = findViewById(R.id.update)
-        backFromSearch = findViewById(R.id.back_from_search)
-        editText = findViewById(R.id.edit_text)
-        clearEditText = findViewById(R.id.clear_text)
-        progressBar = findViewById(R.id.progress_bar)
         adapter = TrackAdapter(this)
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.adapter = adapter
         historyTracksToShow()
         showHistory()
     }
 
     fun setupOnCLickListeners() {
-        cleanHistory.setOnClickListener {
+        binding.cleanHistory.setOnClickListener {
             historyInteractor.clearHistory()
             update()
         }
 
-        backFromSearch.setOnClickListener {
+        binding.backFromSearch.setOnClickListener {
             finish()
         }
 
-        clearEditText.setOnClickListener {
-            editText.setText("")
+        binding.clearText.setOnClickListener {
+            binding.editText.setText("")
             dataFromTextEdit = ""
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(editText.windowToken, 0)
+            imm.hideSoftInputFromWindow(binding.editText.windowToken, 0)
             hideErrorPlaceholder()
-            buttonUpdate.visibility = View.GONE
+            binding.update.visibility = View.GONE
             historyTracksToShow()
             update()
         }
 
-        editText.setOnEditorActionListener { _, actionId, _ ->
+        binding.editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 search()
                 hideSearchHistoryItems()
-                searchTracksToShow(editText.text.toString())
-
+                searchTracksToShow(binding.editText.text.toString())
                 tracks.clear()
                 adapter.updateTracks(tracks)
                 true
@@ -106,25 +81,26 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         setupViews()
         setupOnCLickListeners()
         dataFromTextEdit = savedInstanceState?.getString(dataFromTextEditKey) ?: ""
         update()
-
-        val textWatcher = object : TextWatcher {
+        binding.editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrEmpty()) {
                     hideErrorPlaceholder()
                     dataFromTextEdit = ""
-                    buttonUpdate.visibility = View.GONE
-                    clearEditText.visibility = View.INVISIBLE
+                    binding.update.visibility = View.GONE
+                    binding.clearText.visibility = View.INVISIBLE
                     historyTracksToShow()
                     update()
                 } else {
-                    clearEditText.visibility = View.VISIBLE
+                    binding.clearText.visibility = View.VISIBLE
                     dataFromTextEdit = s.toString()
                     historyTracksToShow()
                     showViewHolder()
@@ -133,8 +109,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             }
 
             override fun afterTextChanged(s: Editable?) {}
-        }
-        editText.addTextChangedListener(textWatcher)
+        })
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
@@ -143,45 +118,48 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (::editText.isInitialized) {
+        if (::binding.isInitialized) {
             dataFromTextEdit = savedInstanceState.getString(dataFromTextEditKey) ?: ""
-            editText.setText(dataFromTextEdit)
+            binding.editText.setText(
+                dataFromTextEdit)
         }
     }
     private fun hideSearchHistoryItems() {
-        cleanHistory.visibility = View.GONE
-        recentlyLookFor.visibility = View.GONE
+        binding.cleanHistory.visibility = View.GONE
+        binding.recentlyLookFor.visibility = View.GONE
         tracks.clear()
         historyTracksToShow()
     }
 
     private fun showErrorPlaceholder(text: Int, image: Int) {
-        progressBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
         tracks.clear()
         adapter.updateTracks(tracks)
-        recyclerView.visibility = View.GONE
-        placeholderMessage.setText(text)
-        placeholderMessage.visibility = View.VISIBLE
-        placeholderErrorImage.setImageResource(image)
-        placeholderErrorImage.visibility = View.VISIBLE
+        binding.recyclerView.visibility = View.GONE
+        binding.placeholderMessage.setText(text)
+        binding.placeholderMessage.visibility=View.VISIBLE
+        binding.placeholderErrorImage.setImageResource(image)
+        binding.placeholderErrorImage.visibility= View.VISIBLE
     }
 
     private fun hideErrorPlaceholder() {
-        placeholderMessage.visibility = View.GONE
-        placeholderErrorImage.visibility = View.GONE
+        binding.placeholderMessage.visibility=View.GONE
+        binding.placeholderErrorImage.visibility = View.GONE
     }
 
     private fun showViewHolder() {
-        progressBar.visibility = View.GONE
-        buttonUpdate.visibility = View.GONE
-        recyclerView.visibility = View.VISIBLE
-        placeholderMessage.visibility = View.GONE
-        placeholderErrorImage.visibility = View.GONE
+
+        binding.progressBar.visibility = View.GONE
+        binding.update.visibility = View.GONE
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.placeholderMessage.visibility = View.GONE
+        binding.placeholderErrorImage.visibility = View.GONE
     }
 
     private fun search() {
-        progressBar.visibility = View.VISIBLE
-        val query = editText.text.toString()
+
+        binding.progressBar.visibility = View.VISIBLE
+        val query = binding.editText.text.toString()
 
         tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
             override fun consume(foundTracks: List<Track>) {
@@ -193,15 +171,15 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             override fun onError(error: Throwable) {
                 runOnUiThread {
                     showErrorPlaceholder(R.string.connection_trouble, R.drawable.connecton_trouble)
-                    buttonUpdate.visibility = View.VISIBLE
-                    buttonUpdate.setOnClickListener { searchDebounce() }
+                    binding.update.visibility = View.VISIBLE
+                    binding.update.setOnClickListener { searchDebounce() }
                 }
             }
         })
     }
 
     private fun handleSearchResponse(tracks: List<Track>) {
-        progressBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
         if (tracks.isNotEmpty()) {
             this.tracks.clear()
             this.tracks.addAll(tracks)
@@ -214,9 +192,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     private fun showHistory() {
         val updatedHistoryTracks = historyInteractor.loadHistoryTracks()
-        progressBar.visibility = View.GONE
-        cleanHistory.visibility = View.VISIBLE
-        recentlyLookFor.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+        binding.cleanHistory.visibility = View.VISIBLE
+        binding.recentlyLookFor.visibility = View.VISIBLE
         historyTracksToShow()
         adapter.updateTracks(updatedHistoryTracks)
     }
@@ -232,7 +210,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun update() {
         if (dataFromTextEdit.isNotEmpty()) {
-            recyclerView.adapter = adapter
+            binding.recyclerView.adapter = adapter
             adapter.updateTracks(tracks)
             showViewHolder()
         } else {
@@ -250,7 +228,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     private fun searchDebounce() {
-        progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         handler.removeCallbacks(searchRunnable)
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
