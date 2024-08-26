@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.data.network
 
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.startandroid.develop.sprint8v3.data.dto.ItunesResponse
@@ -28,4 +29,5 @@ class RetrofitNetworkClient: NetworkClient {
             return Response().apply { resultCode = 400 }
         }
     }
+
 }
