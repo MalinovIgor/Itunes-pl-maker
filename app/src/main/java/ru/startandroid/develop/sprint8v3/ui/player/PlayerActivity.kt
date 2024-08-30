@@ -2,6 +2,7 @@ package ru.startandroid.develop.sprint8v3.ui.player
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -14,9 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivityPlayerBinding
 import ru.startandroid.develop.sprint8v3.domain.models.Track
-import ru.startandroid.develop.sprint8v3.player.PlayerViewModelFactory
-import ru.startandroid.develop.sprint8v3.player.data.repository.PlayerRepositoryImpl
-import ru.startandroid.develop.sprint8v3.player.domain.impl.PlayerInteractorImpl
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivityViewModel
 
@@ -25,31 +23,35 @@ const val selectedTrack = "selectedTrack"
 
 class PlayerActivity : AppCompatActivity() {
 
-    private val repository by lazy { PlayerRepositoryImpl() }
-    private val interactor by lazy { PlayerInteractorImpl(repository) }
     private lateinit var viewModel: PlayerActivityViewModel
     private lateinit var binding: ActivityPlayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("PlayerActivity", "onCreate called")
-
-
-        val track = intent.getSerializableExtra(selectedTrack) as? Track
-
-        if (track == null) {
-            Log.e("PlayerActivity", "No track found in intent")
-            finish()
-            return
-        }
-
-        viewModel = ViewModelProvider(this, PlayerViewModelFactory(interactor))
-            .get(PlayerActivityViewModel::class.java)
-
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loadTrackInfo(track)
+        val track = intent.getSerializableExtra(selectedTrack) as? Track
+
+        if (track != null) {
+            viewModel = ViewModelProvider(
+                this,
+                PlayerActivityViewModel.getViewModelFactory(track.previewUrl.toString())
+            )[PlayerActivityViewModel::class.java]
+            loadTrackInfo(track)
+        }
+
+        Log.d("PlayerActivity", "factorycreated")
+
+
+
+        binding.timer.text = "00:00"
+
+
+        if (track != null) {
+            loadTrackInfo(track)
+        }
 
         setupViews()
 
@@ -65,10 +67,16 @@ class PlayerActivity : AppCompatActivity() {
             updateTimer(time)
         })
 
-        viewModel.prepare(track)
-
+        if (track != null) {
+            viewModel.prepare(track)
+        }
         binding.play.setOnClickListener {
-            viewModel.play()
+            val currentState = viewModel.playerState.value
+            if (currentState == PlayerState.STATE_PLAYING) {
+                viewModel.pause()
+            } else {
+                viewModel.play()
+            }
         }
     }
 
@@ -100,7 +108,6 @@ class PlayerActivity : AppCompatActivity() {
                 noData
             }
         }
-
         binding.collectionNameTextView.text = track.collectionName
         binding.trackTimeTextView.text = timerDateFormat.format(track.trackTime)
     }
@@ -110,16 +117,20 @@ class PlayerActivity : AppCompatActivity() {
             PlayerState.STATE_PLAYING -> {
                 binding.play.setImageResource(R.drawable.pause)
             }
+
             PlayerState.STATE_PAUSED, PlayerState.STATE_STOPPED -> {
                 binding.play.setImageResource(R.drawable.play)
             }
+
             else -> {
 
             }
         }
     }
 
-    private fun updateTimer(time: Long) {
+    private fun updateTimer(time: Int) {
+        binding.timer.visibility = View.VISIBLE
+
         binding.timer.text = timerDateFormat.format(time)
     }
 
