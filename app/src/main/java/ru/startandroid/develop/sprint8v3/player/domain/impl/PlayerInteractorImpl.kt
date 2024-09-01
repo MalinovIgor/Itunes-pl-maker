@@ -7,7 +7,7 @@ import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 
 
 class PlayerInteractorImpl(private val mediaPlayer: MediaPlayer,
-                           private val trackUrl: String,) : PlayerInteractor {
+                           ) : PlayerInteractor {
 
     private var playerState: PlayerState = PlayerState.STATE_DEFAULT
     private var currentPosition: Int = 0
@@ -31,15 +31,11 @@ class PlayerInteractorImpl(private val mediaPlayer: MediaPlayer,
         mediaPlayer.stop()
         mediaPlayer.reset()
         mediaPlayer.release()
-   //     mediaPlayer = null
         playerState = PlayerState.STATE_STOPPED
         playerState = PlayerState.STATE_DEFAULT
     }
 
     override fun prepare(track: Track) {
-//        if (mediaPlayer == null) {
-//            mediaPlayer = MediaPlayer()
-//        }
         mediaPlayer?.setDataSource(track.previewUrl.toString())
         mediaPlayer?.prepareAsync()
         playerState = PlayerState.STATE_PREPARED

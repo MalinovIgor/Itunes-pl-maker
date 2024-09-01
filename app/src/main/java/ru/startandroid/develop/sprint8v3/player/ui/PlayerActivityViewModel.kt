@@ -75,7 +75,7 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
             viewModelFactory {
                 initializer {
                     PlayerActivityViewModel(
-                        interactor = Creator.providePlayerInteractor(trackUrl),
+                        interactor = Creator.providePlayerInteractor(),
                     )
                 }
             }
