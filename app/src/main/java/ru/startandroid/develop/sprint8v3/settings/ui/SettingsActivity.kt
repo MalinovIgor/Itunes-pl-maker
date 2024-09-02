@@ -4,20 +4,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModelProvider
-import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivitySettingsBinding
-import ru.startandroid.develop.sprint8v3.settings.domain.api.ThemeSettingsInteractor
 import ru.startandroid.develop.sprint8v3.settings.domain.model.AgreementData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.MailData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.ShareData
 import ru.startandroid.develop.sprint8v3.ui.Settings.App
+import ru.startandroid.develop.sprint8v3.ui.main.MainActivity
 
 class SettingsActivity : AppCompatActivity() {
-    private lateinit var switchTheme: SwitchCompat
-    private val settingsInteractor: ThemeSettingsInteractor by lazy { Creator.provideSettingsInteractor() }
+
 
     private val binding: ActivitySettingsBinding by lazy {
         ActivitySettingsBinding.inflate(layoutInflater)
@@ -38,7 +35,11 @@ class SettingsActivity : AppCompatActivity() {
             (applicationContext as App).switchTheme(checked)
             viewModel.updateThemeState(checked)
         }
-
+        binding.backArrow.setOnClickListener {
+            val displayIntent = Intent(this@SettingsActivity, MainActivity::class.java)
+            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(displayIntent)
+        }
         binding.share.setOnClickListener {
             viewModel.observeShareState().observe(this) { sData ->
                 shareCourseLink(sData)

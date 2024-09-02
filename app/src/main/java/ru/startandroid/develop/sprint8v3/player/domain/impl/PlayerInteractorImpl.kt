@@ -1,7 +1,7 @@
 package ru.startandroid.develop.sprint8v3.player.domain.impl
 
 import android.media.MediaPlayer
-import ru.startandroid.develop.sprint8v3.domain.models.Track
+import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 

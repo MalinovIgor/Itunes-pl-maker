@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.LinearLayout
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.ui.MediatekaActivity
-import ru.startandroid.develop.sprint8v3.ui.Search.SearchActivity
+import ru.startandroid.develop.sprint8v3.search.ui.SearchActivity
 import ru.startandroid.develop.sprint8v3.settings.ui.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
