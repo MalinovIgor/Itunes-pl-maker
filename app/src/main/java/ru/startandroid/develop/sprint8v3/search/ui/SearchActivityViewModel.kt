@@ -84,6 +84,10 @@ class SearchActivityViewModel(application: Application, private val tracksIntera
         }
     }
 
+    fun clearHistory(){
+        searchHistorySaver.clearHistory()
+    }
+
     fun searchDebounce(changedText: String) {
         if (lastSearchedText == changedText) {
             return

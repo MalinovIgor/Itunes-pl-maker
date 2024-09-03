@@ -75,7 +75,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     private fun setupOnClickListeners() {
         binding.cleanHistory.setOnClickListener {
-            Creator.provideHistoryInteractor().clearHistory()
+            viewModel.clearHistory()
             viewModel.loadHistory()
 
         }
@@ -177,7 +177,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     private fun hideFoundItems() {
         binding.recyclerView.isGone = true
-
     }
 
     private fun hideErrorPlaceholder() {
