@@ -17,7 +17,7 @@ import ru.startandroid.develop.sprint8v3.databinding.ActivityPlayerBinding
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 
-const val selectedTrack = "selectedTrack"
+const val SELECTEDTRACK = "selectedTrack"
 
 
 class PlayerActivity : AppCompatActivity() {
@@ -31,7 +31,7 @@ class PlayerActivity : AppCompatActivity() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val track = intent.getSerializableExtra(selectedTrack) as? Track
+        val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
 
         if (track != null) {
             viewModel = ViewModelProvider(

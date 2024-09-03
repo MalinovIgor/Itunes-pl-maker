@@ -6,9 +6,10 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,7 @@ import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivitySearchBinding
 import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivity
-import ru.startandroid.develop.sprint8v3.player.ui.selectedTrack
+import ru.startandroid.develop.sprint8v3.player.ui.SELECTEDTRACK
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.search.ui.SearchState.ContentHistoryTracks
 
@@ -55,10 +56,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                 if (s.isNullOrEmpty()) {
                     hideErrorPlaceholder()
                     viewModel.loadHistory()
-                    binding.clearText.visibility = View.INVISIBLE
+                    binding.clearText.isInvisible = true
                 } else {
                     searchDebounce(s.toString())
-                    binding.clearText.visibility = View.VISIBLE
+                    binding.clearText.isVisible = true
                 }
             }
 
@@ -140,9 +141,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     private fun showHistory() {
-        binding.progressBar.visibility = View.GONE
-        binding.cleanHistory.visibility = View.VISIBLE
-        binding.recentlyLookFor.visibility = View.VISIBLE
+        binding.progressBar.isGone = true
+        binding.cleanHistory.isVisible = true
+        binding.recentlyLookFor.isVisible = true
         if (needLoadHistory) {
             viewModel.loadHistory()
         } else {
@@ -154,34 +155,34 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     }
 
     private fun showViewHolder() {
-        binding.progressBar.visibility = View.GONE
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.cleanHistory.visibility = View.GONE
-        binding.recentlyLookFor.visibility = View.GONE
+        binding.progressBar.isGone = true
+        binding.recyclerView.isVisible = true
+        binding.cleanHistory.isGone = true
+        binding.recentlyLookFor.isGone = true
     }
 
     private fun hideSearchHistoryItems() {
-        binding.cleanHistory.visibility = View.GONE
-        binding.recentlyLookFor.visibility = View.GONE
+        binding.cleanHistory.isGone = true
+        binding.recentlyLookFor.isGone = true
     }
 
     private fun showErrorPlaceholder(text: String, image: Int) {
-        binding.progressBar.visibility = View.GONE
-        binding.recyclerView.visibility = View.GONE
+        binding.progressBar.isGone = true
+        binding.recyclerView.isGone = true
         binding.placeholderMessage.setText(text)
-        binding.placeholderMessage.visibility = View.VISIBLE
+        binding.placeholderMessage.isVisible = true
         binding.placeholderErrorImage.setImageResource(image)
-        binding.placeholderErrorImage.visibility = View.VISIBLE
+        binding.placeholderErrorImage.isVisible = true
     }
 
     private fun hideFoundItems() {
-        binding.recyclerView.visibility = View.GONE
+        binding.recyclerView.isGone = true
 
     }
 
     private fun hideErrorPlaceholder() {
-        binding.placeholderMessage.visibility = View.GONE
-        binding.placeholderErrorImage.visibility = View.GONE
+        binding.placeholderMessage.isGone = true
+        binding.placeholderErrorImage.isGone = true
     }
 
     private fun searchDebounce(query: String) {
@@ -192,7 +193,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         if (clickDebounce()) {
             Creator.provideHistoryInteractor().addToHistory(track)
             val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra(selectedTrack, track)
+            intent.putExtra(SELECTEDTRACK, track)
             startActivity(intent)
         }
     }
