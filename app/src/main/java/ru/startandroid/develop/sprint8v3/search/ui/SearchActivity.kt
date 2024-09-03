@@ -4,13 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.startandroid.develop.sprint8v3.Creator
@@ -49,22 +48,17 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             renderState(state)
         }
 
-        binding.editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
-                    hideErrorPlaceholder()
-                    viewModel.loadHistory()
-                    binding.clearText.isInvisible = true
-                } else {
-                    searchDebounce(s.toString())
-                    binding.clearText.isVisible = true
-                }
+        binding.editText.addTextChangedListener( onTextChanged = {s, _, _, _ ->
+            if (s.isNullOrEmpty()) {
+                hideErrorPlaceholder()
+                viewModel.loadHistory()
+                binding.clearText.isInvisible = true
+            } else {
+                searchDebounce(s.toString())
+                binding.clearText.isVisible = true
             }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        }
+        )
     }
 
     private fun setupViews() {
@@ -77,7 +71,6 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
         binding.cleanHistory.setOnClickListener {
             viewModel.clearHistory()
             viewModel.loadHistory()
-
         }
 
         binding.backFromSearch.setOnClickListener {
