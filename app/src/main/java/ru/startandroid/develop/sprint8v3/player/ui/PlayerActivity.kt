@@ -2,20 +2,20 @@ package ru.startandroid.develop.sprint8v3.player.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.databinding.ActivityPlayerBinding
+import ru.startandroid.develop.sprint8v3.player.state.PlayerState
+import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.databinding.ActivityPlayerBinding
-import ru.startandroid.develop.sprint8v3.search.domain.models.Track
-import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 
 const val SELECTEDTRACK = "selectedTrack"
 
@@ -27,7 +27,6 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("PlayerActivity", "onCreate called")
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -35,8 +34,7 @@ class PlayerActivity : AppCompatActivity() {
 
         if (track != null) {
             viewModel = ViewModelProvider(
-                this,
-                PlayerActivityViewModel.getViewModelFactory(track.previewUrl.toString())
+                this, PlayerActivityViewModel.getViewModelFactory(track.previewUrl.toString())
             )[PlayerActivityViewModel::class.java]
             loadTrackInfo(track)
         }
@@ -84,9 +82,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun loadTrackInfo(track: Track) {
-        Glide.with(this)
-            .load(track.getCoverArtwork())
-            .fitCenter()
+        Glide.with(this).load(track.getCoverArtwork()).fitCenter()
             .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.small_one)))
             .apply(RequestOptions().placeholder(R.drawable.placeholder_image))
             .into(binding.artworkImageViewBig)
@@ -128,7 +124,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun updateTimer(time: Int) {
-        binding.timer.visibility = View.VISIBLE
+        binding.timer.isVisible = true
 
         binding.timer.text = timerDateFormat.format(time)
     }
