@@ -15,7 +15,6 @@ import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.TimeZone
 
 const val SELECTEDTRACK = "selectedTrack"
 
@@ -50,8 +49,6 @@ class PlayerActivity : AppCompatActivity() {
             loadTrackInfo(track)
         }
 
-        setupViews()
-
         binding.backArrow.setOnClickListener {
             finish()
         }
@@ -75,10 +72,6 @@ class PlayerActivity : AppCompatActivity() {
                 viewModel.play()
             }
         }
-    }
-
-    private fun setupViews() {
-
     }
 
     private fun loadTrackInfo(track: Track) {
@@ -132,12 +125,12 @@ class PlayerActivity : AppCompatActivity() {
 
     companion object {
         private const val noData = "отсутствует"
-        private val yearDateFormat by lazy { SimpleDateFormat("yyyy", Locale.getDefault()) }
-        private val releaseDateFormat by lazy {
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
-                timeZone = TimeZone.getTimeZone("UTC")
-            }
-        }
+//        private val yearDateFormat by lazy { SimpleDateFormat("yyyy", Locale.getDefault()) }
+//        private val releaseDateFormat by lazy {
+//            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
+//                timeZone = TimeZone.getTimeZone("UTC")
+//            }
+//        }
         private val timerDateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
     }
 }
