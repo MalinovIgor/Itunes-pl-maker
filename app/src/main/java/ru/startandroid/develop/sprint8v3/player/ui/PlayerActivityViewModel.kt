@@ -9,9 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ru.startandroid.develop.sprint8v3.Creator
-import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
+import ru.startandroid.develop.sprint8v3.search.domain.models.Track
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewModel() {
 
@@ -67,6 +69,22 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
     override fun onCleared() {
         super.onCleared()
         pauseTimer()
+    }
+
+    fun parseDate(releaseDateString: String?, noData: String): String {
+        if (releaseDateString == noData || releaseDateString == null) {
+            return noData
+        } else {
+            return try {
+                val releaseDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                val date = releaseDateFormat.parse(releaseDateString)
+                val outputDateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+                outputDateFormat.format(date)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                noData
+            }
+        }
     }
 
     companion object {

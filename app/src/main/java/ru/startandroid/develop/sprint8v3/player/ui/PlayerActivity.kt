@@ -93,16 +93,7 @@ class PlayerActivity : AppCompatActivity() {
         binding.countryTextView.text = track.country ?: noData
 
         val releaseDateString = track.releaseDate ?: noData
-        binding.releaseDateTextView.text = if (releaseDateString == noData) {
-            noData
-        } else {
-            try {
-                yearDateFormat.format(releaseDateFormat.parse(releaseDateString))
-            } catch (e: Exception) {
-                e.printStackTrace()
-                noData
-            }
-        }
+        binding.releaseDateTextView.text = viewModel.parseDate(releaseDateString, noData)
         binding.collectionNameTextView.text = track.collectionName
         binding.trackTimeTextView.text = timerDateFormat.format(track.trackTime)
     }
