@@ -40,7 +40,7 @@ class SearchActivityViewModel(application: Application, private val tracksIntera
         }
     }
 
-    override fun onCleared() {
+    public override fun onCleared() {
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
 
@@ -108,7 +108,7 @@ class SearchActivityViewModel(application: Application, private val tracksIntera
     }
 
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2500L
         private val SEARCH_REQUEST_TOKEN = Any()
         fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {

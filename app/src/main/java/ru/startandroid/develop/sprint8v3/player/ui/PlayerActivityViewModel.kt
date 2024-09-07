@@ -90,7 +90,7 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
 
     companion object {
         private const val TIMER_UPDATE_DELAY = 250L
-        fun getViewModelFactory(trackUrl: String): ViewModelProvider.Factory =
+        fun getViewModelFactory(): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
                     PlayerActivityViewModel(

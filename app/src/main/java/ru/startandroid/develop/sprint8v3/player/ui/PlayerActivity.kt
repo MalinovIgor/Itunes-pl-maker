@@ -40,14 +40,14 @@ class PlayerActivity : AppCompatActivity() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.timer.text = "00:00"
-        var previewUrl = savedInstanceState?.getString("PREVIEW_URL")
+        val previewUrl = savedInstanceState?.getString("PREVIEW_URL")
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
         val trackUrl = track?.previewUrl ?: previewUrl
 
         if (trackUrl != null) {
             viewModel = ViewModelProvider(
-                this, PlayerActivityViewModel.getViewModelFactory(trackUrl)
+                this, PlayerActivityViewModel.getViewModelFactory()
             )[PlayerActivityViewModel::class.java]
             track?.let { loadTrackInfo(it) }
         }

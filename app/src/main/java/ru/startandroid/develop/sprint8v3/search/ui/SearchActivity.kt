@@ -53,6 +53,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
                 hideErrorPlaceholder()
                 viewModel.loadHistory()
                 binding.clearText.isInvisible = true
+                viewModel.onCleared()
             } else {
                 searchDebounce(s.toString())
                 binding.clearText.isVisible = true

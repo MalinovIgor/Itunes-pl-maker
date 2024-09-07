@@ -19,7 +19,7 @@ class PlayerInteractorImpl(private var mediaPlayer: MediaPlayer,
     }
 
     override fun pause() {
-        mediaPlayer?.let {
+        mediaPlayer.let {
             if (it.isPlaying) {
                 it.pause()
                 currentPosition = it.currentPosition
@@ -36,12 +36,10 @@ class PlayerInteractorImpl(private var mediaPlayer: MediaPlayer,
     }
 
     override fun prepare(track: Track) {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer()
-        } else {
+
             mediaPlayer.reset()
             Log.e("interactorCheckMP=!null","$mediaPlayer")
-        }
+
         mediaPlayer.setDataSource(track.previewUrl.toString())
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
@@ -51,7 +49,7 @@ class PlayerInteractorImpl(private var mediaPlayer: MediaPlayer,
     }
 
     override fun getCurrentTime(): Int {
-            return mediaPlayer?.currentPosition ?:0
+            return mediaPlayer.currentPosition ?:0
     }
 
 }
