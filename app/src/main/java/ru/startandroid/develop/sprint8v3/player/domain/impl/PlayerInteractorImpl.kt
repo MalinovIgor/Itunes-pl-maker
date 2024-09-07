@@ -1,12 +1,13 @@
 package ru.startandroid.develop.sprint8v3.player.domain.impl
 
 import android.media.MediaPlayer
-import ru.startandroid.develop.sprint8v3.search.domain.models.Track
+import android.util.Log
 import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
+import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 
 
-class PlayerInteractorImpl(private val mediaPlayer: MediaPlayer,
+class PlayerInteractorImpl(private var mediaPlayer: MediaPlayer,
                            ) : PlayerInteractor {
 
     private var playerState: PlayerState = PlayerState.STATE_DEFAULT
@@ -30,18 +31,23 @@ class PlayerInteractorImpl(private val mediaPlayer: MediaPlayer,
     override fun stop() {
         mediaPlayer.stop()
         mediaPlayer.reset()
-        mediaPlayer.release()
         playerState = PlayerState.STATE_STOPPED
         playerState = PlayerState.STATE_DEFAULT
     }
 
     override fun prepare(track: Track) {
-        mediaPlayer?.setDataSource(track.previewUrl.toString())
-        mediaPlayer?.prepareAsync()
-        playerState = PlayerState.STATE_PREPARED
-        mediaPlayer?.setOnPreparedListener {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer()
+        } else {
+            mediaPlayer.reset()
+            Log.e("interactorCheckMP=!null","$mediaPlayer")
+        }
+        mediaPlayer.setDataSource(track.previewUrl.toString())
+        mediaPlayer.prepareAsync()
+        mediaPlayer.setOnPreparedListener {
             playerState = PlayerState.STATE_PREPARED
         }
+        playerState = PlayerState.STATE_PREPARED
     }
 
     override fun getCurrentTime(): Int {

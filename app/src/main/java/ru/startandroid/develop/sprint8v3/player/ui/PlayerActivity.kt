@@ -18,35 +18,38 @@ import java.util.Locale
 
 const val SELECTEDTRACK = "selectedTrack"
 
-
 class PlayerActivity : AppCompatActivity() {
 
     private lateinit var viewModel: PlayerActivityViewModel
     private lateinit var binding: ActivityPlayerBinding
 
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
+        outState.putString("PREVIEW_URL", track?.previewUrl)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        binding.timer.text = "00:00"
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.timer.text = "00:00"
+        var previewUrl = savedInstanceState?.getString("PREVIEW_URL")
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
+        val trackUrl = track?.previewUrl ?: previewUrl
 
-        if (track != null) {
+        if (trackUrl != null) {
             viewModel = ViewModelProvider(
-                this, PlayerActivityViewModel.getViewModelFactory(track.previewUrl.toString())
+                this, PlayerActivityViewModel.getViewModelFactory(trackUrl)
             )[PlayerActivityViewModel::class.java]
-            loadTrackInfo(track)
-        }
-
-        Log.d("PlayerActivity", "factorycreated")
-
-
-
-        binding.timer.text = "00:00"
-
-
-        if (track != null) {
-            loadTrackInfo(track)
+            track?.let { loadTrackInfo(it) }
         }
 
         binding.backArrow.setOnClickListener {
@@ -75,12 +78,14 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun loadTrackInfo(track: Track) {
+        Log.d("PlayerActivity", "Loading track info: ${track.getCoverArtwork()}")
         Glide.with(this).load(track.getCoverArtwork()).fitCenter()
             .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.small_one)))
             .apply(RequestOptions().placeholder(R.drawable.placeholder_image))
             .into(binding.artworkImageViewBig)
-
+        Log.d("PlayerActivity", "Loading track info: ${track.getCoverArtwork()}")
         binding.trackNameTextView.text = track.trackName
+        binding.artworkImageViewBig.isVisible=true
         binding.artistNameTextView.text = track.artistName
         binding.genreTextView.text = track.primaryGenreName ?: noData
         binding.countryTextView.text = track.country ?: noData
@@ -109,7 +114,6 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun updateTimer(time: Int) {
         binding.timer.isVisible = true
-
         binding.timer.text = timerDateFormat.format(time)
     }
 
@@ -125,12 +129,6 @@ class PlayerActivity : AppCompatActivity() {
 
     companion object {
         private const val noData = "отсутствует"
-//        private val yearDateFormat by lazy { SimpleDateFormat("yyyy", Locale.getDefault()) }
-//        private val releaseDateFormat by lazy {
-//            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
-//                timeZone = TimeZone.getTimeZone("UTC")
-//            }
-//        }
         private val timerDateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
     }
 }
