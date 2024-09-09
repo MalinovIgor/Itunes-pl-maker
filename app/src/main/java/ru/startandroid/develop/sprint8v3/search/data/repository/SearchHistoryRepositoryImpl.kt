@@ -11,7 +11,6 @@ class SearchHistoryRepositoryImpl(private val sharedPreferences: SharedPreferenc
     private val gson = Gson()
     private val trackListType = object : TypeToken<ArrayList<Track>>() {}.type
 
-
     override fun clearHistory() {
         sharedPreferences.edit().remove(SEARCH_HISTORY_KEY).apply()
     }
