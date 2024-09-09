@@ -29,6 +29,7 @@
     <string name="collectionName">Альбом</string>
     <string name="trackTime">Длительность</string>
     <string name="search_history">История поиска</string>
+    <string name="zero_timer">00:00</string>
 
 
 </resources>

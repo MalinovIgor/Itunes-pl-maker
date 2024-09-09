@@ -4,19 +4,22 @@ import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import ru.startandroid.develop.sprint8v3.data.repository.SearchHistoryRepositoryImpl
-import ru.startandroid.develop.sprint8v3.data.repository.TracksRepositoryImpl
-import ru.startandroid.develop.sprint8v3.data.network.RetrofitNetworkClient
-import ru.startandroid.develop.sprint8v3.data.repository.SettingsRepositoryImpl
-import ru.startandroid.develop.sprint8v3.domain.api.HistoryInteractor
-import ru.startandroid.develop.sprint8v3.domain.api.SettingsInteractor
-import ru.startandroid.develop.sprint8v3.domain.api.TracksInteractor
-import ru.startandroid.develop.sprint8v3.domain.impl.HistoryInteractorImpl
-import ru.startandroid.develop.sprint8v3.domain.impl.SettingsInteractorImpl
-import ru.startandroid.develop.sprint8v3.domain.repository.TracksRepository
-import ru.startandroid.develop.sprint8v3.domain.impl.TracksInteractorImpl
-import ru.startandroid.develop.sprint8v3.domain.repository.SearchHistoryRepository
-import ru.startandroid.develop.sprint8v3.domain.repository.SettingsRepository
+import android.media.MediaPlayer
+import ru.startandroid.develop.sprint8v3.search.data.network.RetrofitNetworkClient
+import ru.startandroid.develop.sprint8v3.search.data.repository.SearchHistoryRepositoryImpl
+import ru.startandroid.develop.sprint8v3.search.data.repository.SettingsRepositoryImpl
+import ru.startandroid.develop.sprint8v3.search.data.repository.TracksRepositoryImpl
+import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
+import ru.startandroid.develop.sprint8v3.search.domain.api.TracksInteractor
+import ru.startandroid.develop.sprint8v3.search.domain.impl.HistoryInteractorImpl
+import ru.startandroid.develop.sprint8v3.search.domain.impl.TracksInteractorImpl
+import ru.startandroid.develop.sprint8v3.search.domain.repository.SearchHistoryRepository
+import ru.startandroid.develop.sprint8v3.search.domain.repository.TracksRepository
+import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
+import ru.startandroid.develop.sprint8v3.player.domain.impl.PlayerInteractorImpl
+import ru.startandroid.develop.sprint8v3.settings.domain.api.ThemeSettingsInteractor
+import ru.startandroid.develop.sprint8v3.settings.domain.impl.ThemeSettingsInteractorImpl
+import ru.startandroid.develop.sprint8v3.settings.domain.repository.ThemeSettingsRepository
 import ru.startandroid.develop.sprint8v3.ui.Settings.USER_PREFERENCES
 
 object Creator {
@@ -27,15 +30,15 @@ object Creator {
         this.application = application
     }
 
-    fun provideSettingsRepository() : SettingsRepository {
+    fun provideSettingsRepository() : ThemeSettingsRepository {
         return SettingsRepositoryImpl(application.getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE))
     }
 
-    fun provideSettingsInteractor(): SettingsInteractor {
-        return SettingsInteractorImpl(provideSettingsRepository())
+    fun provideSettingsInteractor(): ThemeSettingsInteractor {
+        return ThemeSettingsInteractorImpl(provideSettingsRepository())
     }
 
-    private fun provideSharedPreferences(key: String): SharedPreferences {
+    fun provideSharedPreferences(key: String): SharedPreferences {
         return application.getSharedPreferences(key, Context.MODE_PRIVATE)
     }
 
@@ -53,6 +56,13 @@ object Creator {
 
     fun provideTracksInteractor(): TracksInteractor {
         return TracksInteractorImpl(getTracksRepository())
+    }
+    fun providePlayerInteractor(): PlayerInteractor {
+        return PlayerInteractorImpl(provideMediaPlayer(),
+            )
+    }
+    private fun provideMediaPlayer(): MediaPlayer {
+        return MediaPlayer()
     }
 
 }

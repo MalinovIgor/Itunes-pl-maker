@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="56dp">
+        app:layout_constraintGuide_begin="26dp">
 
     </androidx.constraintlayout.widget.Guideline>
 
@@ -142,7 +142,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_one"
         android:layout_marginBottom="22dp"
-        android:text="0:00"
+
         android:textColor="@color/player_straight"
         app:layout_constraintBottom_toTopOf="@+id/trackTime"
         app:layout_constraintEnd_toEndOf="@id/rightBorder"
