@@ -26,6 +26,8 @@ object Creator {
     private lateinit var application: Application
     private const val HISTORY_NAME = "history_name"
 
+
+
     fun initApplication(application: Application) {
         this.application = application
     }
