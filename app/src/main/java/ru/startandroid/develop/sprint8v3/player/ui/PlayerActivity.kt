@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivityPlayerBinding
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
@@ -20,9 +21,10 @@ const val SELECTEDTRACK = "selectedTrack"
 
 class PlayerActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: PlayerActivityViewModel
+//    private lateinit var viewModel: PlayerActivityViewModel
     private lateinit var binding: ActivityPlayerBinding
 
+   private val viewModel by viewModel<PlayerActivityViewModel>()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -46,9 +48,9 @@ class PlayerActivity : AppCompatActivity() {
         val trackUrl = track?.previewUrl ?: previewUrl
 
         if (trackUrl != null) {
-            viewModel = ViewModelProvider(
-                this, PlayerActivityViewModel.getViewModelFactory()
-            )[PlayerActivityViewModel::class.java]
+//            viewModel = ViewModelProvider(
+//                this, PlayerActivityViewModel.getViewModelFactory()
+//            )[PlayerActivityViewModel::class.java]
             track?.let { loadTrackInfo(it) }
         }
 

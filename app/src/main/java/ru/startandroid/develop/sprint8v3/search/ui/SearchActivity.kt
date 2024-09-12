@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
@@ -22,13 +23,13 @@ import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.search.ui.SearchState.ContentHistoryTracks
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
-
-    private val viewModel: SearchActivityViewModel by lazy {
-        ViewModelProvider(
-            this,
-            SearchActivityViewModel.getViewModelFactory()
-        )[SearchActivityViewModel::class.java]
-    }
+    private val viewModel by viewModel<SearchActivityViewModel>()
+//    private val viewModel: SearchActivityViewModel by lazy {
+//        ViewModelProvider(
+//            this,
+//            SearchActivityViewModel.getViewModelFactory()
+//        )[SearchActivityViewModel::class.java]
+//    }
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -38,6 +39,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

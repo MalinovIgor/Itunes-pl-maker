@@ -7,7 +7,7 @@ import android.content.SharedPreferences
 import android.media.MediaPlayer
 import ru.startandroid.develop.sprint8v3.search.data.network.RetrofitNetworkClient
 import ru.startandroid.develop.sprint8v3.search.data.repository.SearchHistoryRepositoryImpl
-import ru.startandroid.develop.sprint8v3.search.data.repository.SettingsRepositoryImpl
+import ru.startandroid.develop.sprint8v3.search.data.repository.ThemeSettingsRepositoryImpl
 import ru.startandroid.develop.sprint8v3.search.data.repository.TracksRepositoryImpl
 import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.api.TracksInteractor
@@ -33,7 +33,7 @@ object Creator {
     }
 
     fun provideSettingsRepository() : ThemeSettingsRepository {
-        return SettingsRepositoryImpl(application.getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE))
+        return ThemeSettingsRepositoryImpl(application.getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE))
     }
 
     fun provideSettingsInteractor(): ThemeSettingsInteractor {

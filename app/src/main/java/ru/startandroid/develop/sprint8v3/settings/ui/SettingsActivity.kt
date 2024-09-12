@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.startKoin
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivitySettingsBinding
 import ru.startandroid.develop.sprint8v3.settings.domain.model.AgreementData
@@ -20,9 +22,12 @@ class SettingsActivity : AppCompatActivity() {
         ActivitySettingsBinding.inflate(layoutInflater)
     }
     private lateinit var viewModel: ThemeSettingsActivityViewModel
+//private val viewModel by viewModel<ThemeSettingsActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(
