@@ -21,10 +21,9 @@ const val SELECTEDTRACK = "selectedTrack"
 
 class PlayerActivity : AppCompatActivity() {
 
-//    private lateinit var viewModel: PlayerActivityViewModel
     private lateinit var binding: ActivityPlayerBinding
 
-   private val viewModel by viewModel<PlayerActivityViewModel>()
+    private val viewModel by viewModel<PlayerActivityViewModel>()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -37,6 +36,7 @@ class PlayerActivity : AppCompatActivity() {
         binding.timer.text = "00:00"
 
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
@@ -48,9 +48,6 @@ class PlayerActivity : AppCompatActivity() {
         val trackUrl = track?.previewUrl ?: previewUrl
 
         if (trackUrl != null) {
-//            viewModel = ViewModelProvider(
-//                this, PlayerActivityViewModel.getViewModelFactory()
-//            )[PlayerActivityViewModel::class.java]
             track?.let { loadTrackInfo(it) }
         }
 
@@ -87,7 +84,7 @@ class PlayerActivity : AppCompatActivity() {
             .into(binding.artworkImageViewBig)
         Log.d("PlayerActivity", "Loading track info: ${track.getCoverArtwork()}")
         binding.trackNameTextView.text = track.trackName
-        binding.artworkImageViewBig.isVisible=true
+        binding.artworkImageViewBig.isVisible = true
         binding.artistNameTextView.text = track.artistName
         binding.genreTextView.text = track.primaryGenreName ?: noData
         binding.countryTextView.text = track.country ?: noData

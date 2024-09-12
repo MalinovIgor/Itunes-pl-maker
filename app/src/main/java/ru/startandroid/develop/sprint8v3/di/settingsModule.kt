@@ -2,12 +2,10 @@ package ru.startandroid.develop.sprint8v3.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.lifecycle.ViewModelProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.startandroid.develop.sprint8v3.search.data.repository.ThemeSettingsRepositoryImpl
-import ru.startandroid.develop.sprint8v3.search.ui.SearchActivityViewModel
 import ru.startandroid.develop.sprint8v3.settings.domain.api.ThemeSettingsInteractor
 import ru.startandroid.develop.sprint8v3.settings.domain.impl.ThemeSettingsInteractorImpl
 import ru.startandroid.develop.sprint8v3.settings.domain.repository.ThemeSettingsRepository

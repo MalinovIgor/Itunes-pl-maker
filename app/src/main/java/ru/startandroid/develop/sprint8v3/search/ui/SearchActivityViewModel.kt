@@ -7,27 +7,22 @@ import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.models.Resource
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 
-class SearchActivityViewModel(application: Application, private val tracksInteractor: TracksInteractor) :
+class SearchActivityViewModel(
+    application: Application,
+    private val tracksInteractor: TracksInteractor,
+    private val searchHistorySaver: HistoryInteractor
+) :
     AndroidViewModel(application) {
 
     private var lastSearchedText: String? = null
     private val _searchState = MutableLiveData<SearchState>()
     val searchState: LiveData<SearchState> get() = _searchState
-
-    private val searchHistorySaver: HistoryInteractor by lazy {
-        Creator.provideHistoryInteractor()
-    }
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -61,8 +56,7 @@ class SearchActivityViewModel(application: Application, private val tracksIntera
                     is Resource.Success -> {
                         if (foundTracks.data?.isNotEmpty() == true) {
                             renderState(SearchState.ContentFoundTracks(foundTracks.data))
-                        }
-                        else {
+                        } else {
                             renderState(SearchState.NothingFound)
                         }
                     }
@@ -84,7 +78,7 @@ class SearchActivityViewModel(application: Application, private val tracksIntera
         }
     }
 
-    fun clearHistory(){
+    fun clearHistory() {
         searchHistorySaver.clearHistory()
     }
 
@@ -110,13 +104,5 @@ class SearchActivityViewModel(application: Application, private val tracksIntera
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2500L
         private val SEARCH_REQUEST_TOKEN = Any()
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchActivityViewModel(
-                    this[APPLICATION_KEY] as Application,
-                    Creator.provideTracksInteractor()
-                )
-            }
-        }
     }
 }

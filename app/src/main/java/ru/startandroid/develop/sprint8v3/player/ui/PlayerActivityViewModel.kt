@@ -5,10 +5,6 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
@@ -32,9 +28,11 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
         _playerState.value = PlayerState.STATE_PLAYING
         startTimer()
     }
+
     private fun startTimer() {
         handler.post(timerRunnable)
     }
+
     private val handler = Handler(Looper.getMainLooper())
     private val timerRunnable by lazy {
         object : Runnable {
@@ -46,6 +44,7 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
             }
         }
     }
+
     fun pause() {
         interactor.pause()
         _playerState.value = PlayerState.STATE_PAUSED
@@ -76,7 +75,8 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
             return noData
         } else {
             return try {
-                val releaseDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                val releaseDateFormat =
+                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
                 val date = releaseDateFormat.parse(releaseDateString)
                 val outputDateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
                 outputDateFormat.format(date)
@@ -90,13 +90,5 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
 
     companion object {
         private const val TIMER_UPDATE_DELAY = 250L
-        fun getViewModelFactory(): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    PlayerActivityViewModel(
-                        interactor = Creator.providePlayerInteractor(),
-                    )
-                }
-            }
     }
 }

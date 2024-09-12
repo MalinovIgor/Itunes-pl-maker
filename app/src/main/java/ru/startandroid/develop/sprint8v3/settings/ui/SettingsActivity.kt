@@ -21,19 +21,12 @@ class SettingsActivity : AppCompatActivity() {
     private val binding: ActivitySettingsBinding by lazy {
         ActivitySettingsBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: ThemeSettingsActivityViewModel
-//private val viewModel by viewModel<ThemeSettingsActivityViewModel>()
+    private val viewModel by viewModel<ThemeSettingsActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(
-            this,
-            ThemeSettingsActivityViewModel.getViewModelFactory()
-        )[ThemeSettingsActivityViewModel::class.java]
 
         binding.nightThemeSwitch.isChecked = viewModel.observeThemeState().value!!
         binding.nightThemeSwitch.setOnCheckedChangeListener { _, checked ->
@@ -76,7 +69,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-    private fun sendEmail(data:MailData) {
+    private fun sendEmail(data: MailData) {
         val emailIntent = Intent(Intent.ACTION_SENDTO)
         val mailtoPrefix = getString(R.string.mailto_prefix)
         emailIntent.data = Uri.parse(mailtoPrefix)
@@ -86,7 +79,7 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(emailIntent)
     }
 
-    private fun openAgreement(data:AgreementData) {
+    private fun openAgreement(data: AgreementData) {
         val agreementIntent = Intent(Intent.ACTION_VIEW)
         agreementIntent.data = Uri.parse(data.link)
 

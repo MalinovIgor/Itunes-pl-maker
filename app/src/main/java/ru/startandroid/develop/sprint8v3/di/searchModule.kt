@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.di
 
+import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
@@ -56,6 +57,10 @@ val searchModule = module {
     }
 
     viewModel {
-        SearchActivityViewModel(get(), get())
+        SearchActivityViewModel(
+            get<Application>(),
+            get<TracksInteractor>(),
+            get<HistoryInteractor>()
+        )
     }
 }

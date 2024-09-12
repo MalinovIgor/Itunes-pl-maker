@@ -10,26 +10,21 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.Observer
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivitySearchBinding
 import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivity
 import ru.startandroid.develop.sprint8v3.player.ui.SELECTEDTRACK
+import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.search.ui.SearchState.ContentHistoryTracks
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val viewModel by viewModel<SearchActivityViewModel>()
-//    private val viewModel: SearchActivityViewModel by lazy {
-//        ViewModelProvider(
-//            this,
-//            SearchActivityViewModel.getViewModelFactory()
-//        )[SearchActivityViewModel::class.java]
-//    }
+    private val historyInteractor: HistoryInteractor by inject()
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -50,7 +45,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
             renderState(state)
         }
 
-        binding.editText.addTextChangedListener( onTextChanged = {s, _, _, _ ->
+        binding.editText.addTextChangedListener(onTextChanged = { s, _, _, _ ->
             if (s.isNullOrEmpty()) {
                 hideErrorPlaceholder()
                 viewModel.loadHistory()
@@ -186,7 +181,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-            Creator.provideHistoryInteractor().addToHistory(track)
+            historyInteractor.addToHistory(track)
             val intent = Intent(this, PlayerActivity::class.java)
             intent.putExtra(SELECTEDTRACK, track)
             startActivity(intent)

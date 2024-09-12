@@ -4,11 +4,6 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.SingleLiveEvent
 import ru.startandroid.develop.sprint8v3.settings.domain.api.ShareRepository
@@ -17,9 +12,10 @@ import ru.startandroid.develop.sprint8v3.settings.domain.model.AgreementData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.MailData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.ShareData
 
-class ThemeSettingsActivityViewModel (private val application: Application,
-                                      private val themeInteractor: ThemeSettingsInteractor
-): ViewModel(), ShareRepository {
+class ThemeSettingsActivityViewModel(
+    private val application: Application,
+    private val themeInteractor: ThemeSettingsInteractor
+) : ViewModel(), ShareRepository {
 
     private val termsState = SingleLiveEvent<AgreementData>()
     private val shareState = SingleLiveEvent<ShareData>()
@@ -62,16 +58,5 @@ class ThemeSettingsActivityViewModel (private val application: Application,
         return AgreementData(
             link = application.getString(R.string.agreementLink),
         )
-    }
-
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                ThemeSettingsActivityViewModel(
-                    this[APPLICATION_KEY] as Application,
-                    Creator.provideSettingsInteractor()
-                )
-            }
-        }
     }
 }
