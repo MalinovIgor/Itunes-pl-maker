@@ -2,6 +2,7 @@ package ru.startandroid.develop.sprint8v3.ui.Settings
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import org.koin.android.ext.android.inject
@@ -11,7 +12,6 @@ import org.koin.core.context.startKoin
 import ru.startandroid.develop.sprint8v3.di.playerModule
 import ru.startandroid.develop.sprint8v3.di.searchModule
 import ru.startandroid.develop.sprint8v3.di.settingsModule
-import ru.startandroid.develop.sprint8v3.settings.domain.api.ThemeSettingsInteractor
 
 const val DARK_THEME = "dark_theme"
 const val USER_PREFERENCES = "user_preferences"
@@ -30,10 +30,14 @@ class App : Application() {
                 settingsModule,
             )
         }
-
-        val mainThemeInt: ThemeSettingsInteractor by inject()
-
-        switchTheme(mainThemeInt.isThemeNight())
+        val sharedPreferences: SharedPreferences by inject()
+        if (!sharedPreferences.contains(DARK_THEME)) {
+            val systemTheme = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            val isSystemDark = systemTheme == Configuration.UI_MODE_NIGHT_YES
+            switchTheme(isSystemDark)
+        } else {
+            switchTheme(sharedPreferences.getBoolean(DARK_THEME, false))
+        }
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
