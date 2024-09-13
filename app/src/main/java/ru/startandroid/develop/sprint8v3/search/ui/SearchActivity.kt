@@ -24,8 +24,6 @@ import ru.startandroid.develop.sprint8v3.search.ui.SearchState.ContentHistoryTra
 
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
     private val viewModel by viewModel<SearchActivityViewModel>()
-    private val historyInteractor: HistoryInteractor by inject()
-
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var binding: ActivitySearchBinding
@@ -181,7 +179,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener, Observer {
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-            historyInteractor.addToHistory(track)
+            viewModel.onClick(track)
             val intent = Intent(this, PlayerActivity::class.java)
             intent.putExtra(SELECTEDTRACK, track)
             startActivity(intent)

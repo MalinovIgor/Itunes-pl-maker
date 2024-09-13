@@ -101,6 +101,10 @@ class SearchActivityViewModel(
         _searchState.postValue(state)
     }
 
+    fun onClick(track: Track){
+        searchHistorySaver.addToHistory(track)
+    }
+
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2500L
         private val SEARCH_REQUEST_TOKEN = Any()
