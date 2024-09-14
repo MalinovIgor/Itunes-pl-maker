@@ -20,12 +20,14 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
     val currentTime: LiveData<Int> get() = _currentTime
 
     init {
+        interactor.playerState.observeForever { state ->
+            _playerState.value = state
+        }
         _playerState.value = PlayerState.STATE_DEFAULT
     }
 
     fun play() {
         interactor.play()
-        _playerState.value = PlayerState.STATE_PLAYING
         startTimer()
     }
 
@@ -53,12 +55,10 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
 
     fun stop() {
         interactor.stop()
-        _playerState.value = PlayerState.STATE_STOPPED
     }
 
     fun prepare(track: Track) {
         interactor.prepare(track)
-        _playerState.value = PlayerState.STATE_PREPARED
     }
 
     private fun pauseTimer() {
@@ -86,7 +86,6 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
             }
         }
     }
-
 
     companion object {
         private const val TIMER_UPDATE_DELAY = 250L

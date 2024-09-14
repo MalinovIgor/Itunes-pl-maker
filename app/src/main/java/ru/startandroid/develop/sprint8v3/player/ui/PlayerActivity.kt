@@ -105,8 +105,15 @@ class PlayerActivity : AppCompatActivity() {
                 binding.play.setImageResource(R.drawable.play)
             }
 
-            else -> {
+            PlayerState.STATE_COMPLETED -> {
+                binding.play.setImageResource(R.drawable.play)
+                binding.timer.text = "00:00"
 
+            }
+
+            else -> {
+                binding.play.setImageResource(R.drawable.play)
+                binding.timer.text = "00:00"
             }
         }
     }
