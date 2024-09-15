@@ -2,6 +2,7 @@ package ru.startandroid.develop.sprint8v3.player.ui
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,22 +14,24 @@ import java.util.Locale
 
 class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewModel() {
 
-    private val _playerState = MutableLiveData<PlayerState>()
-    val playerState: LiveData<PlayerState> get() = _playerState
+    val playerState = MutableLiveData(PlayerState.STATE_DEFAULT)
 
     private val _currentTime = MutableLiveData<Int>()
     val currentTime: LiveData<Int> get() = _currentTime
+    fun observePlayerState(): LiveData<PlayerState> = playerState
 
     init {
-        interactor.playerState.observeForever { state ->
-            _playerState.value = state
-        }
-        _playerState.value = PlayerState.STATE_DEFAULT
+        prepare()
     }
 
     fun play() {
+        playerState.postValue(PlayerState.STATE_PLAYING)
         interactor.play()
         startTimer()
+    }
+
+    fun getState() {
+        playerState.postValue(interactor.getState())
     }
 
     private fun startTimer() {
@@ -39,26 +42,31 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
     private val timerRunnable by lazy {
         object : Runnable {
             override fun run() {
-                if (_playerState.value == PlayerState.STATE_PLAYING) {
+
+                if (playerState.value == PlayerState.STATE_PLAYING) {
+
                     _currentTime.postValue(interactor.getCurrentTime())
                     handler.postDelayed(this, TIMER_UPDATE_DELAY)
                 }
+
             }
         }
     }
 
     fun pause() {
         interactor.pause()
-        _playerState.value = PlayerState.STATE_PAUSED
+        playerState.postValue(PlayerState.STATE_PAUSED)
         pauseTimer()
     }
 
     fun stop() {
         interactor.stop()
+        playerState.postValue(PlayerState.STATE_STOPPED)
     }
 
-    fun prepare(track: Track) {
-        interactor.prepare(track)
+    fun prepare() {
+        interactor.prepare()
+        playerState.postValue(PlayerState.STATE_PREPARED)
     }
 
     private fun pauseTimer() {
