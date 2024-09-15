@@ -1,8 +1,6 @@
 package ru.startandroid.develop.sprint8v3.player.domain.api
 
-import androidx.lifecycle.LiveData
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
-import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 
 interface PlayerInteractor {
     fun play()
@@ -11,5 +9,4 @@ interface PlayerInteractor {
     fun stop()
     fun prepare()
     fun getCurrentTime(): Int
-
 }

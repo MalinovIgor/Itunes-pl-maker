@@ -1,16 +1,13 @@
 package ru.startandroid.develop.sprint8v3.player.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivityPlayerBinding
@@ -43,9 +40,7 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
-
         viewModel = getViewModel { parametersOf(track?.previewUrl) }
-
         binding.timer.text = "00:00"
         val previewUrl = savedInstanceState?.getString("PREVIEW_URL")
 
