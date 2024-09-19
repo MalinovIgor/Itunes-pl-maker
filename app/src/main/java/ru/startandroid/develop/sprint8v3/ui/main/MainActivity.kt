@@ -8,7 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.ui.MediatekaActivity
+import ru.startandroid.develop.sprint8v3.library.ui.LibraryActivity
 import ru.startandroid.develop.sprint8v3.search.ui.SearchActivity
 import ru.startandroid.develop.sprint8v3.settings.ui.SettingsActivity
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val mediatekaButton = findViewById<LinearLayout>(R.id.mediateka)
 
         mediatekaButton.setOnClickListener {
-            val displayIntent = Intent(this@MainActivity, MediatekaActivity::class.java)
+            val displayIntent = Intent(this@MainActivity, LibraryActivity::class.java)
             displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(displayIntent)
         }

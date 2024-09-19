@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import ru.startandroid.develop.sprint8v3.settings.domain.repository.ThemeSettingsRepository
-import ru.startandroid.develop.sprint8v3.ui.Settings.DARK_THEME
+import ru.startandroid.develop.sprint8v3.DARK_THEME
 
 class ThemeSettingsRepositoryImpl (private val sharedPreferences: SharedPreferences) :
     ThemeSettingsRepository {
