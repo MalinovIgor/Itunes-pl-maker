@@ -36,7 +36,7 @@ class FavoritesFragment : Fragment()
     companion object {
         private const val MOCK_KEY = "poster_url"
 
-        fun newInstance() = PlaylistsFragment().apply {
+        fun newInstance() = FavoritesFragment().apply {
             arguments = Bundle().apply {
                 putString(MOCK_KEY, "1")
             }

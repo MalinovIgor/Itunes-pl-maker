@@ -20,13 +20,17 @@ class LibraryActivity : AppCompatActivity() {
         binding = ActivityLibraryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.backArrow.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         binding.viewPager.adapter = LibraryPagerAdapter(
             fragmentManager = supportFragmentManager,
             lifecycle = lifecycle,
         )
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            when(position) {
+            when (position) {
                 0 -> tab.text = getString(R.string.favorites)
                 1 -> tab.text = getString(R.string.playlists)
             }
