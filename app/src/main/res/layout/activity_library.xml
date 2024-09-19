@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background_anti"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -41,12 +41,11 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp48"
-        android:background="@color/main_background_anti"
-        app:tabSelectedTextColor="@color/main_background"
-        app:tabRippleColor="@color/yellow"
-        app:tabIndicatorColor="@color/main_background"
-        app:tabMode="fixed"
-        app:tabTextColor="@color/main_background" />
+        app:tabIndicator="@drawable/tab_indicator"
+        app:tabSelectedTextColor="@color/settings_text_changeable"
+        style="@style/LibraryTabs"
+        app:tabTextColor="@color/settings_text_changeable"
+        app:tabMode="fixed" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
