@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.startKoin
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivitySettingsBinding
 import ru.startandroid.develop.sprint8v3.settings.domain.model.AgreementData
@@ -19,16 +21,12 @@ class SettingsActivity : AppCompatActivity() {
     private val binding: ActivitySettingsBinding by lazy {
         ActivitySettingsBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: ThemeSettingsActivityViewModel
+    private val viewModel by viewModel<ThemeSettingsActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
 
-        viewModel = ViewModelProvider(
-            this,
-            ThemeSettingsActivityViewModel.getViewModelFactory()
-        )[ThemeSettingsActivityViewModel::class.java]
+        setContentView(binding.root)
 
         binding.nightThemeSwitch.isChecked = viewModel.observeThemeState().value!!
         binding.nightThemeSwitch.setOnCheckedChangeListener { _, checked ->
@@ -71,7 +69,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-    private fun sendEmail(data:MailData) {
+    private fun sendEmail(data: MailData) {
         val emailIntent = Intent(Intent.ACTION_SENDTO)
         val mailtoPrefix = getString(R.string.mailto_prefix)
         emailIntent.data = Uri.parse(mailtoPrefix)
@@ -81,7 +79,7 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(emailIntent)
     }
 
-    private fun openAgreement(data:AgreementData) {
+    private fun openAgreement(data: AgreementData) {
         val agreementIntent = Intent(Intent.ACTION_VIEW)
         agreementIntent.data = Uri.parse(data.link)
 

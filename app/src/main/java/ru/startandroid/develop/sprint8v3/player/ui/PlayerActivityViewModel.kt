@@ -2,13 +2,10 @@ package ru.startandroid.develop.sprint8v3.player.ui
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import ru.startandroid.develop.sprint8v3.Creator
 import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
@@ -17,49 +14,59 @@ import java.util.Locale
 
 class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewModel() {
 
-    private val _playerState = MutableLiveData<PlayerState>()
-    val playerState: LiveData<PlayerState> get() = _playerState
+    val playerState = MutableLiveData(PlayerState.STATE_DEFAULT)
 
     private val _currentTime = MutableLiveData<Int>()
     val currentTime: LiveData<Int> get() = _currentTime
+    fun observePlayerState(): LiveData<PlayerState> = playerState
 
     init {
-        _playerState.value = PlayerState.STATE_DEFAULT
+        prepare()
     }
 
     fun play() {
+        playerState.postValue(PlayerState.STATE_PLAYING)
         interactor.play()
-        _playerState.value = PlayerState.STATE_PLAYING
         startTimer()
     }
+
+    fun getState() {
+        playerState.postValue(interactor.getState())
+    }
+
     private fun startTimer() {
         handler.post(timerRunnable)
     }
+
     private val handler = Handler(Looper.getMainLooper())
     private val timerRunnable by lazy {
         object : Runnable {
             override fun run() {
-                if (_playerState.value == PlayerState.STATE_PLAYING) {
+
+                if (playerState.value == PlayerState.STATE_PLAYING) {
+
                     _currentTime.postValue(interactor.getCurrentTime())
                     handler.postDelayed(this, TIMER_UPDATE_DELAY)
                 }
+
             }
         }
     }
+
     fun pause() {
         interactor.pause()
-        _playerState.value = PlayerState.STATE_PAUSED
+        playerState.postValue(PlayerState.STATE_PAUSED)
         pauseTimer()
     }
 
     fun stop() {
         interactor.stop()
-        _playerState.value = PlayerState.STATE_STOPPED
+        playerState.postValue(PlayerState.STATE_STOPPED)
     }
 
-    fun prepare(track: Track) {
-        interactor.prepare(track)
-        _playerState.value = PlayerState.STATE_PREPARED
+    fun prepare() {
+        interactor.prepare()
+        playerState.postValue(PlayerState.STATE_PREPARED)
     }
 
     private fun pauseTimer() {
@@ -76,7 +83,8 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
             return noData
         } else {
             return try {
-                val releaseDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                val releaseDateFormat =
+                    SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
                 val date = releaseDateFormat.parse(releaseDateString)
                 val outputDateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
                 outputDateFormat.format(date)
@@ -87,16 +95,7 @@ class PlayerActivityViewModel(private val interactor: PlayerInteractor) : ViewMo
         }
     }
 
-
     companion object {
         private const val TIMER_UPDATE_DELAY = 250L
-        fun getViewModelFactory(): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    PlayerActivityViewModel(
-                        interactor = Creator.providePlayerInteractor(),
-                    )
-                }
-            }
     }
 }
