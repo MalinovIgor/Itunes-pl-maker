@@ -12,7 +12,11 @@
     <dimen name="error_message">19sp</dimen>
     <dimen name="small_text14">14sp</dimen>
     <dimen name="small_text13">13sp</dimen>
-
+    <dimen name="dp48">48dp</dimen>
+    <dimen name="dp46">46</dimen>
+    <dimen name="dp16">dp16</dimen>
+    <dimen name="text_size_14sp">14sp</dimen>
+    <dimen name="dp24">24dp</dimen>
 
 
 </resources>

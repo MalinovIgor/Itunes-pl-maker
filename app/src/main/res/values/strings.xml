@@ -30,6 +30,9 @@
     <string name="trackTime">Длительность</string>
     <string name="search_history">История поиска</string>
     <string name="zero_timer">00:00</string>
+    <string name="create_playlist">Создать пдейлист</string>
+    <string name="empty_playlists">Вы не создали ни одного плейлиста</string>
+    <string name="empty_favorites">Ваша медиатека пуста</string>
 
 
 </resources>
