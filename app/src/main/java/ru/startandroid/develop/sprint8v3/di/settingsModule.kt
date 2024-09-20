@@ -12,7 +12,7 @@ import ru.startandroid.develop.sprint8v3.settings.domain.impl.ShareRepositoryImp
 import ru.startandroid.develop.sprint8v3.settings.domain.impl.ThemeSettingsInteractorImpl
 import ru.startandroid.develop.sprint8v3.settings.domain.repository.ThemeSettingsRepository
 import ru.startandroid.develop.sprint8v3.settings.ui.ThemeSettingsActivityViewModel
-import ru.startandroid.develop.sprint8v3.ui.Settings.USER_PREFERENCES
+import ru.startandroid.develop.sprint8v3.USER_PREFERENCES
 
 val settingsModule = module {
     single<SharedPreferences> {

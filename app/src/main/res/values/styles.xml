@@ -113,4 +113,18 @@
 
     </style>
 
+    <style name="LibraryTabs" parent = "Widget.MaterialComponents.TabLayout">
+        <item name="fontFamily">ys_display_medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="tabTextAppearance">@android:style/TextAppearance.Widget.TabWidget</item>
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+    </style>
+
+    <style name="button_new_pl" parent = "button">
+        <item name="backgroundColor">@color/settings_text_changeable_anti</item>
+        <item name="android:textColor">@color/settings_text_changeable</item>
+    </style>
+    
 </resources>

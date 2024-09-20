@@ -4,15 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.context.startKoin
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivitySettingsBinding
 import ru.startandroid.develop.sprint8v3.settings.domain.model.AgreementData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.MailData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.ShareData
-import ru.startandroid.develop.sprint8v3.ui.Settings.App
+import ru.startandroid.develop.sprint8v3.App
 import ru.startandroid.develop.sprint8v3.ui.main.MainActivity
 
 class SettingsActivity : AppCompatActivity() {
