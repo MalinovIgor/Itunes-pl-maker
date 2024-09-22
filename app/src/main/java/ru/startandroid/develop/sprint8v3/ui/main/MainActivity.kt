@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.LinearLayout
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.library.ui.LibraryActivity
-import ru.startandroid.develop.sprint8v3.settings.ui.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +41,9 @@ class MainActivity : AppCompatActivity() {
         val settingsButton = findViewById<LinearLayout>(R.id.settings)
 
         settingsButton.setOnClickListener {
-            val displayIntent = Intent(this@MainActivity, SettingsActivity::class.java)
-            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(displayIntent)
+//            val displayIntent = Intent(this@MainActivity, SettingsActivity::class.java)
+//            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+//            startActivity(displayIntent)
         }
 
     }
