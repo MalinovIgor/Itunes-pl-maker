@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.LinearLayout
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.library.ui.LibraryActivity
-import ru.startandroid.develop.sprint8v3.search.ui.SearchActivity
 import ru.startandroid.develop.sprint8v3.settings.ui.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
@@ -21,11 +20,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonClickListener: View.OnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
-                val displayIntent = Intent(this@MainActivity, SearchActivity::class.java)
-                displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+             //   val displayIntent = Intent(this@MainActivity, SearchActivity::class.java)
+             //   displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                 Log.e("ActivitySearch", "Created!")
 
-                startActivity(displayIntent)
+              //  startActivity(displayIntent)
 
             }
         }
