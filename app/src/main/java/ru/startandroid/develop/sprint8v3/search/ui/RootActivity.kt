@@ -6,8 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivityRootBinding
+import ru.startandroid.develop.sprint8v3.library.ui.fragment.LibraryFragment
 import ru.startandroid.develop.sprint8v3.search.ui.fragment.SearchFragment
 
 class RootActivity : AppCompatActivity() {
@@ -18,12 +22,12 @@ class RootActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        if (savedInstanceState == null) {
-            // Добавляем фрагмент в контейнер
-            supportFragmentManager.commit {
-                this.add(R.id.rootFragmentContainerView, SearchFragment())
-            }
-        }
-        // TODO "Добавить первый фрагмент иерархии"
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.rootFragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView.setupWithNavController(navController)
+
+
     }
 }
