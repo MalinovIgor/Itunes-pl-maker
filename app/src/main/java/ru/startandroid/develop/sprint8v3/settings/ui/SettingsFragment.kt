@@ -32,7 +32,8 @@ class SettingsFragment : Fragment(){
 
         binding.nightThemeSwitch.isChecked = viewModel.observeThemeState().value!!
         binding.nightThemeSwitch.setOnCheckedChangeListener { _, checked ->
-            (viewLifecycleOwner as App).switchTheme(checked)
+            val app = requireActivity().application as App
+            app.switchTheme(checked)
             viewModel.updateThemeState(checked)
         }
         binding.backArrow.setOnClickListener {
