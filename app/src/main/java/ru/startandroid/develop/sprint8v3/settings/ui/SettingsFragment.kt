@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.search.ui.fragment
+package ru.startandroid.develop.sprint8v3.settings.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -14,7 +14,6 @@ import ru.startandroid.develop.sprint8v3.databinding.FragmentSettingsBinding
 import ru.startandroid.develop.sprint8v3.settings.domain.model.AgreementData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.MailData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.ShareData
-import ru.startandroid.develop.sprint8v3.settings.ui.ThemeSettingsActivityViewModel
 import ru.startandroid.develop.sprint8v3.ui.main.MainActivity
 
 class SettingsFragment : Fragment(){
