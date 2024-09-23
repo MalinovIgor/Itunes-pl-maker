@@ -24,7 +24,6 @@ class LibraryFragment : Fragment() {
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
         return binding.root
     }
-// после вставки из активити возникли проблемы с медиатором и фрагментменеджером
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

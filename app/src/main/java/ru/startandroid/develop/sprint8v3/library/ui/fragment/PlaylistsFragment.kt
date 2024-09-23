@@ -35,7 +35,7 @@ class PlaylistsFragment : Fragment() {
 
 
     companion object {
-        private const val MOCK_KEY = "poster_url"
+        private const val MOCK_KEY = "mockmock"
 
         fun newInstance() = PlaylistsFragment().apply {
             arguments = Bundle().apply {

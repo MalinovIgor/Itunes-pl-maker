@@ -53,6 +53,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             renderState(state)
         }
 
+
         binding.editText.addTextChangedListener(onTextChanged = { s, _, _, _ ->
             if (s.isNullOrEmpty()) {
                 hideErrorPlaceholder()
