@@ -27,9 +27,6 @@ class LibraryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.backArrow.setOnClickListener {
-            requireActivity().onBackPressedDispatcher
-        }
 
         binding.viewPager.adapter = LibraryPagerAdapter(
             fragmentManager = childFragmentManager,

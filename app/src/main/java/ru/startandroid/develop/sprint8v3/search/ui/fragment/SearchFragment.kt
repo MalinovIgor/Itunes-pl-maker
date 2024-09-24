@@ -96,10 +96,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             viewModel.loadHistory()
         }
 
-        binding.backFromSearch.setOnClickListener {
-            // finish()
-        }
-
         binding.clearText.setOnClickListener {
             binding.editText.setText("")
             hideErrorPlaceholder()

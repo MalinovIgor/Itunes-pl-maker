@@ -36,11 +36,7 @@ class SettingsFragment : Fragment(){
             app.switchTheme(checked)
             viewModel.updateThemeState(checked)
         }
-        binding.backArrow.setOnClickListener {
-            val displayIntent = Intent(requireContext(), MainActivity::class.java)
-            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(displayIntent)
-        }
+
         binding.share.setOnClickListener {
             viewModel.observeShareState().observe(viewLifecycleOwner) { sData ->
                 shareCourseLink(sData)
