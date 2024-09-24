@@ -1,6 +1,7 @@
 package ru.startandroid.develop.sprint8v3.search.ui.fragment
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.FragmentSearchBinding
@@ -53,7 +55,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             renderState(state)
         }
 
-
         binding.editText.addTextChangedListener(onTextChanged = { s, _, _, _ ->
             if (s.isNullOrEmpty()) {
                 hideErrorPlaceholder()
@@ -67,6 +68,20 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         }
         )
 
+        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            view.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = view.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+
+            if (keypadHeight > 200) {
+                bottomNavigationView.visibility = View.GONE
+            } else {
+                bottomNavigationView.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun setupViews() {
@@ -82,7 +97,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         }
 
         binding.backFromSearch.setOnClickListener {
-           // finish()
+            // finish()
         }
 
         binding.clearText.setOnClickListener {
@@ -206,7 +221,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         }
         return current
     }
-
 
 
     companion object {
