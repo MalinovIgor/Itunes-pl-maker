@@ -34,11 +34,17 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp48"
-        app:tabIndicator="@drawable/tab_indicator"
+        android:background="@color/background"
+        app:tabTextAppearance="@style/LibraryTabs"
+        android:textAllCaps="false"
+        app:tabMode="fixed"
+        app:tabIndicatorHeight="2dp"
+        app:tabIndicatorColor="@color/player_straight"
         app:tabSelectedTextColor="@color/settings_text_changeable"
-        style="@style/LibraryTabs"
+        app:tabIndicatorAnimationMode="linear"
+        app:tabIndicatorGravity="bottom"
         app:tabTextColor="@color/settings_text_changeable"
-        app:tabMode="fixed" />
+        />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"

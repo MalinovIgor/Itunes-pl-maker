@@ -28,9 +28,6 @@
         <activity
             android:name=".player.ui.PlayerActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:exported="false"/>
     </application>
 
 </manifest>
