@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.library.ui
+package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.startandroid.develop.sprint8v3.databinding.FragmentFavoritesBinding
-import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistsBinding
+import ru.startandroid.develop.sprint8v3.library.ui.FavoritesViewModel
 
 class FavoritesFragment : Fragment()
 {
@@ -34,7 +34,7 @@ class FavoritesFragment : Fragment()
 
 
     companion object {
-        private const val MOCK_KEY = "poster_url"
+        private const val MOCK_KEY = "mockmock"
 
         fun newInstance() = FavoritesFragment().apply {
             arguments = Bundle().apply {

@@ -1,9 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".library.ui.fragment.LibraryFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,23 +13,14 @@
         android:gravity="center"
         android:paddingVertical="4dp">
 
-        <ImageView
-            android:id="@+id/back_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_horizontal|center_vertical"
-            android:padding="@dimen/end_text_pad"
-            android:paddingTop="@dimen/end_text_pad"
-            android:paddingBottom="@dimen/end_text_pad"
-            android:src="@drawable/arrow_back" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/ys_display_medium"
-            android:paddingStart="@dimen/end_text_pad"
-            android:paddingTop="10dp"
+            android:paddingStart="@dimen/dp16"
+            android:paddingTop="14dp"
             android:paddingBottom="@dimen/end_text_pad"
             android:text="@string/media_gallery"
             android:textColor="@color/settings_text_changeable"
@@ -41,11 +34,17 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp48"
-        app:tabIndicator="@drawable/tab_indicator"
+        android:background="@color/background"
+        app:tabTextAppearance="@style/LibraryTabs"
+        android:textAllCaps="false"
+        app:tabMode="fixed"
+        app:tabIndicatorHeight="2dp"
+        app:tabIndicatorColor="@color/player_straight"
         app:tabSelectedTextColor="@color/settings_text_changeable"
-        style="@style/LibraryTabs"
+        app:tabIndicatorAnimationMode="linear"
+        app:tabIndicatorGravity="bottom"
         app:tabTextColor="@color/settings_text_changeable"
-        app:tabMode="fixed" />
+        />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"

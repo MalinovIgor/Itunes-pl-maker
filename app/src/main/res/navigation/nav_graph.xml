@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/libraryFragment2">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="ru.startandroid.develop.sprint8v3.search.ui.fragment.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_playerActivity2"
+            app:destination="@id/playerActivity2" />
+        <action
+            android:id="@+id/action_searchFragment_to_libraryFragment22"
+            app:destination="@id/libraryFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ru.startandroid.develop.sprint8v3.settings.ui.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_libraryFragment2"
+            app:destination="@id/libraryFragment2" />
+    </fragment>
+    <activity
+        android:id="@+id/playerActivity2"
+        android:name="ru.startandroid.develop.sprint8v3.player.ui.PlayerActivity"
+        android:label="activity_player"
+        tools:layout="@layout/activity_player" />
+    <fragment
+        android:id="@+id/libraryFragment2"
+        android:name="ru.startandroid.develop.sprint8v3.library.ui.fragment.LibraryFragment"
+        android:label="fragment_library"
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_libraryFragment2_to_playerActivity2"
+            app:destination="@id/playerActivity2" />
+        <action
+            android:id="@+id/action_libraryFragment2_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_libraryFragment2_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+</navigation>

@@ -3,53 +3,53 @@ package ru.startandroid.develop.sprint8v3.settings.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.startandroid.develop.sprint8v3.App
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.databinding.ActivitySettingsBinding
+import ru.startandroid.develop.sprint8v3.databinding.FragmentSettingsBinding
 import ru.startandroid.develop.sprint8v3.settings.domain.model.AgreementData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.MailData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.ShareData
-import ru.startandroid.develop.sprint8v3.App
-import ru.startandroid.develop.sprint8v3.ui.main.MainActivity
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsFragment : Fragment(){
+    private lateinit var binding: FragmentSettingsBinding
 
-
-    private val binding: ActivitySettingsBinding by lazy {
-        ActivitySettingsBinding.inflate(layoutInflater)
-    }
     private val viewModel by viewModel<ThemeSettingsActivityViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        setContentView(binding.root)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.nightThemeSwitch.isChecked = viewModel.observeThemeState().value!!
         binding.nightThemeSwitch.setOnCheckedChangeListener { _, checked ->
-            (applicationContext as App).switchTheme(checked)
+            val app = requireActivity().application as App
+            app.switchTheme(checked)
             viewModel.updateThemeState(checked)
         }
-        binding.backArrow.setOnClickListener {
-            val displayIntent = Intent(this@SettingsActivity, MainActivity::class.java)
-            displayIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(displayIntent)
-        }
+
         binding.share.setOnClickListener {
-            viewModel.observeShareState().observe(this) { sData ->
+            viewModel.observeShareState().observe(viewLifecycleOwner) { sData ->
                 shareCourseLink(sData)
             }
         }
 
         binding.agreementView.setOnClickListener {
-            viewModel.observeTermsState().observe(this) { tData ->
+            viewModel.observeTermsState().observe(viewLifecycleOwner) { tData ->
                 openAgreement(tData)
             }
         }
 
         binding.sendToSupport.setOnClickListener {
-            viewModel.observeSupportState().observe(this) { mData ->
+            viewModel.observeSupportState().observe(viewLifecycleOwner) { mData ->
                 sendEmail(mData)
             }
         }
@@ -83,4 +83,4 @@ class SettingsActivity : AppCompatActivity() {
 
         startActivity(agreementIntent)
     }
-}
+    }

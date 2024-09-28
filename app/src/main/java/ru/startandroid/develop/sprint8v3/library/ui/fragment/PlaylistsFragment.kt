@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.library.ui
+package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistsBinding
+import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
 
 class PlaylistsFragment : Fragment() {
 
@@ -34,7 +35,7 @@ class PlaylistsFragment : Fragment() {
 
 
     companion object {
-        private const val MOCK_KEY = "poster_url"
+        private const val MOCK_KEY = "mockmock"
 
         fun newInstance() = PlaylistsFragment().apply {
             arguments = Bundle().apply {

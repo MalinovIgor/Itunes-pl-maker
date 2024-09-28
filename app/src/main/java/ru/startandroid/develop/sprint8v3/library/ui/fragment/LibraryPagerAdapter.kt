@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.library.ui
+package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

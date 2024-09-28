@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".search.ui.SearchActivity">
+    tools:context=".search.ui.fragment.SearchFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -19,27 +19,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingVertical="4dp"
-            android:paddingStart="4dp">
+            android:layout_marginBottom="@dimen/dp8"
+            >
 
-            <ImageView
-                android:id="@+id/back_from_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_horizontal|center_vertical"
-                android:padding="16dp"
-                android:src="@drawable/arrow_back">
-
-            </ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:fontFamily="@fonts/medium"
+                android:fontFamily="@fonts/ys_display_medium"
                 android:gravity="center|center_vertical"
                 android:text="@string/search"
                 android:textColor="@color/settings_text_changeable"
                 android:textFontWeight="500"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginLeft="@dimen/dp16"
                 android:textSize="22sp">
 
             </TextView>

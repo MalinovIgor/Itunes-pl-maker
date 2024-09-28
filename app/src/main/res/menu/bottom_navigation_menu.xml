@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/searchFragment"
+        android:title="@string/search_bot_view"
+        android:icon="@drawable/search_19"
+        />
+
+    <item
+        android:id="@+id/libraryFragment2"
+        android:title="@string/library_bot_view"
+        android:icon="@drawable/library_bot_view"
+        />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:title="@string/sett_bot_view"
+        android:icon="@drawable/sett_bot_view"
+        />
+
+
+</menu>
