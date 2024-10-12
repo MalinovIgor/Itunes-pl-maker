@@ -14,6 +14,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,6 +26,7 @@ import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.search.ui.SearchActivityViewModel
 import ru.startandroid.develop.sprint8v3.search.ui.SearchState
 import ru.startandroid.develop.sprint8v3.search.ui.TrackAdapter
+import ru.startandroid.develop.sprint8v3.search.utils.debounce
 
 class SearchFragment : Fragment(), TrackAdapter.Listener {
 
@@ -34,6 +36,8 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var adapter: TrackAdapter
+
+    private lateinit var onTrackClickDebounce: (Track) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +54,12 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupOnClickListeners()
+
+        onTrackClickDebounce = debounce<Track>(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) { track ->
+            val intent = Intent(requireContext(), PlayerActivity::class.java)
+            intent.putExtra(SELECTEDTRACK, track)
+            startActivity(intent)
+        }
 
         viewModel.searchState.observe(viewLifecycleOwner) { state ->
             renderState(state)
@@ -201,12 +211,8 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     }
 
     override fun onClick(track: Track) {
-        if (clickDebounce()) {
-            viewModel.onClick(track)
-            val intent = Intent(requireContext(), PlayerActivity::class.java)
-            intent.putExtra(SELECTEDTRACK, track)
-            startActivity(intent)
-        }
+        onTrackClickDebounce(track)
+        viewModel.onClick(track)
     }
 
     private fun clickDebounce(): Boolean {
