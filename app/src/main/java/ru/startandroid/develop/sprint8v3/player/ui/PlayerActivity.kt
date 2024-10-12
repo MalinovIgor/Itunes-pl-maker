@@ -1,6 +1,7 @@
 package ru.startandroid.develop.sprint8v3.player.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -76,8 +77,8 @@ class PlayerActivity : AppCompatActivity() {
             val currentState = viewModel.playerState.value
             if (currentState == PlayerState.STATE_PLAYING) {
                 viewModel.pause()
-            } else {
 
+            } else {
                 viewModel.play()
             }
         }
@@ -103,7 +104,6 @@ class PlayerActivity : AppCompatActivity() {
         when (state) {
             PlayerState.STATE_PLAYING -> {
                 binding.play.setImageResource(R.drawable.pause)
-
             }
 
             PlayerState.STATE_PAUSED, PlayerState.STATE_STOPPED -> {
