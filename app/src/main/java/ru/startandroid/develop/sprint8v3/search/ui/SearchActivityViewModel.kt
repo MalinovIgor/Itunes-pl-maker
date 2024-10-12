@@ -1,17 +1,25 @@
 package ru.startandroid.develop.sprint8v3.search.ui
 
 import android.app.Application
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivity
+import ru.startandroid.develop.sprint8v3.player.ui.SELECTEDTRACK
 import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.models.Resource
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
+import ru.startandroid.develop.sprint8v3.search.ui.fragment.SearchFragment
+import ru.startandroid.develop.sprint8v3.search.utils.debounce
 
 class SearchActivityViewModel(
     application: Application,
@@ -23,6 +31,7 @@ class SearchActivityViewModel(
     private var lastSearchedText: String? = null
     private val _searchState = MutableLiveData<SearchState>()
     val searchState: LiveData<SearchState> get() = _searchState
+    private lateinit var onTextChangedSearchDebounce: (String) -> Unit
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -84,24 +93,26 @@ class SearchActivityViewModel(
 
     fun searchDebounce(changedText: String) {
         if (lastSearchedText == changedText) {
+            Log.d("ifEntered", "xx")
+
             return
         }
+
         lastSearchedText = changedText
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-        val searchRunnable = Runnable { search(changedText) }
-        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
-        handler.postAtTime(
-            searchRunnable,
-            SEARCH_REQUEST_TOKEN,
-            postTime,
-        )
+        onTextChangedSearchDebounce =
+            debounce(SEARCH_DEBOUNCE_DELAY, viewModelScope, false) { changedText ->
+                Log.d("searchDebounceEntered", "xx")
+
+                search(changedText)
+            }
+        onTextChangedSearchDebounce(changedText)
     }
 
     private fun renderState(state: SearchState) {
         _searchState.postValue(state)
     }
 
-    fun onClick(track: Track){
+    fun onClick(track: Track) {
         searchHistorySaver.addToHistory(track)
     }
 

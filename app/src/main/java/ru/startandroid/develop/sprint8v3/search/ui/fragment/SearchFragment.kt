@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,8 +34,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchActivityViewModel>()
     private var needLoadHistory: Boolean = true
-    private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
     private lateinit var adapter: TrackAdapter
 
     private lateinit var onTrackClickDebounce: (Track) -> Unit
@@ -214,16 +213,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         onTrackClickDebounce(track)
         viewModel.onClick(track)
     }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
-        }
-        return current
-    }
-
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
