@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Job
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.FragmentSearchBinding
@@ -35,7 +36,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     private val viewModel by viewModel<SearchActivityViewModel>()
     private var needLoadHistory: Boolean = true
     private lateinit var adapter: TrackAdapter
-
     private lateinit var onTrackClickDebounce: (Track) -> Unit
 
     override fun onCreateView(
@@ -72,6 +72,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 viewModel.onCleared()
             } else {
                 searchDebounce(s.toString())
+                Log.d("UIsearchDebounceCalledWith","$s")
                 binding.clearText.isVisible = true
             }
         }

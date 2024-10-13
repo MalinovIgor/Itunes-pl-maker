@@ -11,6 +11,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivity
 import ru.startandroid.develop.sprint8v3.player.ui.SELECTEDTRACK
@@ -27,7 +29,6 @@ class SearchActivityViewModel(
     private val searchHistorySaver: HistoryInteractor
 ) :
     AndroidViewModel(application) {
-
     private var lastSearchedText: String? = null
     private val _searchState = MutableLiveData<SearchState>()
     val searchState: LiveData<SearchState> get() = _searchState
@@ -47,35 +48,45 @@ class SearchActivityViewModel(
     public override fun onCleared() {
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
+    private fun processResult(result: Pair<Resource<List<Track>>?, Throwable?>) {
+        val resource = result.first
+        val error = result.second
 
-    fun search(query: String) {
-        renderState(SearchState.Loading)
-
-        tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
-            override fun consume(foundTracks: Resource<List<Track>>) {
-                when (foundTracks) {
-                    is Resource.Error -> renderState(
-                        SearchState.Error(
-                            errorMessage = getApplication<Application>().getString(
-                                R.string.connection_trouble
-                            )
-                        )
+        when (resource) {
+            is Resource.Error -> {
+                renderState(
+                    SearchState.Error(
+                        errorMessage = error?.message ?: getApplication<Application>().getString(R.string.connection_trouble)
                     )
+                )
+            }
 
-                    is Resource.Success -> {
-                        if (foundTracks.data?.isNotEmpty() == true) {
-                            renderState(SearchState.ContentFoundTracks(foundTracks.data))
-                        } else {
-                            renderState(SearchState.NothingFound)
-                        }
-                    }
+            is Resource.Success -> {
+                val foundTracks = resource.data
+                if (!foundTracks.isNullOrEmpty()) {
+                    renderState(SearchState.ContentFoundTracks(foundTracks))
+                } else {
+                    renderState(SearchState.NothingFound)
                 }
             }
 
-            override fun onError(error: Throwable) {
-                renderState(SearchState.Error(getApplication<Application>().getString(R.string.connection_trouble)))
+            null -> {
+                renderState(
+                    SearchState.Error(
+                        errorMessage = getApplication<Application>().getString(R.string.connection_trouble)
+                    )
+                )
             }
-        })
+        }
+    }
+    fun search(query: String) {
+        renderState(SearchState.Loading)
+        viewModelScope.launch {
+            tracksInteractor
+                .searchTracks(query)
+                .collect { pair -> processResult(pair)
+                }
+        }
     }
 
     fun loadHistory() {
@@ -93,16 +104,12 @@ class SearchActivityViewModel(
 
     fun searchDebounce(changedText: String) {
         if (lastSearchedText == changedText) {
-            Log.d("ifEntered", "xx")
-
             return
         }
-
         lastSearchedText = changedText
         onTextChangedSearchDebounce =
-            debounce(SEARCH_DEBOUNCE_DELAY, viewModelScope, false) { changedText ->
-                Log.d("searchDebounceEntered", "xx")
-
+            debounce(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
+                Log.d("DebounceStatusCalledWith ", "$lastSearchedText")
                 search(changedText)
             }
         onTextChangedSearchDebounce(changedText)

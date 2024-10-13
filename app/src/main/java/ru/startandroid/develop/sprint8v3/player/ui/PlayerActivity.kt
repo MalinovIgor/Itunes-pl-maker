@@ -58,6 +58,7 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.playerState.observe(this, Observer { state ->
             viewModel.getState()
             handlePlayerState(state)
+            handlePlayerState(state)
         })
 
         viewModel.currentTime.observe(this, Observer { time ->

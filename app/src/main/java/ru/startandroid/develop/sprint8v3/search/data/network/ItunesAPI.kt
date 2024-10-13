@@ -9,5 +9,7 @@ import ru.startandroid.develop.sprint8v3.search.data.dto.ItunesResponse
 const val termForGet = "term"
 interface ItunesAPI {
     @GET("/search?entity=song ")
-    fun search(@Query(termForGet) text: String) : Call <ItunesResponse>
+
+    suspend fun search(@Query(termForGet) text: String) : ItunesResponse
+//    fun search(@Query(termForGet) text: String) : Call <ItunesResponse>
 }
