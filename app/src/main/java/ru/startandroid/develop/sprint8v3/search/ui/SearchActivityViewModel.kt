@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivity
@@ -32,8 +33,7 @@ class SearchActivityViewModel(
     private var lastSearchedText: String? = null
     private val _searchState = MutableLiveData<SearchState>()
     val searchState: LiveData<SearchState> get() = _searchState
-    private lateinit var onTextChangedSearchDebounce: (String) -> Unit
-
+    private var textChangedSearchDebounceJob: Job? = null
     private val handler = Handler(Looper.getMainLooper())
 
     init {
@@ -107,12 +107,13 @@ class SearchActivityViewModel(
             return
         }
         lastSearchedText = changedText
-        onTextChangedSearchDebounce =
-            debounce(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
-                Log.d("DebounceStatusCalledWith ", "$lastSearchedText")
-                search(changedText)
-            }
-        onTextChangedSearchDebounce(changedText)
+
+        textChangedSearchDebounceJob?.cancel()
+
+        textChangedSearchDebounceJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY)
+            search(changedText)
+        }
     }
 
     private fun renderState(state: SearchState) {
