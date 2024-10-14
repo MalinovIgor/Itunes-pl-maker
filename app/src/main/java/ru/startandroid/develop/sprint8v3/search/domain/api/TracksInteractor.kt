@@ -6,5 +6,5 @@ import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 
 interface TracksInteractor {
     fun searchTracks(expression: String):
-            Flow<Pair<Resource<List<Track>>?, Throwable?>>
+            Flow<Resource<List<Track>>>
 }

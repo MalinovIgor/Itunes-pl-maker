@@ -68,11 +68,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             if (s.isNullOrEmpty()) {
                 hideErrorPlaceholder()
                 viewModel.loadHistory()
+
                 binding.clearText.isInvisible = true
                 viewModel.onCleared()
             } else {
                 searchDebounce(s.toString())
-                Log.d("UIsearchDebounceCalledWith","$s")
                 binding.clearText.isVisible = true
             }
         }
@@ -129,7 +129,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 showHistory()
                 adapter.updateTracks(state.historyTracks)
                 hideErrorPlaceholder()
-                needLoadHistory = false
+                needLoadHistory = true
             }
 
             is SearchState.ContentFoundTracks -> {

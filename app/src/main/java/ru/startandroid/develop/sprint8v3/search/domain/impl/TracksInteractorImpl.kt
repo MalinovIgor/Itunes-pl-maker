@@ -11,14 +11,7 @@ import ru.startandroid.develop.sprint8v3.search.domain.repository.TracksReposito
 import java.util.concurrent.Executors
 class TracksInteractorImpl(private val repository: TracksRepository) : TracksInteractor {
 
-    override fun searchTracks(expression: String): Flow<Pair<Resource<List<Track>>?, Throwable?>> {
-        return repository.searchTracks(expression)?.map { tracks ->
-            Pair(Resource.success(tracks), null)
-        } ?: flow {
-            emit(Pair(Resource.error<List<Track>>("Репозиторий вернул null"), Throwable("Репозиторий вернул null")))
-        }
-            .catch { error ->
-                emit(Pair(Resource.error<List<Track>>(error.message ?: "Ошибка"), error))
-            }
+    override fun searchTracks(expression: String): Flow<Resource<List<Track>>> {
+        return repository.searchTracks(expression)
     }
 }

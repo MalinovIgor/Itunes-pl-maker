@@ -48,34 +48,24 @@ class SearchActivityViewModel(
     public override fun onCleared() {
         textChangedSearchDebounceJob?.cancel()
     }
-    private fun processResult(result: Pair<Resource<List<Track>>?, Throwable?>) {
-        val resource = result.first
-        val error = result.second
+    private fun processResult(result: Resource<List<Track>>) {
 
-        when (resource) {
+        when (result) {
             is Resource.Error -> {
-                renderState(
-                    SearchState.Error(
-                        errorMessage = error?.message ?: getApplication<Application>().getString(R.string.connection_trouble)
-                    )
-                )
-            }
-
-            is Resource.Success -> {
-                val foundTracks = resource.data
-                if (!foundTracks.isNullOrEmpty()) {
-                    renderState(SearchState.ContentFoundTracks(foundTracks))
-                } else {
-                    renderState(SearchState.NothingFound)
-                }
-            }
-
-            null -> {
                 renderState(
                     SearchState.Error(
                         errorMessage = getApplication<Application>().getString(R.string.connection_trouble)
                     )
                 )
+            }
+
+            is Resource.Success -> {
+                val foundTracks = result.data
+                if (!foundTracks.isNullOrEmpty()) {
+                    renderState(SearchState.ContentFoundTracks(foundTracks))
+                } else {
+                    renderState(SearchState.NothingFound)
+                }
             }
         }
     }
