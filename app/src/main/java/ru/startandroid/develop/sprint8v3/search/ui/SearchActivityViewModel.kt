@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
@@ -34,7 +35,6 @@ class SearchActivityViewModel(
     private val _searchState = MutableLiveData<SearchState>()
     val searchState: LiveData<SearchState> get() = _searchState
     private var textChangedSearchDebounceJob: Job? = null
-    private val handler = Handler(Looper.getMainLooper())
 
     init {
         val searchHistory = searchHistorySaver.loadHistoryTracks()
@@ -46,7 +46,7 @@ class SearchActivityViewModel(
     }
 
     public override fun onCleared() {
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+        textChangedSearchDebounceJob?.cancel()
     }
     private fun processResult(result: Pair<Resource<List<Track>>?, Throwable?>) {
         val resource = result.first
@@ -115,6 +115,8 @@ class SearchActivityViewModel(
             search(changedText)
         }
     }
+
+
 
     private fun renderState(state: SearchState) {
         _searchState.postValue(state)

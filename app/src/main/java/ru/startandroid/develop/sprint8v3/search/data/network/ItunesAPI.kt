@@ -11,5 +11,4 @@ interface ItunesAPI {
     @GET("/search?entity=song ")
 
     suspend fun search(@Query(termForGet) text: String) : ItunesResponse
-//    fun search(@Query(termForGet) text: String) : Call <ItunesResponse>
 }
