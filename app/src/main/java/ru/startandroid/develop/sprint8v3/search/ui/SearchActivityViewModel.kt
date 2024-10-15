@@ -1,29 +1,18 @@
 package ru.startandroid.develop.sprint8v3.search.ui
 
 import android.app.Application
-import android.content.Intent
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
-import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivity
-import ru.startandroid.develop.sprint8v3.player.ui.SELECTEDTRACK
 import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.models.Resource
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
-import ru.startandroid.develop.sprint8v3.search.ui.fragment.SearchFragment
-import ru.startandroid.develop.sprint8v3.search.utils.debounce
 
 class SearchActivityViewModel(
     application: Application,

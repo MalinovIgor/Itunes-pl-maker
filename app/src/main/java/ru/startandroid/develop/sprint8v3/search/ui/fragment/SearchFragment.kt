@@ -3,8 +3,6 @@ package ru.startandroid.develop.sprint8v3.search.ui.fragment
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.Job
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.FragmentSearchBinding
@@ -54,7 +51,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         setupViews()
         setupOnClickListeners()
 
-        onTrackClickDebounce = debounce<Track>(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) { track ->
+        onTrackClickDebounce = debounce<Track>(
+            CLICK_DEBOUNCE_DELAY,
+            viewLifecycleOwner.lifecycleScope,
+            false
+        ) { track ->
             val intent = Intent(requireContext(), PlayerActivity::class.java)
             intent.putExtra(SELECTEDTRACK, track)
             startActivity(intent)
@@ -65,11 +66,13 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         }
 
         binding.editText.addTextChangedListener(onTextChanged = { s, _, _, _ ->
-            if (s.isNullOrEmpty()) {
+            if (s?.trim().isNullOrEmpty()) {
                 hideErrorPlaceholder()
                 viewModel.loadHistory()
                 binding.clearText.isInvisible = true
                 viewModel.onCleared()
+                binding.editText.text.clear()
+
             } else {
                 searchDebounce(s.toString())
                 binding.clearText.isVisible = true
@@ -77,7 +80,8 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         }
         )
 
-        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         view.viewTreeObserver.addOnGlobalLayoutListener {
             val rect = Rect()
@@ -114,7 +118,13 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
 
         binding.editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchDebounce(binding.editText.text.toString())
+                val query = binding.editText.text.toString().trim()
+                if (query.isNotEmpty()) {
+                    searchDebounce(query)
+                }
+                else{
+                    binding.editText.text.clear()
+                }
                 true
             } else {
                 false
@@ -129,7 +139,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 adapter.updateTracks(state.historyTracks)
                 hideErrorPlaceholder()
                 needLoadHistory = true
-                Log.d("enteredContentHistoryTracks","$state.historyTracks")
             }
 
             is SearchState.ContentFoundTracks -> {

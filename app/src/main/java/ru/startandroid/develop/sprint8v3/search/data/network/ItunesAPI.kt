@@ -1,6 +1,5 @@
 package ru.startandroid.develop.sprint8v3.search.data.network
 
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.startandroid.develop.sprint8v3.search.data.dto.ItunesResponse
