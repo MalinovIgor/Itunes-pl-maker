@@ -68,7 +68,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             if (s.isNullOrEmpty()) {
                 hideErrorPlaceholder()
                 viewModel.loadHistory()
-
                 binding.clearText.isInvisible = true
                 viewModel.onCleared()
             } else {
@@ -130,6 +129,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 adapter.updateTracks(state.historyTracks)
                 hideErrorPlaceholder()
                 needLoadHistory = true
+                Log.d("enteredContentHistoryTracks","$state.historyTracks")
             }
 
             is SearchState.ContentFoundTracks -> {
@@ -168,6 +168,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         binding.recentlyLookFor.isVisible = true
         if (needLoadHistory) {
             viewModel.loadHistory()
+            binding.recyclerView.isVisible = true
         } else {
         }
     }
