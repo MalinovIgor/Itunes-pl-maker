@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.FragmentSearchBinding
@@ -50,15 +52,22 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupOnClickListeners()
-
+        var isTrackClicked = false
         onTrackClickDebounce = debounce<Track>(
             CLICK_DEBOUNCE_DELAY,
             viewLifecycleOwner.lifecycleScope,
             false
         ) { track ->
-            val intent = Intent(requireContext(), PlayerActivity::class.java)
-            intent.putExtra(SELECTEDTRACK, track)
-            startActivity(intent)
+            if (!isTrackClicked) {
+                isTrackClicked = true
+                val intent = Intent(requireContext(), PlayerActivity::class.java)
+                intent.putExtra(SELECTEDTRACK, track)
+                startActivity(intent)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    delay(CLICK_DEBOUNCE_DELAY)
+                    isTrackClicked = false
+                }
+            }
         }
 
         viewModel.searchState.observe(viewLifecycleOwner) { state ->
@@ -228,9 +237,10 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     override fun onClick(track: Track) {
         onTrackClickDebounce(track)
         viewModel.onClick(track)
+
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 300L
     }
 }
