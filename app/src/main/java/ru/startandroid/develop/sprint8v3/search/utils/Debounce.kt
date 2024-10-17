@@ -20,7 +20,6 @@ fun <T> debounce(
         }
         if (debounceJob?.isCompleted != false || useLastParam) {
             debounceJob = coroutineScope.launch {
-                Log.d("launchedNewDebounce!","$param")
                 try {
                     delay(delayMillis)
                     action(param)

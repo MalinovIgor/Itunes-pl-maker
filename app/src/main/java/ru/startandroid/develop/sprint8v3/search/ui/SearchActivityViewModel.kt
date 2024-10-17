@@ -1,6 +1,7 @@
 package ru.startandroid.develop.sprint8v3.search.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -69,7 +70,6 @@ class SearchActivityViewModel(
     }
 
     fun loadHistory() {
-
         val historyTracks = searchHistorySaver.loadHistoryTracks()
         if (historyTracks.isEmpty()) {
             renderState(SearchState.NoTracks)

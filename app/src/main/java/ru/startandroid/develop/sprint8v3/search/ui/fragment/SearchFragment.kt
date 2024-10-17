@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.compose.ui.text.intl.Locale
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -45,7 +46,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
@@ -66,7 +66,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         }
 
         binding.editText.addTextChangedListener(onTextChanged = { s, _, _, _ ->
-            if (s?.trim().isNullOrEmpty()) {
+            if (s.isNullOrEmpty()) {
                 hideErrorPlaceholder()
                 viewModel.loadHistory()
                 binding.clearText.isInvisible = true
@@ -138,7 +138,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 showHistory()
                 adapter.updateTracks(state.historyTracks)
                 hideErrorPlaceholder()
-                needLoadHistory = true
+                needLoadHistory = false
             }
 
             is SearchState.ContentFoundTracks -> {
@@ -158,6 +158,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             is SearchState.Error -> {
                 showErrorPlaceholder(state.errorMessage, R.drawable.connecton_trouble)
                 hideSearchHistoryItems()
+                needLoadHistory = true
             }
 
             is SearchState.Loading -> {
@@ -167,6 +168,8 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             is SearchState.NothingFound -> {
                 hideSearchHistoryItems()
                 showErrorPlaceholder(getString(R.string.nothing_found), R.drawable.nothings_found)
+                needLoadHistory = true
+
             }
         }
     }
@@ -178,7 +181,9 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         if (needLoadHistory) {
             viewModel.loadHistory()
             binding.recyclerView.isVisible = true
-        } else {
+            needLoadHistory=false
+        }
+        else {
         }
     }
 
