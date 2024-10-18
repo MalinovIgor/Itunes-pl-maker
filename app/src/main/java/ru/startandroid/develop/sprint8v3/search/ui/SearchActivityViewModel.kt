@@ -70,6 +70,7 @@ class SearchActivityViewModel(
     }
 
     fun loadHistory() {
+
         val historyTracks = searchHistorySaver.loadHistoryTracks()
         if (historyTracks.isEmpty()) {
             renderState(SearchState.NoTracks)

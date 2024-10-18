@@ -46,6 +46,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         return binding.root
     }
 
+    override fun onResume() {
+        needLoadHistory = true
+        viewModel.searchState.value?.let { renderState(it) }
+        super.onResume()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
