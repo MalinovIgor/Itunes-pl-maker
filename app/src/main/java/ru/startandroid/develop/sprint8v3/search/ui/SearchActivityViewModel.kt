@@ -25,6 +25,9 @@ class SearchActivityViewModel(
     private val _searchState = MutableLiveData<SearchState>()
     val searchState: LiveData<SearchState> get() = _searchState
     private var textChangedSearchDebounceJob: Job? = null
+    private var debounceJob: Job? = null
+    var isClickAllowed = false
+
 
     init {
         val searchHistory = searchHistorySaver.loadHistoryTracks()
@@ -38,6 +41,7 @@ class SearchActivityViewModel(
     public override fun onCleared() {
         textChangedSearchDebounceJob?.cancel()
     }
+
     private fun processResult(result: Resource<List<Track>>) {
 
         when (result) {
@@ -59,12 +63,14 @@ class SearchActivityViewModel(
             }
         }
     }
+
     fun search(query: String) {
         renderState(SearchState.Loading)
         viewModelScope.launch {
             tracksInteractor
                 .searchTracks(query)
-                .collect { pair -> processResult(pair)
+                .collect { pair ->
+                    processResult(pair)
                 }
         }
     }
@@ -89,15 +95,8 @@ class SearchActivityViewModel(
             return
         }
         lastSearchedText = changedText
-
-        textChangedSearchDebounceJob?.cancel()
-
-        textChangedSearchDebounceJob = viewModelScope.launch {
-            delay(SEARCH_DEBOUNCE_DELAY)
-            search(changedText)
-        }
+        search(changedText)
     }
-
 
 
     private fun renderState(state: SearchState) {

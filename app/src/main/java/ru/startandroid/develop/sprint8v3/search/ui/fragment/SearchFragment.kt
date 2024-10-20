@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.FragmentSearchBinding
@@ -26,7 +28,6 @@ import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.search.ui.SearchActivityViewModel
 import ru.startandroid.develop.sprint8v3.search.ui.SearchState
 import ru.startandroid.develop.sprint8v3.search.ui.TrackAdapter
-import ru.startandroid.develop.sprint8v3.search.utils.debounce
 
 class SearchFragment : Fragment(), TrackAdapter.Listener {
 
@@ -34,7 +35,8 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     private val viewModel by viewModel<SearchActivityViewModel>()
     private var needLoadHistory: Boolean = true
     private lateinit var adapter: TrackAdapter
-    private lateinit var onTrackClickDebounce: (Track) -> Unit
+    var isClickAllowed = true
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
 
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     override fun onResume() {
@@ -51,20 +54,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         viewModel.searchState.value?.let { renderState(it) }
         super.onResume()
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupOnClickListeners()
-
-        onTrackClickDebounce = debounce<Track>(
-            CLICK_DEBOUNCE_DELAY,
-            viewLifecycleOwner.lifecycleScope,
-            false
-        ) { track ->
-            val intent = Intent(requireContext(), PlayerActivity::class.java)
-            intent.putExtra(SELECTEDTRACK, track)
-            startActivity(intent)
-        }
 
         viewModel.searchState.observe(viewLifecycleOwner) { state ->
             renderState(state)
@@ -79,7 +73,10 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 binding.editText.text.clear()
 
             } else {
-                searchDebounce(s.toString())
+                viewLifecycleOwner.lifecycleScope.launch {
+                    delay(CLICK_DEBOUNCE_DELAY)
+                    searchDebounce(s.toString())
+                }
                 binding.clearText.isVisible = true
             }
         }
@@ -126,8 +123,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 val query = binding.editText.text.toString().trim()
                 if (query.isNotEmpty()) {
                     searchDebounce(query)
-                }
-                else{
+                } else {
                     binding.editText.text.clear()
                 }
                 true
@@ -186,9 +182,8 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         if (needLoadHistory) {
             viewModel.loadHistory()
             binding.recyclerView.isVisible = true
-            needLoadHistory=false
-        }
-        else {
+            needLoadHistory = false
+        } else {
         }
     }
 
@@ -231,7 +226,18 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     }
 
     override fun onClick(track: Track) {
-        onTrackClickDebounce(track)
+
+        if (isClickAllowed) {
+            val intent = Intent(requireContext(), PlayerActivity::class.java)
+            intent.putExtra(SELECTEDTRACK, track)
+            startActivity(intent)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(CLICK_DEBOUNCE_DELAY)
+            isClickAllowed = true
+        }
+
         viewModel.onClick(track)
     }
 
