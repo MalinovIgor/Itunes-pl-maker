@@ -81,7 +81,6 @@ class SearchActivityViewModel(
         if (historyTracks.isEmpty()) {
             renderState(SearchState.NoTracks)
         } else {
-
             renderState(SearchState.ContentHistoryTracks(historyTracks))
         }
     }
@@ -105,6 +104,7 @@ class SearchActivityViewModel(
 
     fun onClick(track: Track) {
         searchHistorySaver.addToHistory(track)
+        loadHistory()
     }
 
     companion object {

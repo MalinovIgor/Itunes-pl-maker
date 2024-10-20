@@ -17,7 +17,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
 import kotlinx.coroutines.Job
+
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -244,9 +246,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         }
 
         viewModel.onClick(track)
+
     }
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 2500L
+
     }
 }
