@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,6 +37,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     private var needLoadHistory: Boolean = true
     private lateinit var adapter: TrackAdapter
     var isClickAllowed = true
+    private var searchJob: Job? = null
 
 
     override fun onCreateView(
@@ -71,9 +73,12 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 binding.clearText.isInvisible = true
                 viewModel.onCleared()
                 binding.editText.text.clear()
+                searchJob?.cancel()
 
             } else {
-                viewLifecycleOwner.lifecycleScope.launch {
+                searchJob?.cancel()
+
+                searchJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(CLICK_DEBOUNCE_DELAY)
                     searchDebounce(s.toString())
                 }
@@ -242,6 +247,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 2500L
     }
 }
