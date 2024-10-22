@@ -1,5 +1,7 @@
 plugins {
+    id ("kotlin-kapt")
     id("com.android.application")
+
     id("org.jetbrains.kotlin.android")
 }
 
@@ -42,6 +44,10 @@ android {
 }
 
 dependencies {
+    val room_version = "2.6.1"
+    annotationProcessor ("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.navigation.compose)
     implementation(libs.navigation.fragment.ktx)

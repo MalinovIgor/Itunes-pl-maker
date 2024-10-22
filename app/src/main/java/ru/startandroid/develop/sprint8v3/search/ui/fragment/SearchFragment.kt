@@ -79,7 +79,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
 
             } else {
                 searchJob?.cancel()
-
                 searchJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(CLICK_DEBOUNCE_DELAY)
                     searchDebounce(s.toString())
