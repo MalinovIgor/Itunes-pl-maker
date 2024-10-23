@@ -9,6 +9,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import ru.startandroid.develop.sprint8v3.di.dataModule
 import ru.startandroid.develop.sprint8v3.di.favoritesModule
 import ru.startandroid.develop.sprint8v3.di.playerModule
 import ru.startandroid.develop.sprint8v3.di.searchModule
@@ -22,6 +23,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+     //   val database = Room.databaseBuilder(this,AppDataBase::class.java,"database.db").build()
+
         startKoin {
             androidLogger()
             androidContext(this@App)
@@ -29,7 +32,8 @@ class App : Application() {
                 searchModule,
                 playerModule,
                 settingsModule,
-                favoritesModule
+                favoritesModule,
+                dataModule
             )
         }
         val sharedPreferences: SharedPreferences by inject()

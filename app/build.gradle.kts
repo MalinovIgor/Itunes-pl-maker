@@ -44,10 +44,8 @@ android {
 }
 
 dependencies {
-    val room_version = "2.6.1"
-    annotationProcessor ("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.navigation.compose)
     implementation(libs.navigation.fragment.ktx)
