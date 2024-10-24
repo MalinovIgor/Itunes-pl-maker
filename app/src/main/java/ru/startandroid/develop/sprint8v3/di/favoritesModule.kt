@@ -6,7 +6,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.startandroid.develop.sprint8v3.library.ui.FavoritesViewModel
 import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
-import ru.startandroid.develop.sprint8v3.library.ui.db.AppDatabase
+import ru.startandroid.develop.sprint8v3.library.db.AppDatabase
 
 val favoritesModule = module {
 

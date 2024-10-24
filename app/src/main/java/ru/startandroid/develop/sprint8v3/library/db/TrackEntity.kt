@@ -1,5 +1,6 @@
-package ru.startandroid.develop.sprint8v3.library.ui.db
+package ru.startandroid.develop.sprint8v3.library.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -14,7 +15,7 @@ data class TrackEntity (
     val artistName: String,
     @SerializedName("trackTimeMillis") val trackTime: Long,
     val artworkUrl100: String,
-    @PrimaryKey
+    @PrimaryKey @ColumnInfo(name = "track_id")
     val trackId : String,
     val collectionName : String?,
     val releaseDate : String?,
