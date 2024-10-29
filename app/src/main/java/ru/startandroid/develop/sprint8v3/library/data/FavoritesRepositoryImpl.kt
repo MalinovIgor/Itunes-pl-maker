@@ -24,7 +24,7 @@ class FavoritesRepositoryImpl(
     override suspend fun getFavoritesTracks(): Flow<List<Track>> = flow {
         val favoriteTracks = appDatabase.trackDao().getFavoritesTracks()
         emit(convertFromTrackEntity(favoriteTracks))
-    }
+    }       //TODO mapping of tracks
 
     fun convertFromTrackEntity(tracks: List<TrackEntity>): List<Track> {
         return tracks.map { track -> trackDbConvertor.map(track) }

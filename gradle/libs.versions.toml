@@ -20,7 +20,7 @@ retrofit = "2.9.0"
 converter-gson = "2.9.0"
 
 [libraries]
-
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }

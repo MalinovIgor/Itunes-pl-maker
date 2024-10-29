@@ -1,12 +1,13 @@
 package ru.startandroid.develop.sprint8v3.library.db.dao
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import ru.startandroid.develop.sprint8v3.library.db.TrackEntity
-
+@Dao
 interface TrackDao {
     @Insert(entity = TrackEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTrack(trackEntity:TrackEntity)

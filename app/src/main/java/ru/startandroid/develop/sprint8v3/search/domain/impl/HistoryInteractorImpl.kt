@@ -1,11 +1,12 @@
 package ru.startandroid.develop.sprint8v3.search.domain.impl
 
+import kotlinx.coroutines.flow.Flow
 import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.search.domain.repository.SearchHistoryRepository
 
 class HistoryInteractorImpl(private val repository: SearchHistoryRepository) : HistoryInteractor {
-    override fun addToHistory(track: Track) {
+    override suspend fun addToHistory(track: Track) {
         repository.addToHistory(track)
         }
 
@@ -16,7 +17,7 @@ class HistoryInteractorImpl(private val repository: SearchHistoryRepository) : H
         repository.clearHistory()
     }
 
-    override fun loadHistoryTracks(): ArrayList<Track> {
+    override fun loadHistoryTracks(): Flow<ArrayList<Track>>  {
         return repository.loadHistoryTracks()
     }
 }

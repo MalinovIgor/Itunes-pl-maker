@@ -62,9 +62,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+
         setupOnClickListeners()
 
         viewModel.searchState.observe(viewLifecycleOwner) { state ->
+Log.d("testt","fd")
             renderState(state)
         }
 
@@ -87,7 +89,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             }
         }
         )
-
         val bottomNavigationView =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
@@ -137,9 +138,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 false
             }
         }
+
     }
 
     private fun renderState(state: SearchState) {
+
         when (state) {
             is SearchState.ContentHistoryTracks -> {
                 showHistory()
@@ -244,7 +247,8 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             isClickAllowed = true
         }
 
-        viewModel.onClick(track)
+        viewLifecycleOwner.lifecycleScope.launch { viewModel.onClick(track) }
+       // viewModel.onClick(track)
 
     }
 

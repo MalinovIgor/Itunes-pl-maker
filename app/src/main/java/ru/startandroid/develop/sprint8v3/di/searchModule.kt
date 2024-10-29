@@ -8,6 +8,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.startandroid.develop.sprint8v3.library.data.InFavoritesCheckRepository
 import ru.startandroid.develop.sprint8v3.search.utils.SEARCH_HISTORY_KEY
 import ru.startandroid.develop.sprint8v3.search.data.network.ItunesAPI
 import ru.startandroid.develop.sprint8v3.search.data.network.RetrofitNetworkClient
@@ -41,7 +42,7 @@ val searchModule = module {
     }
 
     single<SearchHistoryRepository> {
-        SearchHistoryRepositoryImpl(get())
+        SearchHistoryRepositoryImpl(get(),get())
     }
 
     single<HistoryInteractor> {
@@ -53,8 +54,10 @@ val searchModule = module {
     }
 
     single<TracksRepository> {
-        TracksRepositoryImpl(get())
+        TracksRepositoryImpl(get(),get())
     }
+
+    single { InFavoritesCheckRepository(get()) }
 
     viewModel {
         SearchActivityViewModel(

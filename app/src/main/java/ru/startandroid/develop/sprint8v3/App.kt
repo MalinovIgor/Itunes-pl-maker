@@ -9,9 +9,9 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import ru.startandroid.develop.sprint8v3.di.dataModule
 import ru.startandroid.develop.sprint8v3.di.favoritesModule
 import ru.startandroid.develop.sprint8v3.di.playerModule
+import ru.startandroid.develop.sprint8v3.di.repositoryModule
 import ru.startandroid.develop.sprint8v3.di.searchModule
 import ru.startandroid.develop.sprint8v3.di.settingsModule
 
@@ -33,7 +33,7 @@ class App : Application() {
                 playerModule,
                 settingsModule,
                 favoritesModule,
-                dataModule
+                repositoryModule
             )
         }
         val sharedPreferences: SharedPreferences by inject()

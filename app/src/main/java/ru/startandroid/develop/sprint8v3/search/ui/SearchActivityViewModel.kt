@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
@@ -30,11 +31,16 @@ class SearchActivityViewModel(
 
 
     init {
-        val searchHistory = searchHistorySaver.loadHistoryTracks()
-        if (searchHistory.isEmpty()) {
-            renderState(SearchState.NoTracks)
-        } else {
-            renderState(SearchState.ContentHistoryTracks(searchHistory))
+        Log.d("testt", "SearchActivityViewModel created")
+
+        viewModelScope.launch {
+            searchHistorySaver.loadHistoryTracks().collect { tracks ->
+                if (tracks.isEmpty()) {
+                    renderState(SearchState.NoTracks)
+                } else {
+                    renderState(SearchState.ContentHistoryTracks(tracks))
+                }
+            }
         }
     }
 
@@ -76,13 +82,14 @@ class SearchActivityViewModel(
     }
 
     fun loadHistory() {
-
-        val historyTracks = searchHistorySaver.loadHistoryTracks()
-        if (historyTracks.isEmpty()) {
+        viewModelScope.launch {
+        val historyTracks = searchHistorySaver.loadHistoryTracks().collect{tracks ->
+        if (tracks.isEmpty()) {
             renderState(SearchState.NoTracks)
         } else {
-            renderState(SearchState.ContentHistoryTracks(historyTracks))
+            renderState(SearchState.ContentHistoryTracks(tracks))
         }
+    }}
     }
 
     fun clearHistory() {
@@ -102,7 +109,7 @@ class SearchActivityViewModel(
         _searchState.postValue(state)
     }
 
-    fun onClick(track: Track) {
+    suspend fun onClick(track: Track) {
         searchHistorySaver.addToHistory(track)
         loadHistory()
     }
