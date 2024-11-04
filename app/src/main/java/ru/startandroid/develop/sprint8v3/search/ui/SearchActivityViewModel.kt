@@ -104,6 +104,9 @@ class SearchActivityViewModel(
         search(changedText)
     }
 
+fun cleanLastSearchedText(){
+    lastSearchedText=null
+}
 
     private fun renderState(state: SearchState) {
         _searchState.postValue(state)

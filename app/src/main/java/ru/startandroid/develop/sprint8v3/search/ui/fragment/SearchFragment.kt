@@ -122,6 +122,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             hideErrorPlaceholder()
             viewModel.loadHistory()
             showHistory()
+            viewModel.cleanLastSearchedText()
         }
 
         binding.editText.setOnEditorActionListener { _, actionId, _ ->
@@ -130,6 +131,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 if (query.isNotEmpty()) {
                     searchDebounce(query)
                 } else {
+                    viewModel.cleanLastSearchedText()
                     binding.editText.text.clear()
                 }
                 true
