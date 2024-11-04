@@ -4,6 +4,10 @@ import android.media.MediaPlayer
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
+import ru.startandroid.develop.sprint8v3.App
+import ru.startandroid.develop.sprint8v3.library.data.InFavoritesCheckRepository
+import ru.startandroid.develop.sprint8v3.library.db.AppDatabase
+import ru.startandroid.develop.sprint8v3.library.domain.api.FavoritesInteractor
 import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
 import ru.startandroid.develop.sprint8v3.player.domain.impl.PlayerInteractorImpl
 import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivityViewModel
@@ -14,11 +18,16 @@ val playerModule = module {
         PlayerInteractorImpl(get<MediaPlayer>(), trackUrl)
     }
 
+
+    single<InFavoritesCheckRepository>{
+        InFavoritesCheckRepository(get())
+    }
+
     factory<MediaPlayer> { MediaPlayer() }
 
     viewModel { (trackUrl: String) ->
         PlayerActivityViewModel(
-            interactor = get<PlayerInteractor>(parameters = { parametersOf(trackUrl) })
+            interactor = get<PlayerInteractor>(parameters = { parametersOf(trackUrl) }), get()
         )
     }
 }

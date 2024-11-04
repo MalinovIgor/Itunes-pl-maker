@@ -11,6 +11,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
+import ru.startandroid.develop.sprint8v3.library.domain.api.FavoritesInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.api.HistoryInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.api.TracksInteractor
 import ru.startandroid.develop.sprint8v3.search.domain.models.Resource
@@ -31,7 +32,6 @@ class SearchActivityViewModel(
 
 
     init {
-        Log.d("testt", "SearchActivityViewModel created")
 
         viewModelScope.launch {
             searchHistorySaver.loadHistoryTracks().collect { tracks ->

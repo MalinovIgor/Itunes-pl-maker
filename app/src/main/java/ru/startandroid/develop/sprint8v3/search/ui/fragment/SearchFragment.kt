@@ -66,7 +66,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
         setupOnClickListeners()
 
         viewModel.searchState.observe(viewLifecycleOwner) { state ->
-Log.d("testt","fd")
             renderState(state)
         }
 
@@ -179,7 +178,6 @@ Log.d("testt","fd")
                 hideSearchHistoryItems()
                 showErrorPlaceholder(getString(R.string.nothing_found), R.drawable.nothings_found)
                 needLoadHistory = true
-
             }
         }
     }
@@ -248,12 +246,11 @@ Log.d("testt","fd")
         }
 
         viewLifecycleOwner.lifecycleScope.launch { viewModel.onClick(track) }
-       // viewModel.onClick(track)
 
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 2500L
+        const val CLICK_DEBOUNCE_DELAY = 2500L
 
     }
 }

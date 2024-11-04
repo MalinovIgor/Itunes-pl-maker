@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.search.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -21,7 +22,6 @@ class TracksRepositoryImpl(
         if (response.resultCode == 200) {
 
             emit(Resource.success((response as ItunesResponse).results.map { dto ->
-
                 Track(
                     trackName = dto.trackName,
                     artistName = dto.artistName,
@@ -40,6 +40,8 @@ class TracksRepositoryImpl(
             emit(Resource.error<List<Track>>("Ошибка при получении данных: код ответа ${response.resultCode}"))
         }
     }.catch { error ->
+        Log.d("testt","dfds")
+
         emit(Resource.error<List<Track>>(error.message ?: "Неизвестная ошибка"))
     }
 

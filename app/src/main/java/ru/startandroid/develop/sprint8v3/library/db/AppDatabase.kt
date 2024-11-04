@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import ru.startandroid.develop.sprint8v3.library.db.dao.TrackDao
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
        TrackEntity::class
     ]

@@ -20,5 +20,4 @@ data class Track (
     var isFavorites: Boolean = false
 ) : Serializable {
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast(delimiterForBigImg, replacementForBigImg)
-
 }
