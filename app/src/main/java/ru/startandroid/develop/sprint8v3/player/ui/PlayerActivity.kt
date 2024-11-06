@@ -42,13 +42,12 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
-        Log.d("testt","{${track?.isFavorites}")
         if (track != null) {
             updateFavoriteState(track.isFavorites)
         }
 
         viewModel = getViewModel { parametersOf(track?.previewUrl) }
-        binding.timer.text = "00:00"
+        binding.timer.text = zeroTimer
 
         val previewUrl = savedInstanceState?.getString("PREVIEW_URL")
 
@@ -74,7 +73,6 @@ class PlayerActivity : AppCompatActivity() {
 
         viewModel.observePlayerState().observe(this) { state ->
             viewModel.getState()
-                // viewModel.observePlayerState()
         }
 
 
@@ -135,7 +133,7 @@ class PlayerActivity : AppCompatActivity() {
             }
 
             PlayerState.STATE_COMPLETED -> {
-                binding.timer.text = "00:00"
+                binding.timer.text = zeroTimer
                 binding.play.setImageResource(R.drawable.play)
             }
 
@@ -162,6 +160,7 @@ class PlayerActivity : AppCompatActivity() {
 
     companion object {
         private const val noData = "отсутствует"
+        private const val zeroTimer = "00:00"
         private val timerDateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
     }
 }

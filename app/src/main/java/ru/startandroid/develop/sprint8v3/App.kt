@@ -30,7 +30,7 @@ class App : Application() {
             this,
             AppDatabase::class.java,
             "database.db"
-        ).fallbackToDestructiveMigration() // Используется при отсутствии миграции
+        ).fallbackToDestructiveMigration()
             .build()
 
         startKoin {
