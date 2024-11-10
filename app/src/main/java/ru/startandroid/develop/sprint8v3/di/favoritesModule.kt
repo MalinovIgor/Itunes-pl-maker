@@ -33,7 +33,7 @@ val favoritesModule = module {
         TrackDbConvertor()
     }
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db").fallbackToDestructiveMigration()
             .build()
     }
 }
