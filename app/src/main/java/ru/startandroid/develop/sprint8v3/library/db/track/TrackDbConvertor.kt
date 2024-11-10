@@ -1,6 +1,5 @@
-package ru.startandroid.develop.sprint8v3.library.db
+package ru.startandroid.develop.sprint8v3.library.db.track
 
-import ru.startandroid.develop.sprint8v3.search.data.dto.TrackDto
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 
 class TrackDbConvertor {

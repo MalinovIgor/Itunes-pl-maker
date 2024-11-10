@@ -38,9 +38,9 @@
     <string name="search_bot_view">Поиск</string>
     <string name="library_bot_view">Медиатека</string>
     <string name="sett_bot_view">Настройки</string>
-    <string name="playlist_name">Playlist name</string>
+    <string name="playlist_name">Название*</string>
     <string name="new_pl">Новый плейлист</string>
-    <string name="playlist_description">Playlist description</string>
+    <string name="playlist_description">Описание</string>
     <string name="create">Create PL</string>
 
 

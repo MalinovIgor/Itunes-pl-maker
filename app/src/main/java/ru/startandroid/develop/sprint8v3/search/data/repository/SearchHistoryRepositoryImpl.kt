@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import ru.startandroid.develop.sprint8v3.library.data.InFavoritesCheckRepository
-import ru.startandroid.develop.sprint8v3.library.db.AppDatabase
 
 class SearchHistoryRepositoryImpl(
     private val sharedPreferences: SharedPreferences,

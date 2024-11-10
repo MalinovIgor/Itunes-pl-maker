@@ -10,7 +10,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.startandroid.develop.sprint8v3.library.data.InFavoritesCheckRepository
-import ru.startandroid.develop.sprint8v3.library.db.AppDatabase
+import ru.startandroid.develop.sprint8v3.library.db.track.AppDatabase
 import ru.startandroid.develop.sprint8v3.library.domain.api.FavoritesInteractor
 import ru.startandroid.develop.sprint8v3.library.domain.impl.FavoritesInteractorImpl
 import ru.startandroid.develop.sprint8v3.search.utils.SEARCH_HISTORY_KEY

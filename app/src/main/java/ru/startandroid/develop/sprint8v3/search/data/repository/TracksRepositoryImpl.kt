@@ -40,7 +40,6 @@ class TracksRepositoryImpl(
             emit(Resource.error<List<Track>>("Ошибка при получении данных: код ответа ${response.resultCode}"))
         }
     }.catch { error ->
-        Log.d("testt","dfds")
 
         emit(Resource.error<List<Track>>(error.message ?: "Неизвестная ошибка"))
     }

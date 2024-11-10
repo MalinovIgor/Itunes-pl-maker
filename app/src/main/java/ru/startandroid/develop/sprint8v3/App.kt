@@ -15,7 +15,7 @@ import ru.startandroid.develop.sprint8v3.di.playerModule
 import ru.startandroid.develop.sprint8v3.di.repositoryModule
 import ru.startandroid.develop.sprint8v3.di.searchModule
 import ru.startandroid.develop.sprint8v3.di.settingsModule
-import ru.startandroid.develop.sprint8v3.library.db.AppDatabase
+import ru.startandroid.develop.sprint8v3.library.db.track.AppDatabase
 
 const val DARK_THEME = "dark_theme"
 const val USER_PREFERENCES = "user_preferences"

@@ -47,5 +47,12 @@
         <action
             android:id="@+id/action_libraryFragment2_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_libraryFragment2_to_playlistCreationFragment"
+            app:destination="@id/playlistCreationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/playlistCreationFragment"
+        android:name="ru.startandroid.develop.sprint8v3.library.ui.fragment.PlaylistCreationFragment"
+        android:label="PlaylistCreationFragment" />
 </navigation>
