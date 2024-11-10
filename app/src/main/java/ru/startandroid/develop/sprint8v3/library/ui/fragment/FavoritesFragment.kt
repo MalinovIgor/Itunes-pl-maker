@@ -46,18 +46,12 @@ class FavoritesFragment : Fragment(), TrackAdapter.Listener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         super.onViewCreated(view, savedInstanceState)
-
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         adapter = TrackAdapter(this, ArrayList())
 
         binding.recyclerView.adapter = adapter
-        Log.d("testt","ого")
-
         favoritesViewModel.returnFavoriteTracks()
-
         favoritesViewModel.getFavoriteTracks().observe(viewLifecycleOwner) { favs ->
             if (favs.isEmpty()) {
                 binding.placeholderImage.isVisible = true

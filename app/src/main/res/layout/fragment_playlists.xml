@@ -48,4 +48,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/media_placeholder_iv" />
 
+    
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/create_playlist_button"
+        android:id="@+id/image_for_test">
+
+    </ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>
