@@ -26,13 +26,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        database = Room.databaseBuilder(
-            this,
-            AppDatabase::class.java,
-            "database.db"
-        ).fallbackToDestructiveMigration()
-            .build()
-
         startKoin {
             androidLogger()
             androidContext(this@App)

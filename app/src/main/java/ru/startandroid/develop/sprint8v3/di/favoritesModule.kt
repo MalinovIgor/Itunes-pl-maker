@@ -22,8 +22,8 @@ val favoritesModule = module {
         FavoritesViewModel(get())
     }
 
-    single<FavoritesRepository>{
-        FavoritesRepositoryImpl(get(),get())
+    single<FavoritesRepository> {
+        FavoritesRepositoryImpl(get(), get())
     }
 
     single<FavoritesInteractor> {
@@ -32,8 +32,11 @@ val favoritesModule = module {
     single {
         TrackDbConvertor()
     }
+
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db").fallbackToDestructiveMigration()
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
+
 }
