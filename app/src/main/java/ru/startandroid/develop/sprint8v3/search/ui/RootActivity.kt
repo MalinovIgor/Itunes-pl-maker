@@ -16,7 +16,9 @@ import ru.startandroid.develop.sprint8v3.library.ui.fragment.LibraryFragment
 import ru.startandroid.develop.sprint8v3.search.ui.fragment.SearchFragment
 
 class RootActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityRootBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRootBinding.inflate(layoutInflater)

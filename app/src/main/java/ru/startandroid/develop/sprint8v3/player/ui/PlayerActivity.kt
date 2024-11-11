@@ -22,9 +22,10 @@ const val SELECTEDTRACK = "selectedTrack"
 
 class PlayerActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityPlayerBinding
+
     private lateinit var viewModel: PlayerActivityViewModel
 
+    private val binding by lazy { ActivityPlayerBinding.inflate(layoutInflater) }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
@@ -38,7 +39,6 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track

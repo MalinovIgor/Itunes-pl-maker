@@ -30,7 +30,8 @@ class FavoritesFragment : Fragment(), TrackAdapter.Listener
         parametersOf()
     }
 
-    private var binding: FragmentFavoritesBinding? = null
+    private var _binding: FragmentFavoritesBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: TrackAdapter
     var isClickAllowed = true
 
@@ -38,37 +39,37 @@ class FavoritesFragment : Fragment(), TrackAdapter.Listener
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+    ): View {
+        _binding  = FragmentFavoritesBinding.inflate(inflater, container, false)
 
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = TrackAdapter(this, ArrayList())
 
-        binding?.recyclerView?.adapter = adapter
+        binding.recyclerView.adapter = adapter
         favoritesViewModel.returnFavoriteTracks()
         favoritesViewModel.getFavoriteTracks().observe(viewLifecycleOwner) { favs ->
             if (favs.isEmpty()) {
-                binding?.placeholderImage?.isVisible = true
-                binding?.placeholderText?.isVisible = true
-                binding?.recyclerView?.isVisible = false
+                binding.placeholderImage.isVisible = true
+                binding.placeholderText.isVisible = true
+                binding.recyclerView.isVisible = false
             } else {
                 updateFavoriteState(favs)
-                binding?.placeholderImage?.isVisible = false
-                binding?.placeholderText?.isVisible = false
-                binding?.recyclerView?.isVisible = true
+                binding.placeholderImage.isVisible = false
+                binding.placeholderText.isVisible = false
+                binding.recyclerView.isVisible = true
             }
         }
     }
 
     private fun updateFavoriteState(data: List<Track>) {
         adapter = TrackAdapter(this, ArrayList(data))
-        binding?.recyclerView?.adapter = adapter
+        binding.recyclerView.adapter = adapter
     }
 
     override fun onResume() {
