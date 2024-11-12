@@ -13,28 +13,33 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistCreationBinding
 import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistsBinding
+import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
 import java.io.File
 import java.io.FileOutputStream
 
 class PlaylistCreationFragment : Fragment() {
-    private lateinit var binding: FragmentPlaylistCreationBinding
+    private var _binding: FragmentPlaylistCreationBinding?=null
+    private val binding get() = _binding!!
     private var imageUri: Uri = Uri.EMPTY
-
+    private val viewModel: PlaylistsViewModel by viewModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPlaylistCreationBinding.inflate(inflater, container, false)
+        _binding = FragmentPlaylistCreationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -60,9 +65,10 @@ class PlaylistCreationFragment : Fragment() {
                             RequestOptions().transform(
                                 MultiTransformation(
                                     CenterCrop(),
-                                    RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.small_one)))
+                                    RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.small_one))
                                 )
                             )
+                        )
                         .into(binding.image)
                     imageUri = uri
                 } else {
@@ -75,7 +81,10 @@ class PlaylistCreationFragment : Fragment() {
         }
 
         binding.btnCreate.setOnClickListener {
-
+            viewLifecycleOwner.lifecycleScope.launch {viewModel.createPlaylist(
+                binding.playlistName.text.toString(),
+                binding.playlistDescription.text.toString(), "mock"
+            )}
         }
     }
 }

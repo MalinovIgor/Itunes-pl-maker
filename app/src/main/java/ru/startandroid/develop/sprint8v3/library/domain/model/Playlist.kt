@@ -1,7 +1,7 @@
 package ru.startandroid.develop.sprint8v3.library.domain.model
 
+import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 
 data class Playlist(
     val id: Int = 0,

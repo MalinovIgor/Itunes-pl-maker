@@ -12,7 +12,7 @@ import ru.startandroid.develop.sprint8v3.library.db.track.TrackEntity
 @Dao
 interface PlaylistDao {
     @Insert(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPlaylist(playlistEntity: PlaylistEntity) : Long
+    suspend fun insertPlaylist(playlistEntity: PlaylistEntity)
 
     @Query("SELECT * FROM playlist_table")
     suspend fun getAllPlaylists(): List<PlaylistEntity>
