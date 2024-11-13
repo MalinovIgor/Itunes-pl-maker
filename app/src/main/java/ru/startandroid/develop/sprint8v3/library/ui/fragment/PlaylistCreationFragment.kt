@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
@@ -20,6 +22,7 @@ import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,7 +33,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 class PlaylistCreationFragment : Fragment() {
-    private var _binding: FragmentPlaylistCreationBinding?=null
+    private var _binding: FragmentPlaylistCreationBinding? = null
     private val binding get() = _binding!!
     private var imageUri: Uri = Uri.EMPTY
     private val viewModel: PlaylistsViewModel by viewModel()
@@ -40,7 +43,27 @@ class PlaylistCreationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPlaylistCreationBinding.inflate(inflater, container, false)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            context?.let {
+                if (binding.playlistName.text?.isNotEmpty() == true){
+                MaterialAlertDialogBuilder(it)
+                    .setTitle("Завершить создание плейлиста?")
+                    .setMessage("Все несохраненные данные будут потеряны")
+                    .setNeutralButton("Отмена") { dialog, which ->
+                    }
+
+                    .setPositiveButton("Завершить") { dialog, which ->
+                        findNavController().popBackStack()
+                    }
+                    .show()}
+                else
+                    findNavController().popBackStack()
+            }
+        }
         return binding.root
+
+
     }
 
 
@@ -71,6 +94,7 @@ class PlaylistCreationFragment : Fragment() {
                         )
                         .into(binding.image)
                     imageUri = uri
+                    saveImageToPrivateStorage(imageUri)
                 } else {
                     Log.d("PhotoPicker", "No media selected")
                 }
@@ -81,10 +105,28 @@ class PlaylistCreationFragment : Fragment() {
         }
 
         binding.btnCreate.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {viewModel.createPlaylist(
-                binding.playlistName.text.toString(),
-                binding.playlistDescription.text.toString(), "mock"
-            )}
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.createPlaylist(
+                    binding.playlistName.text.toString(),
+                    binding.playlistDescription.text.toString(),
+                    imageUri.toString() //TODO image root
+                )
+            }
+            findNavController().popBackStack()
         }
+    }
+
+
+    private fun saveImageToPrivateStorage(uri: Uri) {
+        val filePath = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
+        if (!filePath.exists()){
+            filePath.mkdirs()
+        }
+        val file = File(filePath, "first_cover.jpg")
+        val inputStream = requireActivity().contentResolver.openInputStream(uri)
+        val outputStream = FileOutputStream(file)
+        BitmapFactory
+            .decodeStream(inputStream)
+            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
     }
 }
