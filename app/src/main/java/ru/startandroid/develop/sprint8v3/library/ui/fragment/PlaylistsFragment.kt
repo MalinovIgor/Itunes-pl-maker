@@ -13,8 +13,11 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.startandroid.develop.sprint8v3.R
@@ -44,12 +47,35 @@ class PlaylistsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.createPlaylistButton.setOnClickListener {
-            findNavController().navigate(R.id.action_libraryFragment2_to_playlistCreationFragment) }
+            findNavController().navigate(R.id.action_libraryFragment2_to_playlistCreationFragment)
+        }
 
+        binding.playlistsRecyclerview.layoutManager =
+            GridLayoutManager(requireContext(), NUMBER_OF_COLUMN_PLAYLISTS)
+
+
+        playlistsViewModel.observePlaylists().observe(viewLifecycleOwner) { state ->
+            binding.playlistsRecyclerview.adapter = PlaylistAdapter(state)
+            render(state.size)
+        }
+
+        playlistsViewModel.returnPlaylists()
     }
 
+    private fun render(size: Int) {
+        if (size > 0) {
+            binding.mediaPlaceholderIv.visibility = View.GONE
+            binding.libraryPlaceholder.visibility = View.GONE
+            binding.playlistsRecyclerview.visibility = View.VISIBLE
+        } else {
+            binding.mediaPlaceholderIv.visibility = View.VISIBLE
+            binding.libraryPlaceholder.visibility = View.VISIBLE
+            binding.playlistsRecyclerview.visibility = View.GONE
+        }
+    }
 
     companion object {
+        private const val NUMBER_OF_COLUMN_PLAYLISTS = 2
         private const val MOCK_KEY = "mockmock"
 
         fun newInstance() = PlaylistsFragment().apply {

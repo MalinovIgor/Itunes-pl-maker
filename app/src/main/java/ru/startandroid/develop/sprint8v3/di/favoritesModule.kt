@@ -6,6 +6,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.startandroid.develop.sprint8v3.library.data.FavoritesRepositoryImpl
 import ru.startandroid.develop.sprint8v3.library.data.PlaylistRepositoryImpl
+import ru.startandroid.develop.sprint8v3.library.db.playlist.PlaylistDbConvertor
 import ru.startandroid.develop.sprint8v3.library.ui.FavoritesViewModel
 import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
 import ru.startandroid.develop.sprint8v3.library.db.track.AppDatabase
@@ -36,9 +37,12 @@ val favoritesModule = module {
     single {
         TrackDbConvertor()
     }
+    single {
+        PlaylistDbConvertor()
+    }
 
     single<PlaylistRepository> {
-        PlaylistRepositoryImpl(get())
+        PlaylistRepositoryImpl(get(), get())
     }
 
     single<PlaylistInteractor> {

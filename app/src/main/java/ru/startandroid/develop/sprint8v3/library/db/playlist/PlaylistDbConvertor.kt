@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.db.playlist
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.startandroid.develop.sprint8v3.library.db.track.TrackEntity
@@ -7,7 +8,7 @@ import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 
 class PlaylistDbConvertor {
-    fun map(playlist: PlaylistEntity): Playlist {
+    suspend fun map(playlist: PlaylistEntity): Playlist {
         return Playlist(
             playlist.id,
             playlist.name,

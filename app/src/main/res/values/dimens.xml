@@ -25,6 +25,10 @@
     <dimen name="dp30">30dp</dimen>
     <dimen name="dp26">26dp</dimen>
     <dimen name="dp14">14dp</dimen>
+    <dimen name="sp11">11sp</dimen>
+    <dimen name="dp12">12dp</dimen>
+    <dimen name="dp45">45dp</dimen>
+    <dimen name="dp61">61dp</dimen>
 
 
 </resources>

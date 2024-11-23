@@ -1,8 +1,9 @@
 package ru.startandroid.develop.sprint8v3.library.domain.impl
 
-import android.util.Log
+import kotlinx.coroutines.flow.Flow
 import ru.startandroid.develop.sprint8v3.library.domain.api.PlaylistInteractor
 import ru.startandroid.develop.sprint8v3.library.domain.db.PlaylistRepository
+import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
 
 class PlaylistInteractorImpl (private val repository: PlaylistRepository) : PlaylistInteractor {
 
@@ -13,4 +14,11 @@ class PlaylistInteractorImpl (private val repository: PlaylistRepository) : Play
     ) {
         repository.createPlaylist(playlistName,playlistDescription,playlistImage)
     }
+
+    override fun addToPlaylists(trackId: String, playlistId: Int) : Boolean {
+        return repository.addToPlaylist(trackId, playlistId)
+    }
+
+    override fun getPlaylists(): Flow<List<Playlist>> {
+        return repository.getPlaylists()    }
 }

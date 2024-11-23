@@ -10,17 +10,27 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.library.domain.api.FavoritesInteractor
+import ru.startandroid.develop.sprint8v3.library.domain.api.PlaylistInteractor
+import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
 import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
+import ru.startandroid.develop.sprint8v3.player.state.IsInPlaylistState
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerActivityViewModel(
-    private val interactor: PlayerInteractor, private val favoritesInteractor: FavoritesInteractor
+    private val interactor: PlayerInteractor,
+    private val favoritesInteractor: FavoritesInteractor,
+    private val playlistInteractor: PlaylistInteractor
 ) : ViewModel() {
 
     val playerState = MutableLiveData(PlayerState.STATE_DEFAULT)
+    private val isInPlaylistState = MutableLiveData<IsInPlaylistState>()
+    fun observeIsInPlaylist():LiveData<IsInPlaylistState> = isInPlaylistState
+
+    private val playlists = MutableLiveData<List<Playlist>>()
+    fun observePlaylists () : LiveData<List<Playlist>> = playlists
     val favoritesState = MutableLiveData<Boolean>()
     private var timerJob: Job? = null
 
@@ -33,8 +43,30 @@ class PlayerActivityViewModel(
         prepare()
     }
 
+    fun onAddToPlaylistClick(trackId: String, playlist: Playlist) {
+        viewModelScope.launch(Dispatchers.IO) {
+            isInPlaylistState.postValue(
+                IsInPlaylistState(
+                    playlistInteractor.addToPlaylists(
+                        trackId,
+                        playlist.id
+                    ), playlist
+                )
+            )
+        }
+    }
+
+    fun updatePlaylists() {
+        viewModelScope.launch(Dispatchers.IO) {
+            playlistInteractor.getPlaylists().collect {
+                playlists.postValue(it)
+            }
+        }
+    }
+
+
+
     fun onFavoriteClicked(track: Track) {
-        Log.d("testt", "track isFav before ${track.isFavorites}")
         viewModelScope.launch(Dispatchers.IO) {
             if (track.isFavorites) {
                 favoritesInteractor.deleteTrackFromFavorites(track)
@@ -45,8 +77,6 @@ class PlayerActivityViewModel(
                 track.isFavorites = true
                 favoritesState.postValue(true)
             }
-            Log.d("testt", "Track isFavorites after: ${track.isFavorites}")
-
         }
     }
 

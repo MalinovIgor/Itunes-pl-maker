@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 import ru.startandroid.develop.sprint8v3.library.db.playlist.PlaylistEntity
 import ru.startandroid.develop.sprint8v3.library.db.track.TrackEntity
 
@@ -17,8 +18,8 @@ interface PlaylistDao {
     @Query("SELECT * FROM playlist_table")
     suspend fun getAllPlaylists(): List<PlaylistEntity>
 
-//    @Query("SELECT id FROM playlist_table")
-//    suspend fun getPlaylistById(): PlaylistEntity
+    @Query("SELECT * FROM playlist_table WHERE id = :id")
+    fun getPlaylistById(id: Int): PlaylistEntity
 
     @Delete(entity = PlaylistEntity::class)
     suspend fun deletePlaylist(playlistEntity: PlaylistEntity)

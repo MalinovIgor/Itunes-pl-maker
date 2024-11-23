@@ -24,7 +24,7 @@ val playerModule = module {
 
     viewModel { (trackUrl: String) ->
         PlayerActivityViewModel(
-            interactor = get<PlayerInteractor>(parameters = { parametersOf(trackUrl) }), get()
+            interactor = get<PlayerInteractor>(parameters = { parametersOf(trackUrl) }), get(), get()
         )
     }
 }

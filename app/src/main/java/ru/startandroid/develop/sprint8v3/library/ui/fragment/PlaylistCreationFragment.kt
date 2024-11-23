@@ -1,18 +1,17 @@
 package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -27,12 +26,9 @@ import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistCreationBinding
-import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistsBinding
 import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
-import java.io.File
-import java.io.FileOutputStream
 
-class PlaylistCreationFragment : Fragment() {
+class PlaylistCreationFragment(fromNavController: Boolean) : Fragment() {
     private var _binding: FragmentPlaylistCreationBinding? = null
     private val binding get() = _binding!!
     private var imageUri: Uri = Uri.EMPTY
@@ -46,18 +42,18 @@ class PlaylistCreationFragment : Fragment() {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             context?.let {
-                if (binding.playlistName.text?.isNotEmpty() == true){
-                MaterialAlertDialogBuilder(it)
-                    .setTitle("Завершить создание плейлиста?")
-                    .setMessage("Все несохраненные данные будут потеряны")
-                    .setNeutralButton("Отмена") { dialog, which ->
-                    }
+                if (binding.playlistName.text?.isNotEmpty() == true) {
+                    MaterialAlertDialogBuilder(it)
+                        .setTitle("Завершить создание плейлиста?")
+                        .setMessage("Все несохраненные данные будут потеряны")
+                        .setNeutralButton("Отмена") { dialog, which ->
+                        }
 
-                    .setPositiveButton("Завершить") { dialog, which ->
-                        findNavController().popBackStack()
-                    }
-                    .show()}
-                else
+                        .setPositiveButton("Завершить") { dialog, which ->
+                            findNavController().popBackStack()
+                        }
+                        .show()
+                } else
                     findNavController().popBackStack()
             }
         }
@@ -94,7 +90,6 @@ class PlaylistCreationFragment : Fragment() {
                         )
                         .into(binding.image)
                     imageUri = uri
-                    saveImageToPrivateStorage(imageUri)
                 } else {
                     Log.d("PhotoPicker", "No media selected")
                 }
@@ -106,27 +101,27 @@ class PlaylistCreationFragment : Fragment() {
 
         binding.btnCreate.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
+                val playlistName = binding.playlistName.text.toString()
                 viewModel.createPlaylist(
-                    binding.playlistName.text.toString(),
+                    playlistName,
                     binding.playlistDescription.text.toString(),
-                    imageUri.toString() //TODO image root
+                    imageUri,
+                    binding.image.drawable.toBitmap()
                 )
+                Toast.makeText(requireContext(),"$imageUri",Toast.LENGTH_SHORT).show()
             }
+            Toast.makeText(
+                requireContext(),
+                "Плейлист ${binding.playlistName.text.toString()} создан",
+                Toast.LENGTH_SHORT
+            ).show()
             findNavController().popBackStack()
         }
     }
 
 
-    private fun saveImageToPrivateStorage(uri: Uri) {
-        val filePath = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
-        if (!filePath.exists()){
-            filePath.mkdirs()
-        }
-        val file = File(filePath, "first_cover.jpg")
-        val inputStream = requireActivity().contentResolver.openInputStream(uri)
-        val outputStream = FileOutputStream(file)
-        BitmapFactory
-            .decodeStream(inputStream)
-            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+    companion object {
+        const val RESULT = "RESULT_KEY"
+        fun newInstance(fromNavController: Boolean) = PlaylistCreationFragment(fromNavController)
     }
 }

@@ -26,8 +26,4 @@ class FavoritesViewModel (
     init {
         returnFavoriteTracks()
     }
-
-    fun onFavoriteClicked(track:Track){
-
-    }
 }
