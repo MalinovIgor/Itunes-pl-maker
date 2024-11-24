@@ -5,22 +5,33 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import androidx.room.Room
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import ru.startandroid.develop.sprint8v3.di.favoritesModule
 import ru.startandroid.develop.sprint8v3.di.playerModule
+import ru.startandroid.develop.sprint8v3.di.repositoryModule
 import ru.startandroid.develop.sprint8v3.di.searchModule
 import ru.startandroid.develop.sprint8v3.di.settingsModule
+import ru.startandroid.develop.sprint8v3.library.db.AppDatabase
 
 const val DARK_THEME = "dark_theme"
 const val USER_PREFERENCES = "user_preferences"
 var darkTheme: Boolean = false
 
 class App : Application() {
+    lateinit var database: AppDatabase
     override fun onCreate() {
         super.onCreate()
+
+        database = Room.databaseBuilder(
+            this,
+            AppDatabase::class.java,
+            "database.db"
+        ).fallbackToDestructiveMigration()
+            .build()
 
         startKoin {
             androidLogger()
@@ -29,7 +40,8 @@ class App : Application() {
                 searchModule,
                 playerModule,
                 settingsModule,
-                favoritesModule
+                favoritesModule,
+                repositoryModule
             )
         }
         val sharedPreferences: SharedPreferences by inject()

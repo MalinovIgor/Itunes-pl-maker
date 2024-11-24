@@ -62,6 +62,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+
         setupOnClickListeners()
 
         viewModel.searchState.observe(viewLifecycleOwner) { state ->
@@ -79,7 +80,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
 
             } else {
                 searchJob?.cancel()
-
                 searchJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(CLICK_DEBOUNCE_DELAY)
                     searchDebounce(s.toString())
@@ -88,7 +88,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             }
         }
         )
-
         val bottomNavigationView =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
@@ -123,6 +122,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             hideErrorPlaceholder()
             viewModel.loadHistory()
             showHistory()
+            viewModel.cleanLastSearchedText()
         }
 
         binding.editText.setOnEditorActionListener { _, actionId, _ ->
@@ -131,6 +131,7 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 if (query.isNotEmpty()) {
                     searchDebounce(query)
                 } else {
+                    viewModel.cleanLastSearchedText()
                     binding.editText.text.clear()
                 }
                 true
@@ -138,9 +139,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 false
             }
         }
+
     }
 
     private fun renderState(state: SearchState) {
+
         when (state) {
             is SearchState.ContentHistoryTracks -> {
                 showHistory()
@@ -177,7 +180,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
                 hideSearchHistoryItems()
                 showErrorPlaceholder(getString(R.string.nothing_found), R.drawable.nothings_found)
                 needLoadHistory = true
-
             }
         }
     }
@@ -245,12 +247,12 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             isClickAllowed = true
         }
 
-        viewModel.onClick(track)
+        viewLifecycleOwner.lifecycleScope.launch { viewModel.onClick(track) }
 
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 2500L
+        const val CLICK_DEBOUNCE_DELAY = 2500L
 
     }
 }

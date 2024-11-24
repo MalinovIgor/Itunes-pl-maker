@@ -1,5 +1,7 @@
 plugins {
+    id ("kotlin-kapt")
     id("com.android.application")
+
     id("org.jetbrains.kotlin.android")
 }
 
@@ -42,6 +44,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.navigation.compose)
     implementation(libs.navigation.fragment.ktx)

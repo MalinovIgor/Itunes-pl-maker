@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivityPlayerBinding
@@ -41,8 +42,13 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
+        if (track != null) {
+            updateFavoriteState(track.isFavorites)
+        }
+
         viewModel = getViewModel { parametersOf(track?.previewUrl) }
-        binding.timer.text = "00:00"
+        binding.timer.text = zeroTimer
+
         val previewUrl = savedInstanceState?.getString("PREVIEW_URL")
 
         val trackUrl = track?.previewUrl ?: previewUrl
@@ -67,7 +73,6 @@ class PlayerActivity : AppCompatActivity() {
 
         viewModel.observePlayerState().observe(this) { state ->
             viewModel.getState()
-            viewModel.observePlayerState()
         }
 
 
@@ -82,6 +87,9 @@ class PlayerActivity : AppCompatActivity() {
             } else {
                 viewModel.play()
             }
+        }
+        viewModel.observeFavoritesState().observe(this) { state ->
+            updateFavoriteState(state)
         }
     }
 
@@ -99,6 +107,19 @@ class PlayerActivity : AppCompatActivity() {
         binding.releaseDateTextView.text = viewModel.parseDate(releaseDateString, noData)
         binding.collectionNameTextView.text = track.collectionName
         binding.trackTimeTextView.text = timerDateFormat.format(track.trackTime)
+        binding.favorite.setOnClickListener {
+            viewModel.onFavoriteClicked(track)
+        }
+
+
+    }
+
+    private fun updateFavoriteState(state: Boolean) {
+        if (state) {
+            binding.favorite.setImageResource(R.drawable.fav_added)
+        } else {
+            binding.favorite.setImageResource(R.drawable.fav)
+        }
     }
 
     private fun handlePlayerState(state: PlayerState) {
@@ -112,7 +133,7 @@ class PlayerActivity : AppCompatActivity() {
             }
 
             PlayerState.STATE_COMPLETED -> {
-                binding.timer.text = "00:00"
+                binding.timer.text = zeroTimer
                 binding.play.setImageResource(R.drawable.play)
             }
 
@@ -139,6 +160,7 @@ class PlayerActivity : AppCompatActivity() {
 
     companion object {
         private const val noData = "отсутствует"
+        private const val zeroTimer = "00:00"
         private val timerDateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
     }
 }
