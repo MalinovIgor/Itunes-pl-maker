@@ -118,20 +118,25 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
 
-    <style name="button_new_pl" parent = "button">
+    <style name="button_new_pl" parent="button">
         <item name="backgroundColor">@color/settings_text_changeable_anti</item>
         <item name="android:textColor">@color/settings_text_changeable</item>
     </style>
 
 
-    <style name="new_pl_text" parent = "Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="new_pl_text" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextColor">@color/blue</item>
         <item name="boxStrokeColor">@drawable/text_edit_str</item>
     </style>
 
-    <style name="new_pl_textfield" parent = "Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="new_pl_textfield" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextColor">@color/blue</item>
         <item name="boxStrokeColor">@drawable/text_edit_str</item>
     </style>
-    
+
+    <style name="AppBottomSheetTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:background">@color/background</item>
+    </style>
+
+
 </resources>

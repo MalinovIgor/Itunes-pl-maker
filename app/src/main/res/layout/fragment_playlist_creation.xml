@@ -122,6 +122,7 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textFontWeight="500"
+        android:layout_marginVertical="@dimen/dp16"
         android:textSize="@dimen/sp16"
         app:cornerRadius="@dimen/dp8"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -47,6 +47,7 @@ class PlaylistsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.createPlaylistButton.setOnClickListener {
+            Log.d("testt","gg")
             findNavController().navigate(R.id.action_libraryFragment2_to_playlistCreationFragment)
         }
 

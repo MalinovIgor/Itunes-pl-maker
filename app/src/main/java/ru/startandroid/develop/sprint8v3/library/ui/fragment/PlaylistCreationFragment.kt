@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistCreationBinding
 import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
 
-class PlaylistCreationFragment(fromNavController: Boolean) : Fragment() {
+class PlaylistCreationFragment() : Fragment() {
     private var _binding: FragmentPlaylistCreationBinding? = null
     private val binding get() = _binding!!
     private var imageUri: Uri = Uri.EMPTY
@@ -39,7 +39,7 @@ class PlaylistCreationFragment(fromNavController: Boolean) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPlaylistCreationBinding.inflate(inflater, container, false)
-
+        val fromNavController = arguments?.getBoolean("fromNavController") ?: false
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             context?.let {
                 if (binding.playlistName.text?.isNotEmpty() == true) {
@@ -122,6 +122,12 @@ class PlaylistCreationFragment(fromNavController: Boolean) : Fragment() {
 
     companion object {
         const val RESULT = "RESULT_KEY"
-        fun newInstance(fromNavController: Boolean) = PlaylistCreationFragment(fromNavController)
+        fun newInstance(fromNavController: Boolean): PlaylistCreationFragment {
+            val fragment = PlaylistCreationFragment()
+            val bundle = Bundle()
+            bundle.putBoolean("fromNavController", fromNavController)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

@@ -14,11 +14,9 @@ class BottomPlAdapter(
 ) :
     RecyclerView.Adapter<BottomPlViewHolder>() {
     init {
-        Log.d("testt", "Adapter created with ${playlists.size} items")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomPlViewHolder {
-        Log.d("testt", "Holder created with ${viewType} viewtype")
 
         val view =
             LayoutInflater.from(parent.context)

@@ -17,7 +17,7 @@ import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
 import java.io.File
 
-class BottomPlViewHolder(view: View) : RecyclerView.ViewHolder(view){
+class BottomPlViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val title: TextView = itemView.findViewById(R.id.playlist_name)
     private val description: TextView = itemView.findViewById(R.id.tracks_number)
     private val playlistImage: ImageView = itemView.findViewById(R.id.playlist_image)
@@ -36,27 +36,39 @@ class BottomPlViewHolder(view: View) : RecyclerView.ViewHolder(view){
                     RequestOptions().transform(
                         MultiTransformation(
                             CenterCrop(),
-                                RoundedCorners(cornerRadius)
+                            RoundedCorners(cornerRadius)
                         )
                     )
                 )
                 .into(playlistImage)
         } else {
-            playlistImage.setImageDrawable(getDrawable(itemView.context, R.drawable.placeholder_image))
+            playlistImage.setImageDrawable(
+                getDrawable(
+                    itemView.context,
+                    R.drawable.placeholder_image
+                )
+            )
         }
         title.text = playlist.name
         playlist.tracks.size.let {
+
             description.text = getPluralForm(it).format(it)
+            Log.d("testt", "tyt ${description.text}")
+
         }
     }
 
     fun getPluralForm(num: Int): String {
-        val n = num % 100
-        return when {
-            n in 11..14 -> itemView.context.getString(R.string.tracks)
-            n % 10 == 1 -> itemView.context.getString(R.string.track)
-            n % 10 in 2..4 -> itemView.context.getString(R.string.tracks)
-            else -> itemView.context.getString(R.string.tracks)
+        if (num == 0) return itemView.context.getString(R.string.track_zero)
+        else {
+            val n = num % 100
+            return when {
+
+                n in 11..14 -> itemView.context.getString(R.string.tracks)
+                n % 10 == 1 -> itemView.context.getString(R.string.track)
+                n % 10 in 2..4 -> itemView.context.getString(R.string.tracks)
+                else -> itemView.context.getString(R.string.tracks)
+            }
         }
     }
 }

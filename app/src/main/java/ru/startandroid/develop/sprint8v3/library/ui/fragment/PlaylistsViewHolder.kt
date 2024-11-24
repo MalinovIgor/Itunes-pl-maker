@@ -48,12 +48,15 @@ class PlaylistsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     fun getPluralForm(num: Int): String {
-        val n = num % 100
-        return when {
-            n in 11..14 -> itemView.context.getString(R.string.tracks)
-            n % 10 == 1 -> itemView.context.getString(R.string.track)
-            n % 10 in 2..4 -> itemView.context.getString(R.string.tracks)
-            else -> itemView.context.getString(R.string.tracks)
+        if (num == 0) return itemView.context.getString(R.string.track_zero)
+        else {
+            val n = num % 100
+            return when {
+                n in 11..14 -> itemView.context.getString(R.string.tracks)
+                n % 10 == 1 -> itemView.context.getString(R.string.track)
+                n % 10 in 2..4 -> itemView.context.getString(R.string.tracks)
+                else -> itemView.context.getString(R.string.tracks)
+            }
         }
     }
 }
