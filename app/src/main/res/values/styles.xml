@@ -136,6 +136,7 @@
 
     <style name="AppBottomSheetTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="android:background">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
     </style>
 
 
