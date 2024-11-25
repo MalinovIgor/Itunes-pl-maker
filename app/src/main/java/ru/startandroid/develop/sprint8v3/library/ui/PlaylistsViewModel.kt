@@ -38,10 +38,10 @@ class PlaylistsViewModel(
             playlistImage = "${UUID.randomUUID()}.png"
         viewModelScope.launch(Dispatchers.IO) {
             interactor.createPlaylist(playlistName, playlistDescription, playlistImage)
-                saveImageToPrivateStorage(
-                    bitmap,
-                    playlistImage!!
-                )
+
+            playlistImage?.let {
+                saveImageToPrivateStorage(bitmap, it)
+            }
         }
     }
 
