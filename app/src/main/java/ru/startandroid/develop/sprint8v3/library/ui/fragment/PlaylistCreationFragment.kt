@@ -15,12 +15,14 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
@@ -38,6 +40,9 @@ class PlaylistCreationFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView?.visibility = View.GONE
         _binding = FragmentPlaylistCreationBinding.inflate(inflater, container, false)
         val fromNavController = arguments?.getBoolean("fromNavController") ?: false
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

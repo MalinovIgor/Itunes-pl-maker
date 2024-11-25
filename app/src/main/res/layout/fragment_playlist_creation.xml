@@ -112,7 +112,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_create"
         android:enabled="false"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp32"
         android:backgroundTint="@drawable/button_add_playlist"

@@ -53,7 +53,6 @@ class PlaylistsViewModel(
         }
     }
 
-
     private fun saveImageToPrivateStorage(bitmap: Bitmap, fileName: String): Boolean {
         if (fileName.isEmpty()) return false
         val filePath =
@@ -66,7 +65,6 @@ class PlaylistsViewModel(
         return bitmap
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
     }
-
 
     init {
         returnPlaylists()
