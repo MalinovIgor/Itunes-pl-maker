@@ -28,7 +28,7 @@
     <string name="releaseDate">Год</string>
     <string name="collectionName">Альбом</string>
     <string name="trackTime">Длительность</string>
-    <string name="search_history">История поиска</string>
+    <string name="search_history">Вы искали</string>
     <string name="zero_timer">00:00</string>
     <string name="create_playlist">Новый плейлист</string>
     <string name="empty_playlists">Вы не создали ни одного плейлиста</string>
@@ -41,7 +41,7 @@
     <string name="playlist_name">Название*</string>
     <string name="new_pl">Новый плейлист</string>
     <string name="playlist_description">Описание</string>
-    <string name="create">Создать плейлист</string>
+    <string name="create">Создать</string>
     <string name="track">%d трек</string>
     <string name="tracks">%d трека</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
