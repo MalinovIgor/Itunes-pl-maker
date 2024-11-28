@@ -9,8 +9,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.startandroid.develop.sprint8v3.App
 import ru.startandroid.develop.sprint8v3.library.data.InFavoritesCheckRepository
-import ru.startandroid.develop.sprint8v3.library.db.AppDatabase
+import ru.startandroid.develop.sprint8v3.library.db.track.AppDatabase
 import ru.startandroid.develop.sprint8v3.library.domain.api.FavoritesInteractor
 import ru.startandroid.develop.sprint8v3.library.domain.impl.FavoritesInteractorImpl
 import ru.startandroid.develop.sprint8v3.search.utils.SEARCH_HISTORY_KEY
@@ -46,7 +47,7 @@ val searchModule = module {
     }
 
     single<SearchHistoryRepository> {
-        SearchHistoryRepositoryImpl(get(),get())
+        SearchHistoryRepositoryImpl(get(), get())
     }
 
     single<HistoryInteractor> {
@@ -61,15 +62,11 @@ val searchModule = module {
     }
 
     single<TracksRepository> {
-        TracksRepositoryImpl(get(),get())
+        TracksRepositoryImpl(get(), get())
     }
 
     single { InFavoritesCheckRepository(get()) }
 
-    single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
-            .build()
-    }
 
     viewModel {
         SearchActivityViewModel(

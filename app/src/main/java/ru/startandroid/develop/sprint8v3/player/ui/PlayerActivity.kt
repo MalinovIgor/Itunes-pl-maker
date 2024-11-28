@@ -1,30 +1,47 @@
 package ru.startandroid.develop.sprint8v3.player.ui
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.ActivityPlayerBinding
+import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
+import ru.startandroid.develop.sprint8v3.library.ui.fragment.PlaylistCreationFragment
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
+import ru.startandroid.develop.sprint8v3.player.ui.bottomPl.BottomPlAdapter
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
+import ru.startandroid.develop.sprint8v3.search.ui.fragment.SearchFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 const val SELECTEDTRACK = "selectedTrack"
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerActivity : AppCompatActivity()  {
 
-    private lateinit var binding: ActivityPlayerBinding
+    private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
+
+    private lateinit var bottomNavigationView: BottomNavigationView
+
+    private lateinit var onPlaylistClickDebounce: (Playlist) -> Unit
     private lateinit var viewModel: PlayerActivityViewModel
+    var isClickAllowed = true
 
+
+    private val binding by lazy { ActivityPlayerBinding.inflate(layoutInflater) }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
@@ -38,7 +55,6 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
@@ -75,7 +91,6 @@ class PlayerActivity : AppCompatActivity() {
             viewModel.getState()
         }
 
-
         if (track != null) {
             viewModel.prepare()
         }
@@ -91,10 +106,120 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.observeFavoritesState().observe(this) { state ->
             updateFavoriteState(state)
         }
+
+        val bottomSheetContainer = binding.playlistsBottomSheet
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        bottomSheetBehavior.peekHeight = binding.root.height / 3 * 2
+                        viewModel.updatePlaylists()
+                    }
+
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        binding.overlay?.visibility = View.GONE
+                    }
+
+                    else -> {
+                        binding.overlay?.visibility = View.VISIBLE
+                        viewModel.updatePlaylists()
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.overlay?.alpha = (slideOffset + 1f) / 2f
+            }
+        })
+
+        binding.queue.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        binding.createPlaylistButton.setOnClickListener {
+            bottomSheetState = bottomSheetBehavior.state
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+            val fragment = PlaylistCreationFragment.newInstance(false)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_view, fragment)
+                .addToBackStack(null)
+                .commit()
+            binding.playerContent?.visibility = View.GONE
+            binding.fragmentView?.visibility = View.VISIBLE
+        }
+
+        supportFragmentManager.setFragmentResultListener(
+            PlaylistCreationFragment.RESULT, this
+        ) { _, bundle ->
+            val playlistCreated = bundle.getBoolean(PlaylistCreationFragment.RESULT, false)
+            if (playlistCreated) {
+                bottomSheetBehavior.state = bottomSheetState
+                binding.playerContent?.visibility = View.VISIBLE
+                binding.fragmentView?.visibility = View.GONE
+            }
+        }
+
+        binding.overlay?.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        val onItemClickListener = BottomPlAdapter.OnItemClickListener { item ->
+            onClickDebounce(track!!.trackId, item)
+        }
+
+        viewModel.observeIsInPlaylist().observe(this) { state ->
+            when (state.isInPlaylist) {
+                true -> {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    Toast.makeText(
+                        this,
+                        getString(R.string.in_playlist).format(state.playlist.name),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                false -> {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.not_in_playlist).format(state.playlist.name),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+        binding.recyclePlaylistsView.layoutManager = LinearLayoutManager(this)
+
+        viewModel.observePlaylists().observe(this) { state ->
+            binding.recyclePlaylistsView.adapter =
+                BottomPlAdapter(state, onItemClickListener)
+            binding.recyclePlaylistsView.visibility = View.VISIBLE
+
+        }
+    }
+
+    private fun onClickDebounce(
+        trackId: String,
+        playlist: Playlist
+    ) {
+        if (isClickAllowed) {
+            viewModel.onAddToPlaylistClick(trackId, playlist)
+        }
+        lifecycleScope.launch {
+            delay(SearchFragment.CLICK_DEBOUNCE_DELAY)
+            isClickAllowed = true
+        }
     }
 
     private fun loadTrackInfo(track: Track) {
-        Glide.with(this).load(track.getCoverArtwork()).fitCenter()
+        Glide.with(this)
+            .load(track.getCoverArtwork())
+            .fitCenter()
             .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.small_one)))
             .apply(RequestOptions().placeholder(R.drawable.placeholder_image))
             .into(binding.artworkImageViewBig)

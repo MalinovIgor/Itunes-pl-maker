@@ -1,4 +1,4 @@
-package ru.startandroid.develop.sprint8v3.library.db
+package ru.startandroid.develop.sprint8v3.library.db.track
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

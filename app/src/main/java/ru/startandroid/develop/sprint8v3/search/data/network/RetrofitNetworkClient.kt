@@ -22,19 +22,7 @@ class RetrofitNetworkClient : NetworkClient {
     private val itunesService = retrofit.create(ItunesAPI::class.java)
 
     override suspend fun doRequest(dto: Any): Response {
-//        return if (dto is TracksSearchRequest) {
-//            val resp = itunesService.search(dto.expression)//.execute()
 
-        //     val body = resp.body()
-        //     if (body != null) {
-//                ItunesResponse(body.results, resp.code())
-//            } else {
-//                ItunesResponse(emptyList(), resp.code())
-//            }
-//        } else {
-//            Response(400)
-//        }
-//    }
         if (dto !is TracksSearchRequest) {
             return Response(400) }
 

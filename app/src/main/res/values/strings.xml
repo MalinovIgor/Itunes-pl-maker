@@ -28,7 +28,7 @@
     <string name="releaseDate">Год</string>
     <string name="collectionName">Альбом</string>
     <string name="trackTime">Длительность</string>
-    <string name="search_history">История поиска</string>
+    <string name="search_history">Вы искали</string>
     <string name="zero_timer">00:00</string>
     <string name="create_playlist">Новый плейлист</string>
     <string name="empty_playlists">Вы не создали ни одного плейлиста</string>
@@ -38,6 +38,20 @@
     <string name="search_bot_view">Поиск</string>
     <string name="library_bot_view">Медиатека</string>
     <string name="sett_bot_view">Настройки</string>
+    <string name="playlist_name">Название*</string>
+    <string name="new_pl">Новый плейлист</string>
+    <string name="playlist_description">Описание</string>
+    <string name="create">Создать</string>
+    <string name="track">%d трек</string>
+    <string name="tracks">%d трека</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="in_playlist">Добавлено в плейлист %s</string>
+    <string name="not_in_playlist">Трек уже добавлен в плейлист %s</string>
+    <string name="track_zero">%d треков</string>
+    <string name="pl_created">Плейлист %s создан</string>
+    <string name="no_save_exit">Все несохраненные данные будут потеряны</string>
+    <string name="exit_quest_end">Завершить создание плейлиста?</string>
+    <string name="finish">Завершить</string>
 
 
 </resources>

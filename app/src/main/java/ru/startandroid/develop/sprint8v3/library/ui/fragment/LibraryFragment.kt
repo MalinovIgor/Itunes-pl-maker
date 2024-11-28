@@ -13,15 +13,16 @@ import ru.startandroid.develop.sprint8v3.databinding.FragmentSettingsBinding
 
 class LibraryFragment : Fragment() {
 
-    private lateinit var binding: FragmentLibraryBinding
-    private lateinit var tabMediator: TabLayoutMediator
+    private var _binding: FragmentLibraryBinding? = null
+    private val binding get() = _binding!!
+    private var tabMediator: TabLayoutMediator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        _binding  = FragmentLibraryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,12 +40,14 @@ class LibraryFragment : Fragment() {
                 1 -> tab.text = getString(R.string.playlists)
             }
         }
-        tabMediator.attach()
+        tabMediator?.attach()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        tabMediator.detach()
+        tabMediator?.detach()
+        tabMediator = null
+        _binding = null
     }
 
     companion object {
