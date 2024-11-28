@@ -3,12 +3,10 @@ package ru.startandroid.develop.sprint8v3.search.ui.fragment
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.compose.ui.text.intl.Locale
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible

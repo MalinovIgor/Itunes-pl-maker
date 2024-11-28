@@ -41,10 +41,6 @@ class PlaylistCreationFragment(val fromNavController: Boolean = true) : Fragment
     private var imageUri: Uri = Uri.EMPTY
     private val viewModel: PlaylistsViewModel by viewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,

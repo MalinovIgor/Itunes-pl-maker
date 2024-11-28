@@ -30,16 +30,12 @@ class RootActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            Log.d("CurrentActivity", "Current destination: ${destination.label}")
             when (destination.id) {
                 R.id.playlistCreationFragment -> {
-                    Log.d("CurrentActivity", "Destination ID: ${destination.id}")
                     bottomNavigationView.visibility = View.GONE
-                    Log.d("CurrentActivity", "and now current visibility: ${bottomNavigationView.isVisible}")
                 }
                 else -> {
                     bottomNavigationView.visibility = View.VISIBLE
-                    Log.d("CurrentActivity", "and now current visibility: ${bottomNavigationView.isVisible}")
 
                 }
             }
