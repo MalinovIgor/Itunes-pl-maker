@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,9 +34,11 @@ import java.util.Locale
 
 const val SELECTEDTRACK = "selectedTrack"
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerActivity : AppCompatActivity()  {
 
     private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
+
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     private lateinit var onPlaylistClickDebounce: (Playlist) -> Unit
     private lateinit var viewModel: PlayerActivityViewModel
@@ -91,7 +95,6 @@ class PlayerActivity : AppCompatActivity() {
             viewModel.getState()
         }
 
-
         if (track != null) {
             viewModel.prepare()
         }
@@ -111,6 +114,7 @@ class PlayerActivity : AppCompatActivity() {
         val bottomSheetContainer = binding.playlistsBottomSheet
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -156,15 +160,17 @@ class PlayerActivity : AppCompatActivity() {
         supportFragmentManager.setFragmentResultListener(
             PlaylistCreationFragment.RESULT, this
         ) { _, bundle ->
-            bottomSheetBehavior.state = bottomSheetState
-            binding.playerContent?.visibility = View.VISIBLE
-            binding.fragmentView?.visibility = View.GONE
+            val playlistCreated = bundle.getBoolean(PlaylistCreationFragment.RESULT, false)
+            if (playlistCreated) {
+                bottomSheetBehavior.state = bottomSheetState
+                binding.playerContent?.visibility = View.VISIBLE
+                binding.fragmentView?.visibility = View.GONE
+            }
         }
 
         binding.overlay?.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
-        Log.d("testt", "in onCreate")
 
         val onItemClickListener = BottomPlAdapter.OnItemClickListener { item ->
             onClickDebounce(track!!.trackId, item)
@@ -192,8 +198,6 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         binding.recyclePlaylistsView.layoutManager = LinearLayoutManager(this)
-
-
 
         viewModel.observePlaylists().observe(this) { state ->
             binding.recyclePlaylistsView.adapter =
