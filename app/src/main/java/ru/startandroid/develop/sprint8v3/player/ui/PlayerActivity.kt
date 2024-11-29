@@ -169,7 +169,7 @@ class PlayerActivity : AppCompatActivity()  {
         }
 
         val onItemClickListener = BottomPlAdapter.OnItemClickListener { item ->
-            onClickDebounce(track!!.trackId, item)
+            onClickDebounce(track!!, item)
         }
 
         viewModel.observeIsInPlaylist().observe(this) { state ->
@@ -204,11 +204,11 @@ class PlayerActivity : AppCompatActivity()  {
     }
 
     private fun onClickDebounce(
-        trackId: String,
+        track: Track,
         playlist: Playlist
     ) {
         if (isClickAllowed) {
-            viewModel.onAddToPlaylistClick(trackId, playlist)
+            viewModel.onAddToPlaylistClick(track, playlist)
         }
         lifecycleScope.launch {
             delay(SearchFragment.CLICK_DEBOUNCE_DELAY)

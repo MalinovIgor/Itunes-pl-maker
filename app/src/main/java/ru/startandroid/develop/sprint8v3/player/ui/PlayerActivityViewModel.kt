@@ -43,12 +43,12 @@ class PlayerActivityViewModel(
         prepare()
     }
 
-    fun onAddToPlaylistClick(trackId: String, playlist: Playlist) {
+    fun onAddToPlaylistClick(track: Track, playlist: Playlist) {
         viewModelScope.launch(Dispatchers.IO) {
             isInPlaylistState.postValue(
                 IsInPlaylistState(
                     playlistInteractor.addToPlaylists(
-                        trackId,
+                        track,
                         playlist.id
                     ), playlist
                 )
@@ -131,4 +131,5 @@ class PlayerActivityViewModel(
             }
         }
     }
+
 }

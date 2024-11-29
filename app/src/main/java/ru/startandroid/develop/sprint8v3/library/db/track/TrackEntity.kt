@@ -25,5 +25,4 @@ data class TrackEntity (
     val addedTime : String
 ) : Serializable {
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast(delimiterForBigImg, replacementForBigImg)
-
 }

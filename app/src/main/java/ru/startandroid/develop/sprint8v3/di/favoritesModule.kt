@@ -11,12 +11,14 @@ import ru.startandroid.develop.sprint8v3.library.ui.FavoritesViewModel
 import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
 import ru.startandroid.develop.sprint8v3.library.db.track.AppDatabase
 import ru.startandroid.develop.sprint8v3.library.db.track.TrackDbConvertor
+import ru.startandroid.develop.sprint8v3.library.db.track.TrackToPlDbConvertor
 import ru.startandroid.develop.sprint8v3.library.domain.api.FavoritesInteractor
 import ru.startandroid.develop.sprint8v3.library.domain.api.PlaylistInteractor
 import ru.startandroid.develop.sprint8v3.library.domain.db.FavoritesRepository
 import ru.startandroid.develop.sprint8v3.library.domain.db.PlaylistRepository
 import ru.startandroid.develop.sprint8v3.library.domain.impl.FavoritesInteractorImpl
 import ru.startandroid.develop.sprint8v3.library.domain.impl.PlaylistInteractorImpl
+import ru.startandroid.develop.sprint8v3.library.ui.PlaylistViewViewModel
 
 val favoritesModule = module {
 
@@ -42,7 +44,7 @@ val favoritesModule = module {
     }
 
     single<PlaylistRepository> {
-        PlaylistRepositoryImpl(get(), get())
+        PlaylistRepositoryImpl(get(), get(), get())
     }
 
     single<PlaylistInteractor> {
@@ -53,6 +55,14 @@ val favoritesModule = module {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    viewModel {
+        PlaylistViewViewModel(get())
+    }
+
+    single {
+        TrackToPlDbConvertor()
     }
 
 }

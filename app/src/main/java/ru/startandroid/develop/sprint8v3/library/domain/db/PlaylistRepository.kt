@@ -13,8 +13,10 @@ interface PlaylistRepository {
         playlistImage: String?,
     )
 
+    fun getPlaylistById(playlistId: Int): Flow<Playlist?>
+    fun getAllTracks(playlistId: Int): Flow<List<Track>?>
     suspend fun deletePlaylist(playlist: PlaylistEntity) //@TODO
-    fun addToPlaylist(trackId: String, playlistId: Int) : Boolean
+    fun addToPlaylist(track: Track, playlistId: Int) : Boolean
     fun deleteFromPlaylist(trackId: String, playlistId: Int)
     fun getPlaylists(): Flow<List<Playlist>>
 

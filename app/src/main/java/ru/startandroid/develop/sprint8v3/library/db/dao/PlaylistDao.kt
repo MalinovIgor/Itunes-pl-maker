@@ -9,6 +9,7 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import ru.startandroid.develop.sprint8v3.library.db.playlist.PlaylistEntity
 import ru.startandroid.develop.sprint8v3.library.db.track.TrackEntity
+import ru.startandroid.develop.sprint8v3.library.db.track.TrackToPlEntity
 
 @Dao
 interface PlaylistDao {
@@ -26,5 +27,20 @@ interface PlaylistDao {
 
     @Update(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
     fun updatePlaylists(playlistEntity: PlaylistEntity)
+
+    @Query("SELECT tracks FROM playlist_table WHERE id = :playlistId")
+    fun getAllTracksFromPlaylist(playlistId: Int): String
+
+    @Query("SELECT * FROM all_tracks_table")
+    suspend fun getAllTracks(): List<TrackToPlEntity>
+
+    @Query("SELECT * FROM all_tracks_table WHERE trackId IN (:trackIds)")
+    suspend fun getTrackByIds(trackIds: List<String>): List<TrackToPlEntity>
+
+    @Insert(entity = TrackToPlEntity::class, onConflict = OnConflictStrategy.IGNORE)
+    fun insertTrack(track: TrackToPlEntity)
+
+    @Query("DELETE FROM all_tracks_table WHERE trackId = :trackId")
+    fun deleteTrack(trackId: String)
 
 }
