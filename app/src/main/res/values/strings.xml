@@ -52,6 +52,8 @@
     <string name="no_save_exit">Все несохраненные данные будут потеряны</string>
     <string name="exit_quest_end">Завершить создание плейлиста?</string>
     <string name="finish">Завершить</string>
+    <string name="pl_edit">Редактировать информацию</string>
+    <string name="pl_delete">Удалить плейлист</string>
 
 
 </resources>

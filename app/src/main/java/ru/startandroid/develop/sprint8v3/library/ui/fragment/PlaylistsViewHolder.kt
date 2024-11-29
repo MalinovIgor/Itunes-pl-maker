@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
+import ru.startandroid.develop.sprint8v3.search.ui.TrackAdapter
 import java.io.File
 
 class PlaylistsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -45,6 +46,7 @@ class PlaylistsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         playlist.tracks.size.let {
             description.text = getPluralForm(it).format(it)
         }
+
     }
 
     fun getPluralForm(num: Int): String {

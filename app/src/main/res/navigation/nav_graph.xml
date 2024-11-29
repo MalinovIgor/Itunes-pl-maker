@@ -50,9 +50,17 @@
         <action
             android:id="@+id/action_libraryFragment2_to_playlistCreationFragment"
             app:destination="@id/playlistCreationFragment" />
+        <action
+            android:id="@+id/action_libraryFragment2_to_playlistViewFragment"
+            app:destination="@id/playlistViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistCreationFragment"
         android:name="ru.startandroid.develop.sprint8v3.library.ui.fragment.PlaylistCreationFragment"
         android:label="PlaylistCreationFragment" />
+    <fragment
+        android:id="@+id/playlistViewFragment"
+        android:name="ru.startandroid.develop.sprint8v3.library.ui.fragment.PlaylistViewFragment"
+        android:label="fragment_playlist_view"
+        tools:layout="@layout/fragment_playlist_view" />
 </navigation>

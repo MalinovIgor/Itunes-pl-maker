@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
+import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 
 class PlaylistAdapter(private val playlists: List<Playlist>) :
     RecyclerView.Adapter<PlaylistsViewHolder>() {
@@ -20,5 +21,9 @@ class PlaylistAdapter(private val playlists: List<Playlist>) :
 
     override fun onBindViewHolder(holder: PlaylistsViewHolder, position: Int) {
         holder.bind(playlists[position])
+    }
+
+    interface Listener{
+        fun onClick(track: Track)
     }
 }
