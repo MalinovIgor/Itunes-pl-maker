@@ -22,7 +22,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.startandroid.develop.sprint8v3.R
 import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistsBinding
+import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
 import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
+import ru.startandroid.develop.sprint8v3.library.ui.fragment.PlaylistViewFragment.Companion.CLICK_DEBOUNCE_DELAY
+import ru.startandroid.develop.sprint8v3.library.ui.fragment.PlaylistViewFragment.Companion.PLAYLIST_ID_KEY
+import ru.startandroid.develop.sprint8v3.search.domain.models.Track
+import ru.startandroid.develop.sprint8v3.search.ui.TrackAdapter
+import ru.startandroid.develop.sprint8v3.search.utils.debounce
 import java.io.File
 import java.io.FileOutputStream
 
@@ -47,16 +53,35 @@ class PlaylistsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.createPlaylistButton.setOnClickListener {
-            findNavController().navigate(R.id.action_libraryFragment2_to_playlistCreationFragment)
+            findNavController().navigate(R.id.action_libraryFragment2_to_playlistCreationFragment, Bundle().apply {
+                putBoolean(PlaylistCreationFragment.FROM_NAVCONTROLLER_KEY, true)
+            })
+        }
+
+        val onPlaylistClickDebounce = debounce<Playlist>(
+            CLICK_DEBOUNCE_DELAY, lifecycleScope, false
+        ) { playlist ->
+            findNavController().navigate(
+                R.id.action_libraryFragment2_to_playlistViewFragment,
+                Bundle().apply {
+                    putInt(PLAYLIST_ID_KEY, playlist.id)
+                })
+        }
+
+        val onItemClickListener = object : PlaylistAdapter.Listener {
+            override fun onClick(playlist: Playlist) {
+                Log.d("PlaylistsFragment", "Debounced playlist ID: ${playlist.id}")
+                onPlaylistClickDebounce(playlist)
+            }
         }
 
         binding.playlistsRecyclerview.layoutManager =
             GridLayoutManager(requireContext(), NUMBER_OF_COLUMN_PLAYLISTS)
 
-
-        playlistsViewModel.observePlaylists().observe(viewLifecycleOwner) { state ->
-            binding.playlistsRecyclerview.adapter = PlaylistAdapter(state)
-            render(state.size)
+        playlistsViewModel.observePlaylists().observe(viewLifecycleOwner) { playlists ->
+            val adapter = PlaylistAdapter(playlists, onItemClickListener)
+            binding.playlistsRecyclerview.adapter = adapter
+            render(playlists.size)
         }
 
         playlistsViewModel.returnPlaylists()
@@ -84,6 +109,4 @@ class PlaylistsFragment : Fragment() {
             }
         }
     }
-
-
 }

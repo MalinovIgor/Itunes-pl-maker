@@ -127,6 +127,7 @@
         android:orientation="vertical"
         app:behavior_hideable="false"
         app:behavior_peekHeight="200dp"
+        android:visibility="gone"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <ImageView
@@ -165,7 +166,7 @@
             android:gravity="center_horizontal"
             android:maxLines="1"
             android:text="@string/empty_playlists"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="@color/settings_text_changeable_anti"
             android:textSize="@dimen/sp16" />
     </LinearLayout>
 
@@ -191,8 +192,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp12"
-            android:background="@color/settings_text_changeable"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="@color/player_anti"
             android:orientation="horizontal">
 
             <ImageView
@@ -200,7 +200,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginVertical="8dp"
-                android:layout_marginStart="13dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/dp8"
                 android:src="@drawable/placeholder_image"
                 app:layout_constraintDimensionRatio="1:1" />
@@ -209,7 +209,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@color/background"
+                android:background="@color/player_anti"
                 android:orientation="vertical">
 
                 <TextView
@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="?attr/colorOnPrimary"
+                    android:textColor="@color/settings_text_changeable"
                     android:textSize="@dimen/sp16"
                     tools:text="[Playlist name]" />
 
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/arrow_right_search"
+                    android:textColor="@color/settings_text_changeable"
                     android:textSize="@dimen/sp11"
                     tools:text="[157 треков]" />
             </LinearLayout>
@@ -243,7 +243,7 @@
             android:clickable="true"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:text="@string/share"
+            android:text="@string/share_pl"
             android:textColor="@color/settings_text_changeable"
             android:textSize="@dimen/sp16" />
 

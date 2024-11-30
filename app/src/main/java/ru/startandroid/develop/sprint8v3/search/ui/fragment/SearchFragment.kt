@@ -3,6 +3,7 @@ package ru.startandroid.develop.sprint8v3.search.ui.fragment
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,6 +106,8 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
 
     private fun setupViews() {
         adapter = TrackAdapter(this)
+        Log.d("testt","after setupviews")
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
     }

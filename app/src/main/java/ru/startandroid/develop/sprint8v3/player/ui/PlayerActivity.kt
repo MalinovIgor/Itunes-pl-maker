@@ -1,6 +1,9 @@
 package ru.startandroid.develop.sprint8v3.player.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +33,7 @@ import java.util.Locale
 
 const val SELECTEDTRACK = "selectedTrack"
 
-class PlayerActivity : AppCompatActivity()  {
+class PlayerActivity : AppCompatActivity() {
 
     private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
 
@@ -286,6 +289,13 @@ class PlayerActivity : AppCompatActivity()  {
     companion object {
         private const val noData = "отсутствует"
         private const val zeroTimer = "00:00"
+        const val TRACK_KEY = "TRACK_KEY"
         private val timerDateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+
+        fun newInstance(context: Context, track: Track): Intent {
+            return Intent(context, PlayerActivity::class.java).apply {
+                putExtra(TRACK_KEY, track)
+            }
+        }
     }
 }

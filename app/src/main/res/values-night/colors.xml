@@ -14,6 +14,7 @@
     <color name="arrow_right_search">#FFFFFFFF</color>
     <color name="album_placeholder_background">#1A1B22</color>
     <color name="player_straight">#FFFFFF</color>
+    <color name="player_anti">#1A1B22</color>
     <color name="grey_black">#1A1B22</color>
 
 

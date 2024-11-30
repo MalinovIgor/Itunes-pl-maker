@@ -23,6 +23,7 @@ class PlaylistsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val description: TextView = itemView.findViewById(R.id.tracks_number)
     private val playlistImage: ImageView = itemView.findViewById(R.id.playlist_image)
     fun bind(playlist: Playlist) {
+        Log.d("PlaylistAdapter", "Binding playlist with ID: ${playlist.id}")
         if (!playlist.imagePath.isNullOrEmpty()) {
             playlistImage.scaleType = ImageView.ScaleType.CENTER_CROP
             val filePath =

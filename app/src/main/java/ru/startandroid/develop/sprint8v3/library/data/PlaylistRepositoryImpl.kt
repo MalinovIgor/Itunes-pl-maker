@@ -33,15 +33,27 @@ class PlaylistRepositoryImpl(
     }
 
     override fun getPlaylistById(playlistId: Int): Flow<Playlist?> = flow {
+        if (playlistId < 0) {
+            throw IllegalArgumentException("Invalid Playlist ID: $playlistId")
+        }
         val playlist = appDatabase.playlistDao().getPlaylistById(playlistId)
+        if (playlist == null) {
+            throw IllegalArgumentException("Playlist with ID $playlistId not found")
+        }
         emit(playlistDbConvertor.map(playlist))
+    }
+
+    override fun updatePlaylist(playlist: Playlist) {
+        appDatabase.playlistDao().updatePlaylist(
+            playlistDbConvertor.map(playlist)
+        )
     }
 
     override fun getAllTracks(playlistId: Int): Flow<List<Track>?> = flow {
         val jsonTracks = appDatabase.playlistDao().getAllTracksFromPlaylist(playlistId)
         if (jsonTracks.isNotEmpty()) {
             val tracksIDs = playlistDbConvertor.createTracksFromJson(jsonTracks)
-            val tracksInPlaylist = appDatabase.playlistDao().getTrackByIds(tracksIDs)
+            val tracksInPlaylist = appDatabase.playlistDao().getTrackByIds(tracksIDs).reversed()
             emit(convertFromTrackEntity(tracksInPlaylist))
         }
     }
@@ -63,9 +75,15 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun deletePlaylist(playlist: PlaylistEntity) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun deletePlaylist(playlistId: Int) {
+        val playlist = appDatabase.playlistDao().getPlaylistById(playlistId)
+        val jsonTracks = playlist.tracks
+        appDatabase.playlistDao().deletePlaylist(playlistId)
+        if (jsonTracks.isNotEmpty()) {
+            playlistDbConvertor.createTracksFromJson(jsonTracks).forEach { trackId ->
+                checkTrackInPlaylists(trackId)
+            }
+        }    }
 
     override fun addToPlaylist(track: Track, playlistId: Int): Boolean {
         val playlist = appDatabase.playlistDao().getPlaylistById(playlistId)
@@ -106,6 +124,38 @@ class PlaylistRepositoryImpl(
                 )
             }
         }
+    }
+
+    override suspend fun removeFromPlaylist(trackId: String, playlistId: Int) {
+        val playlist = appDatabase.playlistDao().getPlaylistById(playlistId)
+        val jsonTracks = playlist.tracks
+        if (jsonTracks.isNotEmpty()) {
+            val tracks = playlistDbConvertor.createTracksFromJson(jsonTracks)
+            val currentTrack = tracks.filter { track -> track == trackId }
+            if (currentTrack.isNotEmpty()) {
+                tracks.remove(trackId)
+                appDatabase.playlistDao().updatePlaylist(
+                    playlist.copy(
+                        tracks = playlistDbConvertor.createJsonFromTracks(tracks),
+                        tracksCount = tracks.size
+                    )
+                )
+                checkTrackInPlaylists(trackId)
+            }
+        }
+    }
+
+    suspend fun checkTrackInPlaylists(trackID: String) {
+        var inPlaylist = false
+        getPlaylists().collect { playlist ->
+            for (item in playlist)
+                if (item.tracks.contains(trackID)) {
+                    inPlaylist = true
+                    break
+                }
+        }
+        if (!inPlaylist)
+            appDatabase.playlistDao().deleteTrack(trackID)
     }
 
 

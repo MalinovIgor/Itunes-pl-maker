@@ -23,7 +23,9 @@ class RootActivity : AppCompatActivity() {
         setContentView(binding.root)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.rootFragmentContainerView) as NavHostFragment
+        val divider = findViewById<View>(R.id.divider)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.rootFragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
 
         val bottomNavigationView = binding.bottomNavigationView
@@ -31,12 +33,16 @@ class RootActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.playlistCreationFragment -> {
+                R.id.playlistCreationFragment,
+                R.id.playlistViewFragment
+                -> {
                     bottomNavigationView.visibility = View.GONE
+                    divider.visibility = View.GONE
                 }
+
                 else -> {
                     bottomNavigationView.visibility = View.VISIBLE
-
+                    divider.visibility = View.VISIBLE
                 }
             }
         }
