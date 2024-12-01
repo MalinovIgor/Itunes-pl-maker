@@ -247,7 +247,6 @@ class PlaylistViewFragment : Fragment() {
     }
 
     private fun openPlayer(item: Track) {
-        Log.d("opent"," playtr start")
         val intent = Intent(requireContext(), PlayerActivity::class.java)
         intent.putExtra(SELECTEDTRACK, item)
         startActivity(intent)
