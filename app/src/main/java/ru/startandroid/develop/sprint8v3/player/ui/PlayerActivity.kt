@@ -40,6 +40,10 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
 
     private lateinit var onPlaylistClickDebounce: (Playlist) -> Unit
+    private val track: Track by lazy {
+        intent.getSerializableExtra(TRACK_KEY) as? Track
+            ?: throw IllegalArgumentException("Track is required")
+    }
     private lateinit var viewModel: PlayerActivityViewModel
     var isClickAllowed = true
 

@@ -22,6 +22,7 @@ import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistViewBinding
 import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
 import ru.startandroid.develop.sprint8v3.library.ui.PlaylistViewViewModel
 import ru.startandroid.develop.sprint8v3.player.ui.PlayerActivity
+import ru.startandroid.develop.sprint8v3.player.ui.SELECTEDTRACK
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
 import ru.startandroid.develop.sprint8v3.search.ui.TrackAdapter
 import ru.startandroid.develop.sprint8v3.search.utils.debounce
@@ -246,14 +247,17 @@ class PlaylistViewFragment : Fragment() {
     }
 
     private fun openPlayer(item: Track) {
-        startActivity(PlayerActivity.newInstance(requireContext(), item))
+        Log.d("opent"," playtr start")
+        val intent = Intent(requireContext(), PlayerActivity::class.java)
+        intent.putExtra(SELECTEDTRACK, item)
+        startActivity(intent)
     }
 
     private fun onTrackLongClick(track: Track) {
         MaterialAlertDialogBuilder(
             requireContext(),
             R.style.AlertDialog
-        ).setTitle(getString(R.string.delete_track))
+        ).setTitle(getString(R.string.delete_track_quest))
             .setNeutralButton(R.string.no) { _, _ ->
             }.setPositiveButton(R.string.yes) { dialog, which ->
                 synchronized(this) {

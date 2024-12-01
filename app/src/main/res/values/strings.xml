@@ -65,6 +65,7 @@
     <string name="pl_not_found">Плейлист не найден</string>
     <string name="edit">Редактировать</string>
     <string name="save">Сохранить</string>
+    <string name="delete_track_quest">Хотите удалить трек?</string>
 
 
 </resources>

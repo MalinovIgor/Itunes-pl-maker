@@ -129,7 +129,6 @@ class PlaylistCreationFragment(val fromNavController: Boolean = true) : Fragment
         }
 
 
-
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
@@ -181,13 +180,15 @@ class PlaylistCreationFragment(val fromNavController: Boolean = true) : Fragment
 
     private fun closeFragment() {
         val result = Bundle()
-        if (fromNavController){
+        if (fromNavController) {
+            Log.d("testt", "entered if")
             findNavController().previousBackStackEntry?.savedStateHandle?.set(RESULT, result)
-        findNavController().navigateUp()}
-        else{
+            findNavController().navigateUp()
+        } else {
             parentFragmentManager.setFragmentResult(RESULT, result)
-
-        parentFragmentManager.popBackStack()}
+            Log.d("testt", "entered else")
+            parentFragmentManager.popBackStack()
+        }
     }
 
     companion object {
