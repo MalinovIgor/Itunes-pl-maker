@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
@@ -67,11 +69,11 @@ class PlaylistViewFragment : Fragment() {
 
         adapter = TrackAdapter({ item ->
             onTrackClickDebounce(item)
-        },     onItemLongClickListener = { item -> onTrackLongClick(item) })
+        }, onItemLongClickListener = { item -> onTrackLongClick(item) })
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.recyclerView.adapter=adapter
-        binding.recyclerView.visibility=View.VISIBLE
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.visibility = View.VISIBLE
 
         viewModel.loadPlaylist(playlistId)
 
@@ -95,6 +97,7 @@ class PlaylistViewFragment : Fragment() {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         binding.overlay.visibility = View.GONE
                     }
+
                     else -> {
                         binding.overlay.visibility = View.VISIBLE
                     }
@@ -206,19 +209,28 @@ class PlaylistViewFragment : Fragment() {
     }
 
     private fun deletePlaylist(playlistName: String) {
-        MaterialAlertDialogBuilder(
+        val dialog = MaterialAlertDialogBuilder(
             requireContext(),
-            R.style.AlertDialog
+            R.style.CustomAlertDialog
         ).setTitle(getString(R.string.pl_delete))
             .setMessage(getString(R.string.pl_delete_quest).format(playlistName))
             .setNegativeButton(R.string.no) { _, _ ->
             }.setPositiveButton(R.string.yes) { dialog, which ->
                 synchronized(this) {
                     viewModel.deletePlaylist()
-                    Toast.makeText(requireContext(), "Плейлист $playlistName удалён", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Плейлист $playlistName удалён",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     findNavController().navigateUp()
                 }
             }.show()
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
     }
 
     override fun onDestroyView() {
@@ -229,10 +241,10 @@ class PlaylistViewFragment : Fragment() {
     private fun renderUI(playlist: Playlist) {
         if (playlist.imagePath.isNullOrEmpty()) {
             binding.playlistCover.setImageDrawable(
-            getDrawable(
-                requireContext(), R.drawable.placeholder_image
+                getDrawable(
+                    requireContext(), R.drawable.placeholder_image
+                )
             )
-        )
             val marginInPixels = resources.getDimensionPixelSize(R.dimen.dp53)
 
             val layoutParams = binding.playlistCover.layoutParams as ConstraintLayout.LayoutParams
@@ -244,8 +256,7 @@ class PlaylistViewFragment : Fragment() {
             binding.playlistCover.layoutParams = layoutParams
             binding.playlistCover.isVisible = true
 
-        }
-        else {
+        } else {
             binding.playlistCover.isVisible = true
             binding.playlistCover.setImageURI(
                 File(
@@ -274,9 +285,9 @@ class PlaylistViewFragment : Fragment() {
     }
 
     private fun onTrackLongClick(track: Track) {
-        MaterialAlertDialogBuilder(
+        val dialog = MaterialAlertDialogBuilder(
             requireContext(),
-            R.style.AlertDialog
+            R.style.CustomAlertDialog
         ).setTitle(getString(R.string.delete_track_quest))
             .setNeutralButton(R.string.no) { _, _ ->
             }.setPositiveButton(R.string.yes) { dialog, which ->
@@ -284,6 +295,8 @@ class PlaylistViewFragment : Fragment() {
                     viewModel.removeTrackFromPlaylist(track.trackId)
                 }
             }.show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
     }
 
     private fun sharePlaylist() {
@@ -333,7 +346,6 @@ class PlaylistViewFragment : Fragment() {
             else -> requireContext().getString(R.string.track_zero)
         }
     }
-
 
 
     companion object {
