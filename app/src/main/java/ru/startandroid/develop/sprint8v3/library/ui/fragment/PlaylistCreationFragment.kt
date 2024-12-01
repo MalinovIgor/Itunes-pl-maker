@@ -107,8 +107,8 @@ class PlaylistCreationFragment(val fromNavController: Boolean = true) : Fragment
         }
 
         viewModel.observePlaylist().observe(viewLifecycleOwner) { playlist ->
-            binding.newPlText.text = "Редактировать"
-            binding.btnCreate.text = "Сохранить"
+            binding.newPlText.text = getString(R.string.edit)
+            binding.btnCreate.text = getString(R.string.save)
             if (playlist != null) {
                 _playlist = playlist
                 if (playlist.imagePath.isNullOrEmpty()) {

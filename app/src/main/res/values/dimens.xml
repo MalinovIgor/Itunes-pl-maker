@@ -31,6 +31,7 @@
     <dimen name="dp61">61dp</dimen>
     <dimen name="sp24">24sp</dimen>
     <dimen name="sp18">18sp</dimen>
+    <dimen name="dp200">20dp</dimen>
 
 
 </resources>

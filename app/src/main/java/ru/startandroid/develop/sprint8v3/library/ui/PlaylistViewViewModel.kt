@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,11 +21,14 @@ class PlaylistViewViewModel(private val interactor: PlaylistInteractor) : ViewMo
 
 
     fun loadPlaylist(playlistId: Int) {
+
         viewModelScope.launch(Dispatchers.IO) {
             interactor.getPlaylistById(playlistId).collect {
                 if (it != null) {
+
                     interactor.getAllTracks(it.id).collect() { tracks ->
                         allTracks.postValue(tracks)
+
                     }
                     playlist.postValue(it)
                 }

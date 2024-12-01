@@ -61,6 +61,9 @@
     <string name="pl_delete_quest">Хотите удалить плейлист \«%1$s\»?</string>
     <string name="delete_track">Удалить трек</string>
     <string name="share_pl">Поделиться</string>
+    <string name="pl_not_found">Плейлист не найден</string>
+    <string name="edit">Редактировать</string>
+    <string name="save">Сохранить</string>
 
 
 </resources>

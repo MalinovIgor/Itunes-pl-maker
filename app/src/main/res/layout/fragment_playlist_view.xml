@@ -33,7 +33,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="@dimen/dp12"
             android:layout_marginTop="@dimen/dp12"
-            android:backgroundTint="#00000000"
+            android:backgroundTint="@color/background_tint_for_back_arrow"
             android:foreground="?attr/selectableItemBackground"
             android:src="@drawable/arrow_back"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#99000000"
+        android:background="@color/background_for_constraint"
         android:clickable="true"
         android:visibility="gone" />
 
@@ -126,8 +126,8 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="200dp"
-        android:visibility="gone"
+        app:behavior_peekHeight="@dimen/dp200"
+        android:visibility="visible"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <ImageView
@@ -139,9 +139,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/list_items"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
@@ -150,11 +150,12 @@
                 android:layout_marginHorizontal="@dimen/dp16"
                 android:layout_marginTop="@dimen/dp16"
                 android:layout_marginBottom="52dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_track" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -241,7 +242,7 @@
             android:layout_height="62dp"
             android:layout_marginStart="@dimen/dp16"
             android:clickable="true"
-            android:foreground="?attr/selectableItemBackground"
+            android:foreground="@color/settings_text_changeable_anti"
             android:gravity="center_vertical"
             android:text="@string/share_pl"
             android:textColor="@color/settings_text_changeable"
@@ -253,7 +254,7 @@
             android:layout_height="62dp"
             android:layout_marginStart="@dimen/dp16"
             android:clickable="true"
-            android:foreground="?attr/selectableItemBackground"
+            android:foreground="@color/settings_text_changeable_anti"
             android:gravity="center_vertical"
             android:text="@string/pl_edit"
             android:textColor="@color/settings_text_changeable"
@@ -265,7 +266,7 @@
             android:layout_height="62dp"
             android:layout_marginStart="@dimen/dp16"
             android:clickable="true"
-            android:foreground="?attr/selectableItemBackground"
+            android:foreground="@color/settings_text_changeable_anti"
             android:gravity="center_vertical"
             android:text="@string/pl_delete"
             android:textColor="@color/settings_text_changeable"

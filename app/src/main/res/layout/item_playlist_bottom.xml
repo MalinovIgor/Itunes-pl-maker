@@ -13,7 +13,8 @@
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="13dp"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        style="@style/Widget.Material3.Button">
 
         <ImageView
             android:id="@+id/playlist_image"

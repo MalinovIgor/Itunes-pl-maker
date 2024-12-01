@@ -2,6 +2,7 @@ package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,17 +50,21 @@ class PlaylistViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         playlistId = requireArguments().getInt(PLAYLIST_ID_KEY, -1)
         if (playlistId == -1) {
-            Toast.makeText(requireContext(), "Playlist not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.pl_not_found, Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         }
         val onTrackClickDebounce = debounce<Track>(
             CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false
         ) { track -> openPlayer(track) }
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = TrackAdapter({ item ->
             onTrackClickDebounce(item)
         },     onItemLongClickListener = { item -> onTrackLongClick(item) })
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.recyclerView.adapter=adapter
+        binding.recyclerView.visibility=View.VISIBLE
+
         viewModel.loadPlaylist(playlistId)
 
         binding.backArrow.setOnClickListener {
@@ -67,7 +72,7 @@ class PlaylistViewFragment : Fragment() {
         }
         viewModel.observePlaylist().observe(viewLifecycleOwner) { playlist ->
             if (playlist == null) {
-                Toast.makeText(requireContext(), "Playlist not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.pl_not_found, Toast.LENGTH_SHORT).show()
                 return@observe
             } else renderUI(playlist)
         }
@@ -82,7 +87,6 @@ class PlaylistViewFragment : Fragment() {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         binding.overlay.visibility = View.GONE
                     }
-
                     else -> {
                         binding.overlay.visibility = View.VISIBLE
                     }
@@ -165,6 +169,9 @@ class PlaylistViewFragment : Fragment() {
 
         viewModel.observeAllTracks().observe(viewLifecycleOwner) { tracks ->
             if (!tracks.isNullOrEmpty()) {
+                binding.listItems.visibility = View.VISIBLE
+                binding.nothing.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
                 val duration = tracks.sumOf { it.trackTime }
                 binding.playlistInfo.text = getString(
                     R.string.pl_info,
@@ -172,14 +179,18 @@ class PlaylistViewFragment : Fragment() {
                     getPluralForm(tracks.size).format(tracks.size)
                 )
                 adapter.updateTracks(tracks)
+
                 binding.recyclerView.adapter = adapter
                 binding.playlistSmallTracks.text = getPluralForm(tracks.size).format(tracks.size)
             } else {
+                binding.listItems.visibility = View.GONE
+                binding.nothing.visibility = View.VISIBLE
                 binding.playlistInfo.text = getPluralForm(0).format(0)
                 binding.playlistSmallTracks.text = getPluralForm(0).format(0)
                 adapter.clearTracks()
             }
         }
+
     }
 
     private fun deletePlaylist(playlistName: String) {
@@ -192,6 +203,7 @@ class PlaylistViewFragment : Fragment() {
             }.setPositiveButton(R.string.yes) { dialog, which ->
                 synchronized(this) {
                     viewModel.deletePlaylist()
+                    Toast.makeText(requireContext(), "Плейлист $playlistName удалён", Toast.LENGTH_SHORT).show()
                     findNavController().navigateUp()
                 }
             }.show()

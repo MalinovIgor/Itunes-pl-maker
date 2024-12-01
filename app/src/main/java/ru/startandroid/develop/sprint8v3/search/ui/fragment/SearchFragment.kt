@@ -106,8 +106,6 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
 
     private fun setupViews() {
         adapter = TrackAdapter(this)
-        Log.d("testt","after setupviews")
-
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
     }
