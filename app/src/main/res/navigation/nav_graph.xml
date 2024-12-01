@@ -16,7 +16,7 @@
             android:id="@+id/action_searchFragment_to_playerActivity2"
             app:destination="@id/playerActivity2" />
         <action
-            android:id="@+id/action_searchFragment_to_libraryFragment22"
+            android:id="@+id/action_searchFragment_to_libraryFragment2"
             app:destination="@id/libraryFragment2" />
     </fragment>
     <fragment

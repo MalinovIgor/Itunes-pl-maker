@@ -288,7 +288,6 @@ class PlaylistViewFragment : Fragment() {
             }, null)
             startActivity(share)
         }
-
     }
 
     private fun getMinutePluralForm(minutes: Int): String {

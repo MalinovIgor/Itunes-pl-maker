@@ -181,12 +181,13 @@ class PlaylistCreationFragment(val fromNavController: Boolean = true) : Fragment
 
     private fun closeFragment() {
         val result = Bundle()
-        if (fromNavController)
+        if (fromNavController){
             findNavController().previousBackStackEntry?.savedStateHandle?.set(RESULT, result)
-        else
+        findNavController().navigateUp()}
+        else{
             parentFragmentManager.setFragmentResult(RESULT, result)
 
-        parentFragmentManager.popBackStack()
+        parentFragmentManager.popBackStack()}
     }
 
     companion object {
