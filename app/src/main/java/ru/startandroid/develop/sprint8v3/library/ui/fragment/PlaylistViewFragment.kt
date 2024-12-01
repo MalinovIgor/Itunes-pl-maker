@@ -8,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
@@ -224,18 +227,26 @@ class PlaylistViewFragment : Fragment() {
     }
 
     private fun renderUI(playlist: Playlist) {
-        if (playlist.imagePath.isNullOrEmpty()) {binding.playlistCover.setImageDrawable(
+        if (playlist.imagePath.isNullOrEmpty()) {
+            binding.playlistCover.setImageDrawable(
             getDrawable(
                 requireContext(), R.drawable.placeholder_image
             )
         )
-            binding.playlistCover.marginTop.plus(PLACEHOLDER_MARGIND_dp)
-            binding.playlistCover.marginBottom.plus(PLACEHOLDER_MARGIND_dp)
-            binding.playlistCover.marginStart.plus(PLACEHOLDER_MARGIND_dp)
-            binding.playlistCover.marginEnd.plus(PLACEHOLDER_MARGIND_dp)
-            binding.playlistCover.paddingLeft.plus(PLACEHOLDER_MARGIND_dp)
+            val marginInPixels = resources.getDimensionPixelSize(R.dimen.dp53)
+
+            val layoutParams = binding.playlistCover.layoutParams as ConstraintLayout.LayoutParams
+            layoutParams.marginStart = marginInPixels
+            layoutParams.marginEnd = marginInPixels
+            layoutParams.topMargin = marginInPixels
+
+            layoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+            binding.playlistCover.layoutParams = layoutParams
+            binding.playlistCover.isVisible = true
+
         }
         else {
+            binding.playlistCover.isVisible = true
             binding.playlistCover.setImageURI(
                 File(
                     getDefaultImagePath(requireContext()), playlist.imagePath

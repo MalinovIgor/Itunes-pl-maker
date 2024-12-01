@@ -32,6 +32,7 @@
     <dimen name="sp24">24sp</dimen>
     <dimen name="sp18">18sp</dimen>
     <dimen name="dp200">20dp</dimen>
+    <dimen name="dp53">53dp</dimen>
 
 
 </resources>
