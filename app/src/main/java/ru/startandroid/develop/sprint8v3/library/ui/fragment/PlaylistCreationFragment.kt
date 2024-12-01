@@ -41,8 +41,9 @@ import ru.startandroid.develop.sprint8v3.library.ui.fragment.PlaylistViewFragmen
 import ru.startandroid.develop.sprint8v3.search.utils.getDefaultImagePath
 import java.io.File
 
-class PlaylistCreationFragment(val fromNavController: Boolean = true) : Fragment() {
-
+class PlaylistCreationFragment() : Fragment() {
+    val fromNavController: Boolean
+        get() = arguments?.getBoolean(FROM_NAVCONTROLLER_KEY, true) ?: true
     private var _binding: FragmentPlaylistCreationBinding? = null
     private val binding get() = _binding!!
     private var imageUri: Uri = Uri.EMPTY
@@ -61,6 +62,7 @@ class PlaylistCreationFragment(val fromNavController: Boolean = true) : Fragment
         super.onViewCreated(view, savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, callback)
         binding.btnCreate.isEnabled = false
+        Log.d("fromNavContr check","come with $fromNavController")
         binding.backArrow.setOnClickListener {
             activity?.onBackPressedDispatcher?.onBackPressed()
         }
@@ -180,13 +182,11 @@ class PlaylistCreationFragment(val fromNavController: Boolean = true) : Fragment
 
     private fun closeFragment() {
         val result = Bundle()
+        result.putBoolean(RESULT, true)
         if (fromNavController) {
-            Log.d("testt", "entered if")
             findNavController().previousBackStackEntry?.savedStateHandle?.set(RESULT, result)
-            findNavController().navigateUp()
         } else {
             parentFragmentManager.setFragmentResult(RESULT, result)
-            Log.d("testt", "entered else")
             parentFragmentManager.popBackStack()
         }
     }

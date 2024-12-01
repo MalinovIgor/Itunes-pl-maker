@@ -10,6 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.core.view.marginBottom
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -220,11 +224,17 @@ class PlaylistViewFragment : Fragment() {
     }
 
     private fun renderUI(playlist: Playlist) {
-        if (playlist.imagePath.isNullOrEmpty()) binding.playlistCover.setImageDrawable(
+        if (playlist.imagePath.isNullOrEmpty()) {binding.playlistCover.setImageDrawable(
             getDrawable(
                 requireContext(), R.drawable.placeholder_image
             )
         )
+            binding.playlistCover.marginTop.plus(PLACEHOLDER_MARGIND_dp)
+            binding.playlistCover.marginBottom.plus(PLACEHOLDER_MARGIND_dp)
+            binding.playlistCover.marginStart.plus(PLACEHOLDER_MARGIND_dp)
+            binding.playlistCover.marginEnd.plus(PLACEHOLDER_MARGIND_dp)
+            binding.playlistCover.paddingLeft.plus(PLACEHOLDER_MARGIND_dp)
+        }
         else {
             binding.playlistCover.setImageURI(
                 File(
@@ -318,10 +328,10 @@ class PlaylistViewFragment : Fragment() {
     companion object {
         const val PLAYLIST_ID_KEY = "PLAYLIST_ID_KEY"
         const val CLICK_DEBOUNCE_DELAY = 250L
+        const val PLACEHOLDER_MARGIND_dp = 2000L
 
         const val ZOOM = 1.1f
         fun newInstance(playlistId: Int) = PlaylistViewFragment().apply {
-            arguments = bundleOf(PLAYLIST_ID_KEY to playlistId)
             arguments = bundleOf(PLAYLIST_ID_KEY to playlistId)
         }
     }

@@ -152,6 +152,7 @@ class PlayerActivity : AppCompatActivity() {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
             val fragment = PlaylistCreationFragment.newInstance(false)
+            Log.d("fromNavContr check","set as ${fragment.fromNavController}")
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_view, fragment)
                 .addToBackStack(null)
