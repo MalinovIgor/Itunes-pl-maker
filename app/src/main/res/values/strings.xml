@@ -54,7 +54,8 @@
     <string name="finish">Завершить</string>
     <string name="pl_edit">Редактировать информацию</string>
     <string name="pl_delete">Удалить плейлист</string>
-    <string name="pl_info">%1$s минут · %2$s</string>
+    <string name="pl_info">%1$s, %2$s</string>
+    <string name="pl_info_tracks">· %2$s</string>
     <string name="no">Нет</string>
     <string name="yes">Да</string>
     <string name="no_track_in_pl">В этом плейлисте нет списка треков, которым можно поделиться</string>

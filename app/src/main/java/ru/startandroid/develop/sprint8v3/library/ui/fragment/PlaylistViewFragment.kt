@@ -172,11 +172,15 @@ class PlaylistViewFragment : Fragment() {
                 binding.listItems.visibility = View.VISIBLE
                 binding.nothing.visibility = View.GONE
                 binding.recyclerView.visibility = View.VISIBLE
-                val duration = tracks.sumOf { it.trackTime }
+                val durationInMinutes = (tracks.sumOf { it.trackTime } / 60000).toInt()
+                val formattedDuration = String.format("%d", durationInMinutes)
+                val minuteWord = getMinutePluralForm(durationInMinutes)
+                val trackWord = getPluralForm(tracks.size).format(tracks.size)
+
                 binding.playlistInfo.text = getString(
                     R.string.pl_info,
-                    SimpleDateFormat("mm", Locale.getDefault()).format(duration),
-                    getPluralForm(tracks.size).format(tracks.size)
+                    "$formattedDuration $minuteWord",
+                    trackWord
                 )
                 adapter.updateTracks(tracks)
 
@@ -287,6 +291,16 @@ class PlaylistViewFragment : Fragment() {
 
     }
 
+    private fun getMinutePluralForm(minutes: Int): String {
+        val n = minutes % 100
+        return when {
+            n in 11..14 -> "минут"
+            n % 10 == 1 -> "минута"
+            n % 10 in 2..4 -> "минуты"
+            else -> "минут"
+        }
+    }
+
     private fun getPluralForm(num: Int): String {
         val n = num % 100
         return when {
@@ -296,6 +310,7 @@ class PlaylistViewFragment : Fragment() {
             else -> requireContext().getString(R.string.track_zero)
         }
     }
+
 
 
     companion object {
