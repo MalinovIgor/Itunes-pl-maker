@@ -21,9 +21,9 @@ class RootActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView = binding.bottomNavigationView
 
-        val divider = findViewById<View>(R.id.divider)
+        val divider = binding.divider
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.rootFragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
@@ -37,6 +37,7 @@ class RootActivity : AppCompatActivity() {
                 R.id.playlistViewFragment
                 -> {
                     bottomNavigationView.visibility = View.GONE
+                    bottomNavigationView.invalidate()
                     divider.visibility = View.GONE
                 }
 
@@ -47,4 +48,5 @@ class RootActivity : AppCompatActivity() {
             }
         }
     }
+
 }

@@ -58,6 +58,7 @@ class PlaylistViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         playlistId = requireArguments().getInt(PLAYLIST_ID_KEY, -1)
         if (playlistId == -1) {
             Toast.makeText(requireContext(), R.string.pl_not_found, Toast.LENGTH_SHORT).show()

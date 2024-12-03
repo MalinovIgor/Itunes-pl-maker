@@ -87,21 +87,11 @@ class SearchFragment : Fragment(), TrackAdapter.Listener {
             }
         }
         )
-        val bottomNavigationView =
-            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-        view.viewTreeObserver.addOnGlobalLayoutListener {
-            val rect = Rect()
-            view.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = view.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-
-            if (keypadHeight > 200) {
-                bottomNavigationView.visibility = View.GONE
-            } else {
-                bottomNavigationView.visibility = View.VISIBLE
-            }
-        }
+//        view.viewTreeObserver.addOnGlobalLayoutListener {
+//            val rect = Rect()
+//            view.getWindowVisibleDisplayFrame(rect)
+//        }
     }
 
     private fun setupViews() {

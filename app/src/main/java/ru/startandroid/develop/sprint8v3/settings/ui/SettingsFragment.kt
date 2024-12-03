@@ -83,4 +83,4 @@ class SettingsFragment : Fragment(){
 
         startActivity(agreementIntent)
     }
-    }
+}

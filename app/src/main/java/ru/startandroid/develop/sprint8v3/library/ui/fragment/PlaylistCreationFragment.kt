@@ -62,7 +62,6 @@ class PlaylistCreationFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, callback)
         binding.btnCreate.isEnabled = false
-        Log.d("fromNavContr check","come with $fromNavController")
         binding.backArrow.setOnClickListener {
             activity?.onBackPressedDispatcher?.onBackPressed()
         }
@@ -73,14 +72,6 @@ class PlaylistCreationFragment() : Fragment() {
 
         if (playlistId > 0) {
             viewModel.getPlaylist(playlistId)
-        }
-
-        val bottomNavigationView =
-            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        val divider = requireActivity().findViewById<View>(R.id.divider)
-        if (bottomNavigationView != null && divider != null) {
-            bottomNavigationView.visibility = View.GONE
-            divider.visibility = View.GONE
         }
 
         binding.btnCreate.setOnClickListener {
@@ -104,7 +95,6 @@ class PlaylistCreationFragment() : Fragment() {
                     binding.image.drawable.toBitmap()
                 )
             }
-
             closeFragment()
         }
 
