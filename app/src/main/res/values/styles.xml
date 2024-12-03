@@ -139,14 +139,18 @@
         <item name="android:windowBackground">@color/background</item>
     </style>
 
-    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="buttonStyle">@style/AlertDialogButtonStyle</item>
-    </style>
-
-    <style name="AlertDialogButtonStyle" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="AlertDialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/blue</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:textColor">@color/blue</item>
+ </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/blue</item>
+    </style>
 
 
 </resources>

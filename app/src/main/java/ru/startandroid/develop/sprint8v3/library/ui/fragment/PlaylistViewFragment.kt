@@ -282,10 +282,14 @@ class PlaylistViewFragment : Fragment() {
                     viewModel.removeTrackFromPlaylist(track.trackId)
                 }
             }.show()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+
+        dialog.window?.decorView?.post {
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+
+        }
     }
 
     private fun sharePlaylist() {
