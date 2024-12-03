@@ -46,7 +46,6 @@ class PlaylistsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         playlist.tracks.size.let {
             description.text = getPluralForm(it).format(it)
         }
-
     }
 
     fun getPluralForm(num: Int): String {

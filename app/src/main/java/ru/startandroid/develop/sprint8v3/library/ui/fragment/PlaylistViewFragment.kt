@@ -58,26 +58,23 @@ class PlaylistViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         playlistId = requireArguments().getInt(PLAYLIST_ID_KEY, -1)
         if (playlistId == -1) {
             Toast.makeText(requireContext(), R.string.pl_not_found, Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         }
+        viewModel.loadPlaylist(playlistId)
         val onTrackClickDebounce = debounce<Track>(
             CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false
-        ) { track ->  openPlayer(track) }
+        ) { track -> openPlayer(track) }
 
         adapter = TrackAdapter({ item ->
             onTrackClickDebounce(item)
         }, onItemLongClickListener = { item -> onTrackLongClick(item) })
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         binding.recyclerView.adapter = adapter
         binding.recyclerView.visibility = View.VISIBLE
-
         viewModel.loadPlaylist(playlistId)
-
         binding.backArrow.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -120,6 +117,7 @@ class PlaylistViewFragment : Fragment() {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         binding.overlay.visibility = View.GONE
                     }
+
                     else -> {
                         binding.overlay.visibility = View.VISIBLE
                     }
@@ -174,7 +172,7 @@ class PlaylistViewFragment : Fragment() {
             }
         }
 
-        viewModel.observeAllTracks().observe(viewLifecycleOwner) { tracks ->
+            viewModel.observeAllTracks().observe(viewLifecycleOwner) { tracks ->
             if (!tracks.isNullOrEmpty()) {
                 binding.listItems.visibility = View.VISIBLE
                 binding.nothing.visibility = View.GONE
@@ -184,20 +182,18 @@ class PlaylistViewFragment : Fragment() {
                 val minuteWord = getMinutePluralForm(durationInMinutes)
                 val trackWord = getPluralForm(tracks.size).format(tracks.size)
 
-                binding.playlistInfo.text = getString(
-                    R.string.pl_info,
-                    "$formattedDuration $minuteWord",
-                    trackWord
-                )
+                    binding.playlistInfo.text = getString(
+                        R.string.pl_info,
+                        "$formattedDuration $minuteWord",
+                        trackWord
+                    )
                 adapter.updateTracks(tracks)
 
                 binding.recyclerView.adapter = adapter
                 binding.playlistSmallTracks.text = getPluralForm(tracks.size).format(tracks.size)
             } else {
-                binding.listItems.visibility = View.GONE
+                binding.playlistInfo.text = "0 минут · 0 треков"
                 binding.nothing.visibility = View.VISIBLE
-                binding.playlistInfo.text = getPluralForm(0).format(0)
-                binding.playlistSmallTracks.text = getPluralForm(0).format(0)
                 adapter.clearTracks()
             }
         }
@@ -270,7 +266,6 @@ class PlaylistViewFragment : Fragment() {
     }
 
     private fun openPlayer(item: Track) {
-        Log.d("test","track ${item.trackName} fav is ${item.isFavorites}")
         val intent = Intent(requireContext(), PlayerActivity::class.java)
         intent.putExtra(SELECTEDTRACK, item)
         startActivity(intent)
@@ -287,8 +282,10 @@ class PlaylistViewFragment : Fragment() {
                     viewModel.removeTrackFromPlaylist(track.trackId)
                 }
             }.show()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
     }
 
     private fun sharePlaylist() {

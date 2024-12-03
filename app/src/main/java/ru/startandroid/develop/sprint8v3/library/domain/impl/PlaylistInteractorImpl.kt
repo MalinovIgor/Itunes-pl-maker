@@ -19,7 +19,6 @@ class PlaylistInteractorImpl(private val repository: PlaylistRepository) : Playl
     override fun getPlaylistById(playlistId: Int): Flow<Playlist?> =
         repository.getPlaylistById(playlistId)
 
-
     override fun getAllTracks(playlistId: Int): Flow<List<Track>?> =
         repository.getAllTracks(playlistId)
 

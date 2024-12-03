@@ -70,7 +70,6 @@ class PlaylistsFragment : Fragment() {
 
         val onItemClickListener = object : PlaylistAdapter.Listener {
             override fun onClick(playlist: Playlist) {
-                Log.d("PlaylistsFragment", "Debounced playlist ID: ${playlist.id}")
                 onPlaylistClickDebounce(playlist)
             }
         }

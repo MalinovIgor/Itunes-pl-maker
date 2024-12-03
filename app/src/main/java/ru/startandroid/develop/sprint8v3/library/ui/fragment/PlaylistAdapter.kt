@@ -24,7 +24,6 @@ class PlaylistAdapter(
     override fun onBindViewHolder(holder: PlaylistsViewHolder, position: Int) {
         val playlist = playlists[position]
         holder.bind(playlist)
-
         holder.itemView.setOnClickListener {
             onItemClickListener.onClick(playlist)
         }

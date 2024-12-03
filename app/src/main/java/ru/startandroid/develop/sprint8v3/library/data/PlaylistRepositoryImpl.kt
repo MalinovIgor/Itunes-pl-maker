@@ -55,6 +55,8 @@ class PlaylistRepositoryImpl(
             val tracksIDs = playlistDbConvertor.createTracksFromJson(jsonTracks)
             val tracksInPlaylist = appDatabase.playlistDao().getTrackByIds(tracksIDs).reversed()
             emit(convertFromTrackEntity(tracksInPlaylist))
+        } else {
+            emit(emptyList())
         }
     }
 
@@ -83,7 +85,8 @@ class PlaylistRepositoryImpl(
             playlistDbConvertor.createTracksFromJson(jsonTracks).forEach { trackId ->
                 checkTrackInPlaylists(trackId)
             }
-        }    }
+        }
+    }
 
     override fun addToPlaylist(track: Track, playlistId: Int): Boolean {
         val playlist = appDatabase.playlistDao().getPlaylistById(playlistId)
