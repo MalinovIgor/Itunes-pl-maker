@@ -66,7 +66,7 @@ class PlaylistViewFragment : Fragment() {
         }
         val onTrackClickDebounce = debounce<Track>(
             CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false
-        ) { track -> openPlayer(track) }
+        ) { track ->  openPlayer(track) }
 
         adapter = TrackAdapter({ item ->
             onTrackClickDebounce(item)
@@ -120,7 +120,6 @@ class PlaylistViewFragment : Fragment() {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         binding.overlay.visibility = View.GONE
                     }
-
                     else -> {
                         binding.overlay.visibility = View.VISIBLE
                     }
@@ -159,8 +158,6 @@ class PlaylistViewFragment : Fragment() {
         binding.deletePlaylist.setOnClickListener {
             deletePlaylist(binding.playlistName.text.toString())
         }
-
-
         binding.editPlaylist.setOnClickListener {
             findNavController().navigate(
                 R.id.action_playlistViewFragment_to_playlistCreationFragment,
@@ -168,9 +165,7 @@ class PlaylistViewFragment : Fragment() {
                     putBoolean(PlaylistCreationFragment.FROM_NAVCONTROLLER_KEY, true)
                     putInt(PlaylistCreationFragment.PLAYLIST_ID_KEY, playlistId)
                 })
-
         }
-
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Any>(
             PlaylistCreationFragment.RESULT
         )?.observe(viewLifecycleOwner) { _ ->
@@ -227,7 +222,6 @@ class PlaylistViewFragment : Fragment() {
                     findNavController().navigateUp()
                 }
             }.show()
-
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
@@ -247,16 +241,13 @@ class PlaylistViewFragment : Fragment() {
                 )
             )
             val marginInPixels = resources.getDimensionPixelSize(R.dimen.dp53)
-
             val layoutParams = binding.playlistCover.layoutParams as ConstraintLayout.LayoutParams
             layoutParams.marginStart = marginInPixels
             layoutParams.marginEnd = marginInPixels
             layoutParams.topMargin = marginInPixels
-
             layoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
             binding.playlistCover.layoutParams = layoutParams
             binding.playlistCover.isVisible = true
-
         } else {
             binding.playlistCover.isVisible = true
             binding.playlistCover.setImageURI(
@@ -273,13 +264,13 @@ class PlaylistViewFragment : Fragment() {
                 ).toUri()
             )
         }
-
         binding.playlistName.text = playlist.name
         binding.playlistDescription.text = playlist.description
         binding.playlistSmallName.text = playlist.name
     }
 
     private fun openPlayer(item: Track) {
+        Log.d("test","track ${item.trackName} fav is ${item.isFavorites}")
         val intent = Intent(requireContext(), PlayerActivity::class.java)
         intent.putExtra(SELECTEDTRACK, item)
         startActivity(intent)
@@ -310,7 +301,7 @@ class PlaylistViewFragment : Fragment() {
             }\n"
             var i = 1
             adapter.getTracks().forEach { track ->
-                message = message + "${i++}. ${track.artistName} - ${track.trackName} (${
+                message += "${i++}. ${track.artistName} - ${track.trackName} (${
                     SimpleDateFormat(
                         "mm:ss",
                         Locale.getDefault()
@@ -352,8 +343,6 @@ class PlaylistViewFragment : Fragment() {
     companion object {
         const val PLAYLIST_ID_KEY = "PLAYLIST_ID_KEY"
         const val CLICK_DEBOUNCE_DELAY = 250L
-        const val PLACEHOLDER_MARGIND_dp = 2000L
-
         const val ZOOM = 1.1f
         fun newInstance(playlistId: Int) = PlaylistViewFragment().apply {
             arguments = bundleOf(PLAYLIST_ID_KEY to playlistId)

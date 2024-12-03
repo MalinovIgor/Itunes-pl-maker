@@ -37,9 +37,6 @@ class PlayerActivity : AppCompatActivity() {
 
     private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
 
-    private lateinit var bottomNavigationView: BottomNavigationView
-
-    private lateinit var onPlaylistClickDebounce: (Playlist) -> Unit
     private val track: Track by lazy {
         intent.getSerializableExtra(TRACK_KEY) as? Track
             ?: throw IllegalArgumentException("Track is required")
@@ -65,6 +62,7 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
+
         if (track != null) {
             updateFavoriteState(track.isFavorites)
         }
@@ -152,7 +150,6 @@ class PlayerActivity : AppCompatActivity() {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
             val fragment = PlaylistCreationFragment.newInstance(false)
-            Log.d("fromNavContr check","set as ${fragment.fromNavController}")
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_view, fragment)
                 .addToBackStack(null)
@@ -243,8 +240,6 @@ class PlayerActivity : AppCompatActivity() {
         binding.favorite.setOnClickListener {
             viewModel.onFavoriteClicked(track)
         }
-
-
     }
 
     private fun updateFavoriteState(state: Boolean) {

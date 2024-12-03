@@ -25,10 +25,8 @@ class PlaylistViewViewModel(private val interactor: PlaylistInteractor) : ViewMo
         viewModelScope.launch(Dispatchers.IO) {
             interactor.getPlaylistById(playlistId).collect {
                 if (it != null) {
-
                     interactor.getAllTracks(it.id).collect() { tracks ->
                         allTracks.postValue(tracks)
-
                     }
                     playlist.postValue(it)
                 }

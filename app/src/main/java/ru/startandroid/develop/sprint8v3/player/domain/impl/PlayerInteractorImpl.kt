@@ -15,7 +15,6 @@ class PlayerInteractorImpl(
             if (trackUrl.isBlank()) {
                 throw IllegalArgumentException("Track URL cannot be blank")
             }
-            Log.d("PlayerInteractorImpl", "Initialized with trackUrl: $trackUrl")
     }
 
     private var state: PlayerState = PlayerState.STATE_DEFAULT

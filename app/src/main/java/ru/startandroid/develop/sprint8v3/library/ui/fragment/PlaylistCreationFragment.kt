@@ -138,8 +138,6 @@ class PlaylistCreationFragment() : Fragment() {
         binding.image.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
-
-
     }
 
     override fun onDestroyView() {
@@ -153,7 +151,6 @@ class PlaylistCreationFragment() : Fragment() {
                 MaterialAlertDialogBuilder(context!!).setTitle(R.string.exit_quest_end)
                     .setMessage(R.string.no_save_exit)
                     .setNeutralButton(android.R.string.cancel) { dialog, which ->
-
                     }.setPositiveButton(R.string.finish) { dialog, which ->
                         closeFragment()
                     }.show()

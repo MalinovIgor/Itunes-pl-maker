@@ -32,7 +32,8 @@ class TrackDbConvertor {
             track.primaryGenreName,
             track.country,
             track.previewUrl,
-            addedTime = System.currentTimeMillis().toString()
-        )
+            addedTime = System.currentTimeMillis().toString(),
+            track.isFavorites
+            )
     }
 }

@@ -17,7 +17,6 @@ class TrackToPlDbConvertor {
             country = track.country.toString(),
             addedAt = System.currentTimeMillis().toString(),
             isFavorite = track.isFavorites
-
         )
     }
 

@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.data
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.startandroid.develop.sprint8v3.library.db.track.AppDatabase
@@ -13,7 +14,10 @@ class FavoritesRepositoryImpl(
     private val trackDbConvertor: TrackDbConvertor
 ) : FavoritesRepository {
     override suspend fun addTrackToFavorites(track: Track) {
+        Log.d("test","before ${track.isFavorites}")
         appDatabase.trackDao().insertTrack(trackDbConvertor.map(track))
+        Log.d("test","after ${track.isFavorites}")
+
     }
 
     override suspend fun deleteTrackFromFavorites(track: Track) {

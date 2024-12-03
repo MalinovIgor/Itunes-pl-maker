@@ -64,8 +64,6 @@ class PlayerActivityViewModel(
         }
     }
 
-
-
     fun onFavoriteClicked(track: Track) {
         viewModelScope.launch(Dispatchers.IO) {
             if (track.isFavorites) {
@@ -101,7 +99,6 @@ class PlayerActivityViewModel(
 
     fun pause() {
         playerState.postValue(PlayerState.STATE_PAUSED)
-
         interactor.pause()
     }
 
