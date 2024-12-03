@@ -1,6 +1,5 @@
 package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
@@ -20,24 +17,18 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.launch
 import ru.startandroid.develop.sprint8v3.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.startandroid.develop.sprint8v3.databinding.FragmentPlaylistCreationBinding
 import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
 import ru.startandroid.develop.sprint8v3.library.ui.PlaylistsViewModel
-import ru.startandroid.develop.sprint8v3.library.ui.fragment.PlaylistViewFragment.Companion.PLAYLIST_ID_KEY
 import ru.startandroid.develop.sprint8v3.search.utils.getDefaultImagePath
 import java.io.File
 
@@ -175,6 +166,7 @@ class PlaylistCreationFragment() : Fragment() {
         result.putBoolean(RESULT, true)
         if (fromNavController) {
             findNavController().previousBackStackEntry?.savedStateHandle?.set(RESULT, result)
+            findNavController().navigateUp()
         } else {
             parentFragmentManager.setFragmentResult(RESULT, result)
             parentFragmentManager.popBackStack()
