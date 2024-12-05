@@ -53,7 +53,7 @@ class PlaylistRepositoryImpl(
         val jsonTracks = appDatabase.playlistDao().getAllTracksFromPlaylist(playlistId)
         if (jsonTracks.isNotEmpty()) {
             val tracksIDs = playlistDbConvertor.createTracksFromJson(jsonTracks)
-            val tracksInPlaylist = appDatabase.playlistDao().getTrackByIds(tracksIDs)
+            val tracksInPlaylist = appDatabase.playlistDao().getTrackByIds(tracksIDs).reversed()
             emit(convertFromTrackEntity(tracksInPlaylist))
         } else {
             emit(emptyList())

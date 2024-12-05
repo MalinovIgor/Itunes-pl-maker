@@ -22,7 +22,7 @@ interface PlaylistDao {
     @Query("SELECT * FROM playlist_table WHERE id = :id")
     fun getPlaylistById(id: Int): PlaylistEntity
 
-    @Query("DELETE FROM playlist_table WHERE id = :playlistId")
+    @Query("DELETE FROM playlist_table WHERE id = :playlistId ")
     suspend fun deletePlaylist(playlistId: Int)
 
     @Update(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
@@ -34,7 +34,7 @@ interface PlaylistDao {
     @Query("SELECT * FROM all_tracks_table")
     fun getAllTracks(): List<TrackToPlEntity>
 
-    @Query("SELECT * FROM all_tracks_table WHERE trackId IN (:trackIds)")
+    @Query("SELECT * FROM all_tracks_table WHERE trackId IN (:trackIds) ORDER BY addedAt ASC")
     suspend fun getTrackByIds(trackIds: List<String>): List<TrackToPlEntity>
 
     @Insert(entity = TrackToPlEntity::class, onConflict = OnConflictStrategy.IGNORE)
