@@ -1,16 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Базовая тема приложения -->
+
     <style name="Base.Theme.Sprint8v3" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="alertDialogTheme">@style/CustomAlertDialog</item>
+        <item name="buttonStyle">@style/CustomAlertDialog</item>
     </style>
 
-    <!-- Альтернативная тема -->
     <style name="Base.Theme.CardView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="alertDialogTheme">@style/CustomAlertDialog</item>
         <item name="colorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/background</item>
     </style>
 
-    <!-- Окончательная тема -->
-    <style name="Theme.Sprint8v3" parent="Base.Theme.Sprint8v3" />
+    <style name="Theme.Sprint8v3" parent="Base.Theme.Sprint8v3">
+        <item name="alertDialogTheme">@style/CustomAlertDialog</item>
+    </style>
 </resources>

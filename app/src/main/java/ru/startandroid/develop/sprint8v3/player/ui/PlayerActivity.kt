@@ -63,6 +63,7 @@ class PlayerActivity : AppCompatActivity() {
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
 
+
         if (track != null) {
             updateFavoriteState(track.isFavorites)
         }
@@ -109,7 +110,9 @@ class PlayerActivity : AppCompatActivity() {
             }
         }
         viewModel.observeFavoritesState().observe(this) { state ->
+            track?.isFavorites = state
             updateFavoriteState(state)
+            Log.d("test","observed - ${track?.isFavorites}")
         }
 
         val bottomSheetContainer = binding.playlistsBottomSheet
@@ -206,6 +209,9 @@ class PlayerActivity : AppCompatActivity() {
             binding.recyclePlaylistsView.visibility = View.VISIBLE
 
         }
+
+        track?.let { viewModel.isTrackInFavorites(it.trackId) }
+
     }
 
     private fun onClickDebounce(
@@ -240,6 +246,7 @@ class PlayerActivity : AppCompatActivity() {
         binding.favorite.setOnClickListener {
             viewModel.onFavoriteClicked(track)
         }
+
     }
 
     private fun updateFavoriteState(state: Boolean) {

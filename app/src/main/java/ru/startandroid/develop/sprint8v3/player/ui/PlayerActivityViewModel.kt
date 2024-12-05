@@ -43,6 +43,14 @@ class PlayerActivityViewModel(
         prepare()
     }
 
+    fun isTrackInFavorites(trackId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            favoritesState.postValue(
+                favoritesInteractor.isFavorite(trackId)
+            )
+        }
+    }
+
     fun onAddToPlaylistClick(track: Track, playlist: Playlist) {
         viewModelScope.launch(Dispatchers.IO) {
             isInPlaylistState.postValue(

@@ -276,7 +276,7 @@ class PlaylistViewFragment : Fragment() {
             requireContext(),
             R.style.CustomAlertDialog
         ).setTitle(getString(R.string.delete_track_quest))
-            .setNeutralButton(R.string.no) { _, _ ->
+            .setNegativeButton(R.string.no) { _, _ ->
             }.setPositiveButton(R.string.yes) { dialog, which ->
                 synchronized(this) {
                     viewModel.removeTrackFromPlaylist(track.trackId)
@@ -284,9 +284,10 @@ class PlaylistViewFragment : Fragment() {
             }.show()
 
         dialog.window?.decorView?.post {
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+
             dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
 
         }

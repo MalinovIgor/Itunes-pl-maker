@@ -230,7 +230,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/settings_text_changeable"
+                    android:textColor="@color/search_hint_changeable"
                     android:textSize="@dimen/sp11"
                     tools:text="[157 треков]" />
             </LinearLayout>
