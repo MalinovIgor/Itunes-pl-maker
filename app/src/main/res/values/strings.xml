@@ -66,6 +66,7 @@
     <string name="edit">Редактировать</string>
     <string name="save">Сохранить</string>
     <string name="delete_track_quest">Хотите удалить трек?</string>
+    <string name="pl_is_empty">В этом плейлисте нет треков</string>
 
 
 </resources>

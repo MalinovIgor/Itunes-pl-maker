@@ -144,6 +144,21 @@
             android:orientation="vertical"
             android:visibility="visible">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/empty_pl"
+                android:visibility="gone"
+                android:text="@string/pl_is_empty"
+                android:textColor="@color/settings_text_changeable"
+                android:textSize="@dimen/sp16"
+                android:gravity="top|center_horizontal"
+                android:layout_marginTop="@dimen/dp53"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </TextView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"

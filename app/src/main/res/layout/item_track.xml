@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingVertical="8dp"
-    android:paddingStart="13dp">
+    android:paddingStart="13dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="45dp"
@@ -40,13 +42,17 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textFontWeight="400"
-            android:maxWidth="300dp"/>
+            android:maxWidth="300dp"
+            tools:text="[Track Long Long Long Long Long Long Long Long name]"
+            />
+
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:orientation="horizontal"
+            android:layout_gravity="start|center_vertical"
             android:paddingEnd="@dimen/end_text_pad"
             >
 
@@ -56,22 +62,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:layout_weight="1"
                 android:singleLine="true"
-                android:maxWidth="150dp"
+                android:maxLines="1"
+                tools:text="[Track Long Long Long Long Long Long Long Long artist name]"
                 />
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:src="@drawable/dot"
                 />
-
             <TextView
                 android:id="@+id/trackTimeTextView"
                 style="@style/textSearched"
+                android:maxLines="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_gravity="center_vertical|start"
+                tools:text="34:99:44"
                 />
         </LinearLayout>
     </LinearLayout>

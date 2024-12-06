@@ -150,9 +150,7 @@ class PlaylistViewFragment : Fragment() {
         binding.shareBtn.setOnClickListener {
             sharePlaylist()
         }
-        binding.share.setOnClickListener {
-            sharePlaylist()
-        }
+
         binding.deletePlaylist.setOnClickListener {
             deletePlaylist(binding.playlistName.text.toString())
         }
@@ -181,17 +179,27 @@ class PlaylistViewFragment : Fragment() {
                 val formattedDuration = String.format("%d", durationInMinutes)
                 val minuteWord = getMinutePluralForm(durationInMinutes)
                 val trackWord = getPluralForm(tracks.size).format(tracks.size)
+                binding.recyclerView.isGone = false
+                binding.emptyPl.isVisible = false
 
-                    binding.playlistInfo.text = getString(
+                binding.playlistInfo.text = getString(
                         R.string.pl_info,
                         "$formattedDuration $minuteWord",
                         trackWord
                     )
                 adapter.updateTracks(tracks)
-
+                binding.share.setOnClickListener {
+                    sharePlaylist()
+                }
                 binding.recyclerView.adapter = adapter
                 binding.playlistSmallTracks.text = getPluralForm(tracks.size).format(tracks.size)
             } else {
+                binding.recyclerView.isGone = true
+                binding.emptyPl.isVisible = true
+                binding.share.setOnClickListener {
+                    sharePlaylist()
+                    bottomMenuBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                }
                 binding.playlistInfo.text = "0 минут · 0 треков"
                 binding.nothing.visibility = View.VISIBLE
                 adapter.clearTracks()

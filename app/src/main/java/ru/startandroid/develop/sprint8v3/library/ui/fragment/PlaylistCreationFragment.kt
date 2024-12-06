@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.ui.fragment
 
+import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -148,15 +150,21 @@ class PlaylistCreationFragment() : Fragment() {
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (binding.playlistName.text.toString().isNotEmpty() && playlistId < 1) {
-                MaterialAlertDialogBuilder(context!!).setTitle(R.string.exit_quest_end)
+                val dialog = MaterialAlertDialogBuilder(context!!).setTitle(R.string.exit_quest_end)
                     .setMessage(R.string.no_save_exit)
                     .setNeutralButton(android.R.string.cancel) { dialog, which ->
                     }.setPositiveButton(R.string.finish) { dialog, which ->
                         closeFragment()
                     }.show()
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+                dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
             } else closeFragment()
         }
+
     }
+
 
     private fun closeFragment() {
         val result = Bundle()
