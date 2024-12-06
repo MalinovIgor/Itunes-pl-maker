@@ -44,7 +44,7 @@ val favoritesModule = module {
     }
 
     single<PlaylistRepository> {
-        PlaylistRepositoryImpl(get(), get(), get())
+        PlaylistRepositoryImpl(get(), get(), get(), androidContext())
     }
 
     single<PlaylistInteractor> {

@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.domain.api
 
+import android.graphics.Bitmap
 import android.net.Uri
 import kotlinx.coroutines.flow.Flow
 import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
@@ -13,6 +14,8 @@ interface PlaylistInteractor {
         playlistImage: String?
     ) {
     }
+
+    fun saveImageToPrivateStorage(bitmap: Bitmap, fileName: String): Boolean
     fun getPlaylistById(playlistId: Int): Flow<Playlist?>
     fun getAllTracks(playlistId: Int): Flow<List<Track>?>
     suspend fun removeFromPlaylist(trackId: String, playlistId: Int)

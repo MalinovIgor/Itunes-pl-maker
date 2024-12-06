@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.domain.db
 
+import android.graphics.Bitmap
 import kotlinx.coroutines.flow.Flow
 import ru.startandroid.develop.sprint8v3.library.db.playlist.PlaylistEntity
 import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
@@ -12,7 +13,7 @@ interface PlaylistRepository {
         playlistDescription: String,
         playlistImage: String?,
     )
-
+    fun saveImageToPrivateStorage(bitmap: Bitmap, fileName: String): Boolean
     fun getPlaylistById(playlistId: Int): Flow<Playlist?>
     fun getAllTracks(playlistId: Int): Flow<List<Track>?>
     suspend fun deletePlaylist(playlistId: Int)

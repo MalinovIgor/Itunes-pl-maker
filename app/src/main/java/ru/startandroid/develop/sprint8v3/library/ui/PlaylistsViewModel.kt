@@ -42,7 +42,7 @@ class PlaylistsViewModel(
             interactor.createPlaylist(playlistName, playlistDescription, playlistImage)
 
             playlistImage?.let {
-                saveImageToPrivateStorage(bitmap, it)
+                interactor.saveImageToPrivateStorage(bitmap, it)
             }
         }
     }
@@ -82,7 +82,7 @@ class PlaylistsViewModel(
                     imagePath = playlistImage
                 )
             )
-            saveImageToPrivateStorage(bitmap, playlistImage)
+            interactor.saveImageToPrivateStorage(bitmap, playlistImage)
         }
     }
 

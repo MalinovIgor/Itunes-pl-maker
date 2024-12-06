@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.library.domain.impl
 
+import android.graphics.Bitmap
 import kotlinx.coroutines.flow.Flow
 import ru.startandroid.develop.sprint8v3.library.domain.api.PlaylistInteractor
 import ru.startandroid.develop.sprint8v3.library.domain.db.PlaylistRepository
@@ -15,7 +16,9 @@ class PlaylistInteractorImpl(private val repository: PlaylistRepository) : Playl
     ) {
         repository.createPlaylist(playlistName, playlistDescription, playlistImage)
     }
-
+    override fun saveImageToPrivateStorage(bitmap: Bitmap, fileName: String): Boolean {
+        return repository.saveImageToPrivateStorage(bitmap, fileName)
+    }
     override fun getPlaylistById(playlistId: Int): Flow<Playlist?> =
         repository.getPlaylistById(playlistId)
 

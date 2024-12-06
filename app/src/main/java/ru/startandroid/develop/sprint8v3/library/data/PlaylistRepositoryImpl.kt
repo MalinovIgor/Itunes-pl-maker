@@ -1,5 +1,8 @@
 package ru.startandroid.develop.sprint8v3.library.data
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.os.Environment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.startandroid.develop.sprint8v3.library.db.playlist.PlaylistDbConvertor
@@ -10,11 +13,14 @@ import ru.startandroid.develop.sprint8v3.library.db.track.TrackToPlEntity
 import ru.startandroid.develop.sprint8v3.library.domain.db.PlaylistRepository
 import ru.startandroid.develop.sprint8v3.library.domain.model.Playlist
 import ru.startandroid.develop.sprint8v3.search.domain.models.Track
+import java.io.File
+import java.io.FileOutputStream
 
 class PlaylistRepositoryImpl(
     private val appDatabase: AppDatabase,
     private val playlistDbConvertor: PlaylistDbConvertor,
     private val trackDbConvertor: TrackToPlDbConvertor,
+    private val context: Context
 ) : PlaylistRepository {
     override suspend fun createPlaylist(
         playlistName: String,
@@ -30,6 +36,17 @@ class PlaylistRepositoryImpl(
                 tracksCount = 0
             )
         )
+    }
+
+    override fun saveImageToPrivateStorage(bitmap: Bitmap, fileName: String): Boolean {
+        if (fileName.isEmpty()) return false
+        val filePath = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "cache")
+        if (!filePath.exists()) {
+            filePath.mkdirs()
+        }
+        val file = File(filePath, fileName)
+        val outputStream = FileOutputStream(file)
+        return bitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
     }
 
     override fun getPlaylistById(playlistId: Int): Flow<Playlist?> = flow {
