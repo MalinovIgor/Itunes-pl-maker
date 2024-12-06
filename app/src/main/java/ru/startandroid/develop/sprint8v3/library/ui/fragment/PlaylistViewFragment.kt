@@ -212,8 +212,7 @@ class PlaylistViewFragment : Fragment() {
         val dialog = MaterialAlertDialogBuilder(
             requireContext(),
             R.style.CustomAlertDialog
-        ).setTitle(getString(R.string.pl_delete))
-            .setMessage(getString(R.string.pl_delete_quest).format(playlistName))
+        ).setMessage(getString(R.string.pl_delete_quest).format(playlistName))
             .setNegativeButton(R.string.no) { _, _ ->
             }.setPositiveButton(R.string.yes) { dialog, which ->
                 synchronized(this) {
