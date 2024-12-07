@@ -1,5 +1,6 @@
 package ru.startandroid.develop.sprint8v3.search.ui
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView

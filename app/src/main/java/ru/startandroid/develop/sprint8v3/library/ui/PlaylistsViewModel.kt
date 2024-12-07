@@ -26,6 +26,8 @@ class PlaylistsViewModel(
 
     private val playlists = MutableLiveData<List<Playlist>>()
     fun observePlaylists(): LiveData<List<Playlist>> = playlists
+    private val playlist = MutableLiveData<Playlist?>()
+    fun observePlaylist(): LiveData<Playlist?> = playlist
 
     fun createPlaylist(
         playlistName: String,
@@ -40,7 +42,7 @@ class PlaylistsViewModel(
             interactor.createPlaylist(playlistName, playlistDescription, playlistImage)
 
             playlistImage?.let {
-                saveImageToPrivateStorage(bitmap, it)
+                interactor.saveImageToPrivateStorage(bitmap, it)
             }
         }
     }
@@ -64,6 +66,32 @@ class PlaylistsViewModel(
         val outputStream = FileOutputStream(file)
         return bitmap
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+    }
+
+    fun updatePlaylist(
+        playlistName: String,
+        playlistDescription: String,
+        bitmap: Bitmap,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val playlistImage = "${UUID.randomUUID()}.png"
+            interactor.updatePlaylist(
+                playlist.value!!.copy(
+                    name = playlistName,
+                    description = playlistDescription,
+                    imagePath = playlistImage
+                )
+            )
+            interactor.saveImageToPrivateStorage(bitmap, playlistImage)
+        }
+    }
+
+    fun getPlaylist(playlistId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            interactor.getPlaylistById(playlistId).collect {
+                playlist.postValue(it)
+            }
+        }
     }
 
     init {

@@ -18,8 +18,12 @@ interface TrackDao {
     @Query("SELECT track_id FROM track_table")
     suspend fun getLibraryTracksId(): List<String>
 
-    @Delete(entity = TrackEntity::class)
-    suspend fun deleteTrack(trackEntity: TrackEntity)
+    @Query("DELETE FROM track_table WHERE track_id = :trackId")
+    fun deleteTrack(trackId: String)
+
+
+    @Query("SELECT COUNT(*) > 0 FROM track_table WHERE track_id = :trackId")
+    suspend fun isFavorite(trackId: String): Boolean
 
     @Update(entity = TrackEntity::class, onConflict = OnConflictStrategy.REPLACE)
     fun updateTracks(trackEntity: TrackEntity)

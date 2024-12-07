@@ -140,4 +140,9 @@
     </style>
 
 
+    <style name="CustomAlertDialog" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/blue</item>
+        <item name="android:textColorPrimary">@color/blue</item>
+ </style>
+
 </resources>

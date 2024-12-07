@@ -1,10 +1,8 @@
 package ru.startandroid.develop.sprint8v3.search.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,9 +19,11 @@ class RootActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView = binding.bottomNavigationView
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.rootFragmentContainerView) as NavHostFragment
+        val divider = binding.divider
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.rootFragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
 
         val bottomNavigationView = binding.bottomNavigationView
@@ -31,14 +31,20 @@ class RootActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.playlistCreationFragment -> {
+                R.id.playlistCreationFragment,
+                R.id.playlistViewFragment
+                -> {
                     bottomNavigationView.visibility = View.GONE
+                    bottomNavigationView.invalidate()
+                    divider.visibility = View.GONE
                 }
+
                 else -> {
                     bottomNavigationView.visibility = View.VISIBLE
-
+                    divider.visibility = View.VISIBLE
                 }
             }
         }
     }
+
 }

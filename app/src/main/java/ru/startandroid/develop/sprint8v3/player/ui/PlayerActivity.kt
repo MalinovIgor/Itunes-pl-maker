@@ -1,6 +1,9 @@
 package ru.startandroid.develop.sprint8v3.player.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -30,13 +33,14 @@ import java.util.Locale
 
 const val SELECTEDTRACK = "selectedTrack"
 
-class PlayerActivity : AppCompatActivity()  {
+class PlayerActivity : AppCompatActivity() {
 
     private var bottomSheetState = BottomSheetBehavior.STATE_HIDDEN
 
-    private lateinit var bottomNavigationView: BottomNavigationView
-
-    private lateinit var onPlaylistClickDebounce: (Playlist) -> Unit
+    private val track: Track by lazy {
+        intent.getSerializableExtra(TRACK_KEY) as? Track
+            ?: throw IllegalArgumentException("Track is required")
+    }
     private lateinit var viewModel: PlayerActivityViewModel
     var isClickAllowed = true
 
@@ -58,6 +62,8 @@ class PlayerActivity : AppCompatActivity()  {
         setContentView(binding.root)
 
         val track = intent.getSerializableExtra(SELECTEDTRACK) as? Track
+
+
         if (track != null) {
             updateFavoriteState(track.isFavorites)
         }
@@ -104,7 +110,9 @@ class PlayerActivity : AppCompatActivity()  {
             }
         }
         viewModel.observeFavoritesState().observe(this) { state ->
+            track?.isFavorites = state
             updateFavoriteState(state)
+            Log.d("test","observed - ${track?.isFavorites}")
         }
 
         val bottomSheetContainer = binding.playlistsBottomSheet
@@ -169,7 +177,7 @@ class PlayerActivity : AppCompatActivity()  {
         }
 
         val onItemClickListener = BottomPlAdapter.OnItemClickListener { item ->
-            onClickDebounce(track!!.trackId, item)
+            onClickDebounce(track!!, item)
         }
 
         viewModel.observeIsInPlaylist().observe(this) { state ->
@@ -201,14 +209,17 @@ class PlayerActivity : AppCompatActivity()  {
             binding.recyclePlaylistsView.visibility = View.VISIBLE
 
         }
+
+        track?.let { viewModel.isTrackInFavorites(it.trackId) }
+
     }
 
     private fun onClickDebounce(
-        trackId: String,
+        track: Track,
         playlist: Playlist
     ) {
         if (isClickAllowed) {
-            viewModel.onAddToPlaylistClick(trackId, playlist)
+            viewModel.onAddToPlaylistClick(track, playlist)
         }
         lifecycleScope.launch {
             delay(SearchFragment.CLICK_DEBOUNCE_DELAY)
@@ -235,7 +246,6 @@ class PlayerActivity : AppCompatActivity()  {
         binding.favorite.setOnClickListener {
             viewModel.onFavoriteClicked(track)
         }
-
 
     }
 
@@ -286,6 +296,13 @@ class PlayerActivity : AppCompatActivity()  {
     companion object {
         private const val noData = "отсутствует"
         private const val zeroTimer = "00:00"
+        const val TRACK_KEY = "TRACK_KEY"
         private val timerDateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+
+        fun newInstance(context: Context, track: Track): Intent {
+            return Intent(context, PlayerActivity::class.java).apply {
+                putExtra(TRACK_KEY, track)
+            }
+        }
     }
 }

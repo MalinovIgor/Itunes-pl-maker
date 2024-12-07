@@ -15,13 +15,17 @@ import ru.startandroid.develop.sprint8v3.settings.domain.model.AgreementData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.MailData
 import ru.startandroid.develop.sprint8v3.settings.domain.model.ShareData
 
-class SettingsFragment : Fragment(){
+class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
 
     private val viewModel by viewModel<ThemeSettingsActivityViewModel>()
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -83,4 +87,4 @@ class SettingsFragment : Fragment(){
 
         startActivity(agreementIntent)
     }
-    }
+}

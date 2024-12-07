@@ -52,6 +52,21 @@
     <string name="no_save_exit">Все несохраненные данные будут потеряны</string>
     <string name="exit_quest_end">Завершить создание плейлиста?</string>
     <string name="finish">Завершить</string>
+    <string name="pl_edit">Редактировать информацию</string>
+    <string name="pl_delete">Удалить плейлист</string>
+    <string name="pl_info">%1$s · %2$s</string>
+    <string name="pl_info_tracks"> · %2$s</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="no_track_in_pl">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="pl_delete_quest">Хотите удалить плейлист \«%1$s\»?</string>
+    <string name="delete_track">Удалить трек</string>
+    <string name="share_pl">Поделиться</string>
+    <string name="pl_not_found">Плейлист не найден</string>
+    <string name="edit">Редактировать</string>
+    <string name="save">Сохранить</string>
+    <string name="delete_track_quest">Хотите удалить трек?</string>
+    <string name="pl_is_empty">В этом плейлисте нет треков</string>
 
 
 </resources>

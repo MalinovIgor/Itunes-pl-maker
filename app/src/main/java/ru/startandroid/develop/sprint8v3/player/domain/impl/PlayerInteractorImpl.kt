@@ -1,6 +1,7 @@
 package ru.startandroid.develop.sprint8v3.player.domain.impl
 
 import android.media.MediaPlayer
+import android.util.Log
 import ru.startandroid.develop.sprint8v3.player.domain.api.PlayerInteractor
 import ru.startandroid.develop.sprint8v3.player.state.PlayerState
 
@@ -10,6 +11,11 @@ class PlayerInteractorImpl(
     private val trackUrl : String,
 ) : PlayerInteractor {
 
+        init {
+            if (trackUrl.isBlank()) {
+                throw IllegalArgumentException("Track URL cannot be blank")
+            }
+    }
 
     private var state: PlayerState = PlayerState.STATE_DEFAULT
 

@@ -7,10 +7,8 @@ import ru.startandroid.develop.sprint8v3.library.db.dao.TrackDao
 import ru.startandroid.develop.sprint8v3.library.db.playlist.PlaylistEntity
 
 @Database(
-    version = 3,
-    entities = [
-        TrackEntity::class, PlaylistEntity::class,
-    ],
+    version = 4,
+    entities = [TrackEntity::class, PlaylistEntity::class, TrackToPlEntity::class],
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

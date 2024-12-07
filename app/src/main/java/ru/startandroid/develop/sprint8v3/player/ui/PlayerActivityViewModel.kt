@@ -43,12 +43,20 @@ class PlayerActivityViewModel(
         prepare()
     }
 
-    fun onAddToPlaylistClick(trackId: String, playlist: Playlist) {
+    fun isTrackInFavorites(trackId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            favoritesState.postValue(
+                favoritesInteractor.isFavorite(trackId)
+            )
+        }
+    }
+
+    fun onAddToPlaylistClick(track: Track, playlist: Playlist) {
         viewModelScope.launch(Dispatchers.IO) {
             isInPlaylistState.postValue(
                 IsInPlaylistState(
                     playlistInteractor.addToPlaylists(
-                        trackId,
+                        track,
                         playlist.id
                     ), playlist
                 )
@@ -63,8 +71,6 @@ class PlayerActivityViewModel(
             }
         }
     }
-
-
 
     fun onFavoriteClicked(track: Track) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -101,7 +107,6 @@ class PlayerActivityViewModel(
 
     fun pause() {
         playerState.postValue(PlayerState.STATE_PAUSED)
-
         interactor.pause()
     }
 
@@ -131,4 +136,5 @@ class PlayerActivityViewModel(
             }
         }
     }
+
 }

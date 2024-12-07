@@ -22,8 +22,8 @@ data class TrackEntity (
     val primaryGenreName : String?,
     val country : String?,
     val previewUrl : String?,
-    val addedTime : String
+    val addedTime : String,
+    val isFavorites : Boolean
 ) : Serializable {
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast(delimiterForBigImg, replacementForBigImg)
-
 }

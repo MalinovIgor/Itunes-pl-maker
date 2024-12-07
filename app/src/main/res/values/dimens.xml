@@ -29,6 +29,11 @@
     <dimen name="dp12">12dp</dimen>
     <dimen name="dp45">45dp</dimen>
     <dimen name="dp61">61dp</dimen>
+    <dimen name="sp24">24sp</dimen>
+    <dimen name="sp18">18sp</dimen>
+    <dimen name="dp200">20dp</dimen>
+    <dimen name="dp53">53dp</dimen>
+    <dimen name="dp13">13dp</dimen>
 
 
 </resources>
