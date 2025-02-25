@@ -1,3 +1,6 @@
-1 есть ли какие-то общепринятые правила, где должен быть биндинг, а где findViewById?
+This app is created for looking for audio tracks on Itunes and creating playlists.
+Track sample can be played for a 30 seconds.
+Search history is saved (10 tracks)
 
-2 как лучше сохранять файл во внутр.хранилище? (во VM или нужно пробрасывать до repository?)
+Stack:
+MVVM, Koin, Glide, Retrofit, Room.
