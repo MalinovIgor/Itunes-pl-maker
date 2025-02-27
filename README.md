@@ -7,4 +7,3 @@ Stack:
 MVVM, Koin, Glide, Retrofit, Room.
 
 Target API - 31
-
